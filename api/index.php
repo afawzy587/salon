@@ -35,6 +35,17 @@
             
             $api->user_recovery_pass();
         }
+
+        if($api->authenticat() == 'client')
+        {
+            if($_POST['mode'] == "push")
+            {
+                $api->user_setclientPushId();
+            }elseif($_POST['mode'] == "rate")
+            {
+                $api->client_set_rate();
+            }
+        }
 	}elseif($_GET){
         
         if($_GET['mode'] == 'salon_details')
@@ -46,8 +57,14 @@
             $api->client_get_services_branch();
         }elseif($_GET['mode'] == 'products'){
             $api->client_get_products();
+        }elseif($_GET['mode'] == 'category_product'){
+            $api->client_get_category_products();
         }elseif($_GET['mode'] == 'gallery'){
             $api->client_get_gallery();
+        }elseif($_GET['mode'] == 'best_saller'){
+            $api->client_get_best_saller();
+        }elseif($_GET['mode'] == 'branch_staff'){
+            $api->client_get_branch_staff();
         }elseif($_GET['mode'] == 'active'){
             $api->user_activemail();
         }

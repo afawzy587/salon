@@ -61,10 +61,16 @@
               <p><?php echo $lang['gallery'];?></p>
             </a>
           </li>
-        <li class="nav-item ">
+         <li class="nav-item ">
             <a class="nav-link" href="./rates.php">
               <i class="material-icons">grade</i>
               <p><?php echo $lang['rates'];?></p>
+            </a>
+          </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="./best_sellers.php">
+              <i class="material-icons">bar_chart</i>
+              <p><?php echo $lang['best_sellers'];?></p>
             </a>
           </li>    
          

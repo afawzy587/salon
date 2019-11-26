@@ -222,7 +222,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['salon'];?></label>
-                              <select class="browser-default custom-select " name="salon_id">
+                              <select class="browser-default custom-select choose" name="salon_id">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
 								  <?php if(!empty($salon))
 										{
@@ -245,7 +245,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['owner'];?></label>
-                              <select class="browser-default custom-select select2" name="manager_id">
+                              <select class="browser-default custom-select choose" name="manager_id">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
 								  <?php if(!empty($user))
 										{
@@ -369,4 +369,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

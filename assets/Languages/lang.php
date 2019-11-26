@@ -302,10 +302,15 @@ $lang['video']                        = " فديو ";
 $lang['no_gallery']                   = " عفوا لا يوجد عناصر ";
 $lang['add_gallery']                  = " إضافة عنصر جديد ";
 
-/ **************rates******************//
+// **************rates******************//
 $lang['rates']                          = " التقييمات ";
 $lang['rate']                           = " التقيم ";
+$lang['no_rates']                       = " عفوأ لا يوجد تقييمات ";
 $lang['rate_description']               = " الملاحظات ";
+// **************best_sellers******************//
+$lang['best_sellers']                          = " الأكثر مبيعأ ";
+$lang['best_sellers_quantity']                 = "  الكمية المباعة ";
+$lang['no_best_sellers']                       = " عفوأ لا يوجد منتجات مباعة ";
 
 
 
@@ -315,6 +320,10 @@ $lang['rate_description']               = " الملاحظات ";
 
 //----------------API PAGE ------------------//
 
+ $lang['INVALID_TOKEN']              = 'invalid token' ;
+ $lang['INSERT_TOKEN']               = 'TOKEN من فضلك ادخل ';
+ $lang['ACCOUNT_NOT_VERIFIED']       = 'هذا البريد غير مفعل ';
+ $lang['ACCOUNT_DELETED']            = ' تم حذف هذا المستخدم من السيستم';
  $lang['INSERT_SALON_ID']            = 'من فضلك ادخل رقم الصالون';
  $lang['NOT_FOUND_SALON_ID']         = 'هذا الصالون غير موجود';
  $lang['NOT_FOUND_BRANCHE_ID']       = 'هذا الفرع غير موجود';
@@ -344,7 +353,17 @@ $lang['rate_description']               = " الملاحظات ";
  $lang['Salon_RECOVERY_PASS']        =  ' استرجاع الباسورد خاص بالصالون';
  $lang['Salon_verified_email']       =  ' تفعيل البريد الالكترونى خاص بالصالون';
  $lang['SEND_RECOVERY_PASS']         =  ' تم ارسال رسالة الاميل';
- $lang['WE_SEND_EMAIL_BEFORE']         =  ' تم ارسال رسالة سابقا';
+ $lang['WE_SEND_EMAIL_BEFORE']       =  ' تم ارسال رسالة سابقا';
+ $lang['INSERT_KIND']                =  ' جب ارسال نوع الهاتف';
+ $lang['INSERT_PUSH_ID']             =  ' عفواً يجب إدخال رقم البوش';
+ $lang['INSERT_RATE']                =  ' عفواً يجب إدخال التقيم ';
+ $lang['INSERT_BRANCH_ID']           =  ' عفواً يجب إدخال رقم الفرع ';
+ $lang['BRANCH_ID_NOT_FOUND']        =  ' عفواً هذا الفرع غير موجود ';
+ $lang['INSERT_COMMENT']             =  ' عفواً يجب إدخال التعليق ';
+ $lang['PUSH_INSERTED']              =  ' تم تسجيل رقم البوش';
+ $lang['RATE_INSERTED']              =  ' تم التقييم ينجاح';
+ $lang['token_id_not_valied']        =  ' عفواً البيانات خاطئة ( البريد الإلكتروني أو رقم الهاتف )';
+ $lang['INSERT_kind_true']           =  ' عفواً يجب إدخال نوع الهاتف صحيح';
 
 
 

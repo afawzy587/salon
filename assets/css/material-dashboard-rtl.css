@@ -113,6 +113,7 @@ html[dir="rtl"] .custom-file-label::after {
   border-radius: .25rem 0 0 .25rem;
 }
 
+
 html[dir="rtl"] .radio input,
 html[dir="rtl"] .radio-inline,
 html[dir="rtl"] .checkbox input,

@@ -67,6 +67,7 @@
             "gallery_view"                    =>          $sitegroup['gallery_view'],
             "gallery_delete"                  =>          $sitegroup['gallery_delete'],
             "gallery_add"                     =>          $sitegroup['gallery_add'],    
+            "best_sellers_view"               =>          $sitegroup['best_sellers_view'],
             "rates_view"                      =>          $sitegroup['rates_view']    
     
             );

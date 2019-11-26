@@ -21,6 +21,7 @@
    <link href="./assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
    <link href="./assets/css/material-dashboard-rtl.css?v=1.1" rel="stylesheet" />
    <link href="./assets/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+   <link href="./assets/css/select2.min.css" rel="stylesheet" />
     <script src="./assets/js/jquery.js"></script>
 
     

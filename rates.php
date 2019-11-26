@@ -91,7 +91,7 @@
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header card-header-primary">
-                      <h4 class="card-title "><?php echo $lang['categories'];?></h4>
+                      <h4 class="card-title "><?php echo $lang['rates'];?></h4>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
@@ -110,32 +110,32 @@
                               <?php echo $lang['rate_description'];?>
                             </th>
                             <th>
-                              <?php echo $lang['status'];?>
-                            </th>
-                            <th>
                               <?php echo $lang['settings'];?>
                             </th>
                           </thead>
                           <tbody>
-                            <?php  if(empty($categories))
+                            <?php  if(empty($rates))
                                     {
-                                        echo "<tr><td colspan=\"5\">".$lang['no_categories']."</td></tr>";
+                                        echo "<tr><td colspan=\"5\">".$lang['no_rates']."</td></tr>";
                                     }else{
-                                        foreach( $categories as $k => $u)
+                                        foreach( $rates as $k => $u)
                                         {
                                             echo"<tr id=tr_".$u['rate_serial'].">
                                                     <td>".$u['rate_serial']."</td>
-                                                    <td>".$u['rate']."</td>
-                                                    <td>".$u['rate_description']."</td>
-                                                    <td><span>";
-                                                    if($u['rate_status'] == 0){
-                                                        echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';
-                                                    }else{
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px\"  dir=\"ltr\">'.$lang['active'].'</i>';
+                                                    <td>".getusername($u['user_id'])."</td>
+                                                    <td>";
+                                                    for($i=1;$i<=5 ;$i++)
+                                                    {
+                                                        if($i <= $u['rate'])
+                                                        {
+                                                            echo '<span class="fa fa-star checked"></span>';
+                                                        }else{
+                                                            echo '<span class="fa fa-star"></span>';
+                                                        }
                                                     }
-                                                    echo"</span>
-                                                        </td>
-                                                          <td id='item_".$u['rate_serial']."'class='td-actions text-right'>";
+                                                    echo"</td>
+                                                    <td style=''>".$u['rate_description']."</td>
+                                                    <td id='item_".$u['rate_serial']."'class='td-actions text-right'>";
                                                         if($group['categories_delete'] == 1)
                                                         {
                                                             echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>

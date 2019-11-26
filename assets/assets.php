@@ -184,6 +184,22 @@
 		}
 	}
 
+    function getproductname($_Id)
+	{
+
+		$pro = $GLOBALS['db']->query(" SELECT * FROM `products` WHERE `product_serial` = '".$_Id."' LIMIT 1");
+		$proCount = $GLOBALS['db']->resultcount();
+		if($proCount == 1)
+		{
+			$_pro = $GLOBALS['db']->fetchitem($pro);
+			return ($_pro['product_name']);
+		}
+		else
+		{
+			return ($GLOBALS['lang']['not_define']);
+		}
+	}
+
 
 
 

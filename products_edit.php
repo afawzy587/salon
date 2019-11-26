@@ -237,7 +237,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['category'];?></label>
-                              <select class="browser-default custom-select " name="category_id">
+                              <select class="browser-default custom-select choose" name="category_id">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
 								  <?php if(!empty($category))
 										{
@@ -310,4 +310,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

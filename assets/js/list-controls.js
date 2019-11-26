@@ -193,5 +193,7 @@ $('input[type="file"]').change(function(e) {
   reader.readAsDataURL(this.files[0]);
 });
 
+$(".choose").select2( {} );
+
 
 });
