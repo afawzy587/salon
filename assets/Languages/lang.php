@@ -319,14 +319,17 @@ $lang['orders_details']              = " بيانات الطلب ";
 $lang['no_orders']                  = " عفوأ لا يوجد طلبات ";
 $lang['no_order_type']              = " عفوا يجب إدخال النوع الطلب";
 $lang['add_this_order_before']      = "عفوا لقد قمت بإدخال هذا الطلب مسبقا";
+$lang['edit_order_success']          = "تم تعديل الطلب بنجاح";
 $lang['add_order_success']          = "تم اضافة الطلب بنجاح";
 $lang['delete_order_success']       = "تم حذف الطلب بنجاح";
 $lang['order_type']                 = " نوع الطلب ";
 $lang['add_order']                  = " إضافة طلب جديد ";
+$lang['edit_order']                  = " تعديل بيانات الطلب ";
 $lang['from_home']                  = " استلام من المنزل ";
 $lang['from_branch']                = " استلام من الفرع ";
 $lang['unfinished']                 = " غير منتهى ";
 $lang['finished']                   = " تم التوصيل ";
+$lang['admin_cancel']               = " تم الالغاء من الأدمن ";
 $lang['total']                      = " الاجمالى ";
 $lang['order_total']                = " اجمالى الطلب ";
 $lang['quantity']                   = " الكمية ";
@@ -336,6 +339,11 @@ $lang['quantity']                   = " الكمية ";
 $lang['service_orders']                   = "طلبات الخدمات ";
 $lang['service_order_details']            = " بيانات الطلب ";
 $lang['cost']                             = " التكلفة  ";
+$lang['CHOOSE_ORDER_STATUS']              = " اختر حالة الطلب  ";
+$lang['INSERT_USER_ID']                   = " يجب ادخال المستخدم ";
+$lang['INSERT_ORDER_TYPE']                = " يجب اختيار نوع الطلب ";
+$lang['INSERT_PRODUCT_ID']                = " يجب اختيار منتج واحد على الاقل  ";
+$lang['INSERT_PRODUCT_QUANTITY']          = " يجب أدخال الكمية فى المنتج رقم   ";
 
 
 

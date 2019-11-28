@@ -89,64 +89,83 @@ class systemorders
 		}else{$GLOBALS['login']->doDestroy();return false;}
 	}
 
-//	function isordersExists($name)
-//	{
-//		if($GLOBALS['login']->doCheck() == true)
-//		{
-//			$query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `user_name` = '".$name."' ||`phone` = '".$name."' || `email` = '".$name."' LIMIT 1 ");
-//			$queryTotal = $GLOBALS['db']->resultcount();
-//			if($queryTotal == 1)
-//			{
-//				$siteorders = $GLOBALS['db']->fetchitem($query);
-//				return array(
-//					"id"			=> 		$siteorders['order_serial'],
-//				);
-//			}else{return true;}
-//		}else{$GLOBALS['login']->doDestroy();return false;}
-//	}
 
 	function setordersInformation($orders)
 	{
-		if($orders[password] != "")
-		{
-			$queryPass = "`password`='".crypt($orders[password],$GLOBALS['login']->salt)."',";
-		}else
-		{
-			$queryPass = "";
-		}
-
-		if($orders[image] != "")
-		{
-			$queryimage = "`user_photo`='".$orders[image]."',";
-		}else
-		{
-			$queryimage = "";
-		}
-
+		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `order_cart` WHERE `order_id` = '".$orders['id']."'");
         $GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-			`user_name`			        =	'".$orders[name]."',".$queryPass."
-			`user_address`              =	'".$orders[address]."',".$queryimage."
-			`email`      	            =	'".$orders[email]."',
-			`phone`      	            =	'".$orders[phone]."',
-			`group_id`      	        =	'".$orders[group]."',
-			`user_status`		        =	'".$orders[status]."'
-			WHERE `order_serial` 		= 	'".$orders[id]."' LIMIT 1 ");
+			`order_type`      	        =	'".$orders['type']."',
+			`order_status`		        =	'".$orders['status']."'
+			WHERE `order_serial` 		= 	'".$orders['id']."' LIMIT 1 ");
+        foreach($orders['product_id'] as $k => $p)
+        {
+            $query = $GLOBALS['db']->query("SELECT * FROM `products`  WHERE `product_serial` = '".$p."' LIMIT 1 ");
+			$queryTotal = $GLOBALS['db']->resultcount();
+			if($queryTotal > 0)
+			{
+				$siteoproduct    = $GLOBALS['db']->fetchitem($query);
+                $cartquery = $GLOBALS['db']->query("SELECT * FROM `order_cart`  WHERE `order_id` = '".$orders['id']."' AND `product_id` = '".$p."' LIMIT 1 ");
+			    $cartTotal = $GLOBALS['db']->resultcount();
+                if($cartTotal>0)
+                {
+                    $cartproduct    = $GLOBALS['db']->fetchitem($query);
+
+                     $q = $cartproduct['quantity'] + $orders['quantity'][$k];
+
+                     $GLOBALS['db']->query("UPDATE LOW_PRIORITY `order_cart` SET
+                        `quantity`		                =	'".$q."'
+                        WHERE `order_cart_serial` 		= 	'".$cartproduct['order_cart_serial']."' LIMIT 1 ");
+                }else{
+                    $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `order_cart`
+                    (`order_cart_serial`, `order_id`, `product_id`, `quantity`, `price`)
+                    VALUES ( NULL ,  '".$orders['id']."' ,'".$p."' , '".$orders['quantity'][$k]."','".$siteoproduct['product_price']."') ");
+                }
+
+
+            }
+        }
+
 		return 1;
 	}
 
 	function addNeworders($orders)
 	{
-		if($orders[password] != "")
-		{
-			 $orders[password] = crypt($orders[password],$GLOBALS['login']->salt);
-		}
 		$GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `".$this->tableName."`
-		(`order_serial`, `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `group_id`,`user_status`)
-		VALUES ( NULL ,  '".$orders[name]."' ,'".$orders[email]."' , '".$orders[address]."' ,'".$orders[password]."' ,'".$orders[phone]."' ,'".$orders[image]."' ,'".$orders[group]."','".$orders[status]."'  ) ");
-		return 1;
+		(`order_serial`, `user_id`, `order_type`, `order_date`, `order_status`)
+		VALUES ( NULL ,  '".$orders[user_id]."' ,'".$orders[type]."' , NOW() ,'".$orders[status]."') ");
+        $pid = $GLOBALS['db']->fetchLastInsertId();
+        foreach($orders[product_id] as $k => $p)
+        {
+            $query = $GLOBALS['db']->query("SELECT * FROM `products`  WHERE `product_serial` = '".$p."' LIMIT 1 ");
+			$queryTotal = $GLOBALS['db']->resultcount();
+			if($queryTotal > 0)
+			{
+				$siteoproduct    = $GLOBALS['db']->fetchitem($query);
+                $cartquery = $GLOBALS['db']->query("SELECT * FROM `order_cart`  WHERE `order_id` = '".$pid."' AND `product_id` = '".$p."' LIMIT 1 ");
+			    $cartTotal = $GLOBALS['db']->resultcount();
+                if($cartTotal>0)
+                {
+                    $cartproduct    = $GLOBALS['db']->fetchitem($query);
+
+                     $q = $cartproduct['quantity'] + $orders['quantity'][$k];
+
+                     $GLOBALS['db']->query("UPDATE LOW_PRIORITY `order_cart` SET
+                        `quantity`		                =	'".$q."'
+                        WHERE `order_cart_serial` 		= 	'".$cartproduct[order_cart_serial]."' LIMIT 1 ");
+                }else{
+                    $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `order_cart`
+                    (`order_cart_serial`, `order_id`, `product_id`, `quantity`, `price`)
+                    VALUES ( NULL ,  '".$pid."' ,'".$p."' , '".$orders['quantity'][$k]."','".$siteoproduct['product_price']."') ");
+                }
+
+
+            }
+        }
+        return 1;
+
 	}
 
-	function deleteorders($order_serial,$path)
+	function deleteorders($order_serial)
 	{
 
 		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `".$this->tableName."` WHERE `order_serial` = '".$order_serial."' LIMIT 1");
@@ -154,22 +173,6 @@ class systemorders
 		return 1;
 	}
 
-//	function activestatusorders($morder_serial,$status)
-//	{
-//		if($status==1)
-//		{
-//			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-//			`status`    =	'0'
-//			 WHERE `order_serial` 		 = 	'".$morder_serial."' LIMIT 1 ");
-//			return 1;
-//		}else
-//		{
-//			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-//				`status`    =	'1'
-//			 	WHERE `order_serial` 		 = 	'".$morder_serial."' LIMIT 1 ");
-//			return 1;
-//		}
-//	}
 
 }
 ?>

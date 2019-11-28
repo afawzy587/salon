@@ -227,5 +227,35 @@ $(".choose").select2( {} );
 				  }
 	});
 
+    $('a.delete_order_product').click(function(e){
+        e.preventDefault();
+		id  = $(this).parent('td').attr('id').replace("item_","");
+		if (confirm($('#lang_del').val()+" "+$('#lang_name').val()+" ؟ "))
+		{
+			jQuery.ajax( {
+				async :true,
+				type :"POST",
+				url :"products_js.php?do=delete_order_product",
+				data: "id=" + id + "",
+				success : function(data) {
+                    if(data == 116)
+                    {
+                        $("#tr_" + id).fadeTo(400, 0, function () { $("#tr_" + id).slideUp(400);});
+                        return false;
+                    }
+
+
+				},
+				error : function() {
+					return true;
+				}
+			});
+		}
+	});
+    $('.request').on('click', 'a.delete_product',function(e){
+        e.preventDefault();
+      $(this).closest('tr').remove();
+	});
+
 
 });

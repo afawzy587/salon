@@ -44,6 +44,7 @@
             break;
             case"delete":
                 $mId = intval($_POST['id']);
+                print_r( $Users->deleteUsers($mId,$path));
                 $delete = $Users->deleteUsers($mId,$path);
                 if($delete == 1)
                 {

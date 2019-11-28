@@ -48,11 +48,11 @@
 
                     if($_GET['message']== "update")
                     {
-                        $message = $lang['edit_orders_success'];
+                        $message = $lang['edit_order_success'];
                     }elseif($_GET['message']== "add"){
-                        $message = $lang['add_orders_success'];
+                        $message = $lang['add_order_success'];
                     }elseif($_GET['message']== "delete"){
-                        $message = $lang['delete_orders_success'];
+                        $message = $lang['delete_order_success'];
                     }
                 }
 

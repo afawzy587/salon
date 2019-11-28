@@ -296,7 +296,7 @@ class API
                         {
                             $this->terminate('error', $GLOBALS['lang']['INSERT_ADDRESS'],400);
                         }else{
-                             if(sanitize($_POST['password']) == "" || strlen($phone) >= 8 )
+                            if(sanitize($_POST['password']) == "" || strlen($phone) >= 8 )
                             {
                                 $this->terminate('error', $GLOBALS['lang']['INSERT_PASSWORD'],400);
                             }else{
@@ -373,6 +373,7 @@ class API
 
                                             @unlink($_FILES['image']);
                                         }	
+                                    }
 
                                     $verifiedcode 	= $this->generateKey(5);
                                     $GLOBALS['db']->query
@@ -388,8 +389,8 @@ class API
                                        
                                     $pid = $GLOBALS['db']->fetchLastInsertId();
                                         
-                                    if($pid){
-                                        
+                                    if($pid)
+                                    {
                                         include_once("send_email.php");
                                         
                                         $send    = new sendmail();
@@ -418,9 +419,8 @@ class API
                                     {
                                         $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                     }
-                                }
-                             }
-                        }
+                               }
+                          }
                        }
                     }
                 }

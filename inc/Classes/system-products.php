@@ -132,6 +132,13 @@ class systemproducts
 		return 1;
 	}
     
+
+	function delete_order_product($product_serial)
+	{
+		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `order_cart` WHERE `order_cart_serial` = '".$product_serial."' LIMIT 1 ");
+		return 1;
+	}
+
    
 	
 //	function activestatusproducts($product_serial,$status)
