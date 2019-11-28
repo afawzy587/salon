@@ -195,5 +195,37 @@ $('input[type="file"]').change(function(e) {
 
 $(".choose").select2( {} );
 
+    $('a.addrequest').click(function(e){
+	e.preventDefault();
+		jQuery.ajax( {
+			async :true,
+			type :"POST",
+			url :'products_js.php?do=request',
+			success:function(html){
+				$('tbody.request').append(html);
+			},
+			error : function() {
+				return true;
+			}
+		});
+	});
+
+
+
+    $('.request').on('change', 'select.product',function(){
+	var productID = $(this).val();
+	var id        = $(this).parent('div').attr('id');
+	if(productID){
+		$.ajax({
+			type:'POST',
+			url:'products_js.php?do=product_price',
+			data:'product_id='+productID,
+			success:function(data){
+				$('input#price_'+id).val(data);
+								  }
+			   });
+				  }
+	});
+
 
 });

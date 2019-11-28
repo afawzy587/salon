@@ -200,6 +200,39 @@
 		}
 	}
 
+    function getservicename($_Id)
+	{
+
+		$serviceq = $GLOBALS['db']->query(" SELECT * FROM `services` WHERE `service_serial` = '".$_Id."' LIMIT 1");
+		$serviceCount = $GLOBALS['db']->resultcount();
+		if($serviceCount == 1)
+		{
+			$service = $GLOBALS['db']->fetchitem($serviceq);
+			return ($service['service_name']);
+		}
+		else
+		{
+			return ($GLOBALS['lang']['not_define']);
+		}
+	}
+
+     function getstaffname($_Id)
+	{
+
+		$staffq = $GLOBALS['db']->query(" SELECT * FROM `branche_staff` WHERE `staff_serial` = '".$_Id."' LIMIT 1");
+		$staffCount = $GLOBALS['db']->resultcount();
+		if($staffCount == 1)
+		{
+			$staff = $GLOBALS['db']->fetchitem($staffq);
+			return ($staff['staff_name']);
+		}
+		else
+		{
+			return ($GLOBALS['lang']['not_define']);
+		}
+	}
+
+
 
 
 

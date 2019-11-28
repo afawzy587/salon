@@ -99,7 +99,6 @@ class systemUsers
 
 	function addNewUsers($Users)
 	{
-        print_r($Users);
 		if($Users[password] != "")
 		{
 			 $Users[password] = crypt($Users[password],$GLOBALS['login']->salt);

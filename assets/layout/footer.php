@@ -16,7 +16,6 @@
   <script src="./assets/js/plugins/bootstrap-selectpicker.js"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="./assets/js/jquery.datetimepicker.full.js"></script>
-  <script src="./assets/js/choosen.js"></script>
 <!--  <script src="./assets/js/select2.js"></script>-->
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="./assets/js/plugins/jquery.dataTables.min.js"></script>

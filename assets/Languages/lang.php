@@ -3,7 +3,7 @@
 
 $lang['site_name']                 = "Salon";
 $lang['DEFAULT']                   = "ar";
-$lang['Currancy']                  = "جنيه ";
+$lang['Currancy']                  = "جـــنــيــه ";
 $lang['dir']                       = "rtl";
 $lang['dir_fe']                    = "right";
 $lang['SITTINGUPDATEDONE']         = " تم تحديث البيانات الشخصية بنجاح";
@@ -311,6 +311,31 @@ $lang['rate_description']               = " الملاحظات ";
 $lang['best_sellers']                          = " الأكثر مبيعأ ";
 $lang['best_sellers_quantity']                 = "  الكمية المباعة ";
 $lang['no_best_sellers']                       = " عفوأ لا يوجد منتجات مباعة ";
+
+//******************orders***************//
+$lang['orders']                     = " طلبات المنتجات ";
+$lang['order']                      = " الطلب ";
+$lang['orders_details']              = " بيانات الطلب ";
+$lang['no_orders']                  = " عفوأ لا يوجد طلبات ";
+$lang['no_order_type']              = " عفوا يجب إدخال النوع الطلب";
+$lang['add_this_order_before']      = "عفوا لقد قمت بإدخال هذا الطلب مسبقا";
+$lang['add_order_success']          = "تم اضافة الطلب بنجاح";
+$lang['delete_order_success']       = "تم حذف الطلب بنجاح";
+$lang['order_type']                 = " نوع الطلب ";
+$lang['add_order']                  = " إضافة طلب جديد ";
+$lang['from_home']                  = " استلام من المنزل ";
+$lang['from_branch']                = " استلام من الفرع ";
+$lang['unfinished']                 = " غير منتهى ";
+$lang['finished']                   = " تم التوصيل ";
+$lang['total']                      = " الاجمالى ";
+$lang['order_total']                = " اجمالى الطلب ";
+$lang['quantity']                   = " الكمية ";
+
+
+//*****************service_orders***************//
+$lang['service_orders']                   = "طلبات الخدمات ";
+$lang['service_order_details']            = " بيانات الطلب ";
+$lang['cost']                             = " التكلفة  ";
 
 
 

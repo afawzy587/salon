@@ -45,7 +45,7 @@
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./categories.php">
-              <i class="material-icons">view_carousel</i>
+              <i class="material-icons">category</i>
               <p><?php echo $lang['categories'];?></p>
             </a>
           </li>
@@ -53,6 +53,18 @@
             <a class="nav-link" href="./products.php">
               <i class="material-icons">shop</i>
               <p><?php echo $lang['products'];?></p>
+            </a>
+          </li>
+         <li class="nav-item ">
+            <a class="nav-link" href="./orders.php">
+              <i class="material-icons">shopping_cart</i>
+              <p><?php echo $lang['orders'];?></p>
+            </a>
+          </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="./service_order.php">
+              <i class="material-icons">settings_input_composite</i>
+              <p><?php echo $lang['service_orders'];?></p>
             </a>
           </li>
         <li class="nav-item ">
