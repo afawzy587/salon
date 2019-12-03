@@ -130,7 +130,7 @@
                                         {
                                             echo"<tr id=tr_".$u['branch_serial'].">
                                                     <td>".$u['branch_serial']."</td>
-                                                    <td><a href='branches_view.php?id=".$u['branch_serial']."'>".getsalonname($u['salon_id'])." - ".$u['branch_name']."</a></td>
+                                                    <td><a href='branches_view.php?id=".$u['branch_serial']."'>".$u['branch_name']."</a></td>
                                                     <td>".getusername($u['manager_id'])."</td>
                                                     <td>".$u['address']."</td>
                                                     <td>

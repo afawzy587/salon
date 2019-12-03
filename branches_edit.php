@@ -31,7 +31,6 @@
             
             if($id != 0){
                 $user   = $users->getsiteUsers();
-                $salon  = $salons->getsitesalons();
                 $u      = $branches->getbranchesInformation($id);
                 if($_POST)
                 {
@@ -43,7 +42,6 @@
                     $_branch['branch_from']   =       sanitize($_POST["branch_from"]);
                     $_branch['branch_to']     =       sanitize($_POST["branch_to"]);
                     $_branch['address']       =       sanitize($_POST["address"]);
-                    $_branch['salon_id']      =       intval($_POST["salon_id"]);
                     $_branch['manager_id']    =       intval($_POST["manager_id"]);
                     $_branch['SAT']           =       intval($_POST["SAT"]);
                     $_branch['SUN']           =       intval($_POST["SUN"]);
@@ -84,10 +82,7 @@
                         $errors[address] = $lang['INSERT_ADDRESS'];
                     }
 
-                    if ($_branch[salon_id] == 0 )
-                    {
-                        $errors[salon_id] = $lang['NO_SALON_ID'];
-                    }
+
 
                     if ($_branch[manager_id] == 0 )
                     {
@@ -218,28 +213,7 @@
                             </div>
                           </div>
                         </div> 
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label class="bmd-label-floating"><?php echo $lang['salon'];?></label>
-                              <select class="browser-default custom-select choose" name="salon_id">
-								  <option disabled  selected><?php echo $lang['choose'];?></option>
-								  <?php if(!empty($salon))
-										{
-											foreach($salon as $k => $s)
-											{
-                                                echo '<option value="'.$s[salon_serial].'"';
-                                                if($_branch){if($s[salon_serial] == $_branch[salon_id]){echo 'selected';}}else{if($s[salon_serial] == $u[salon_id]){echo 'selected';}}
-                                                echo '>'.$s[salon_name].'</option>';
-                                                
-											}
-	
-										}
-								  ?>
-								</select>
-                            </div>
-                          </div>
-                        </div>
+
                        
                         <div class="row">
                           <div class="col-md-12">
@@ -271,44 +245,44 @@
                             </div>
                             <div class="col-md-3">
                               <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="SAT" value="1" id="<?php echo $lang['SAT'];?>" <?php if($_branch){if($_branch[SAT] == 1){echo 'checked';}}else{if($u[SAT] == 1){echo 'checked';}}?>/>
+                                <input type="checkbox" class="custom-control-input" name="SAT" value="1" id="<?php echo $lang['SAT'];?>" <?php if($_branch){if($_branch['SAT'] == 1){echo 'checked';}}else{if($u['SAT'] == 1){echo 'checked';}}?>/>
                                   <label class="custom-control-label" for="<?php echo $lang['SAT'];?>"><p><?php echo $lang['SAT'];?></p></label>
                               </div>
                             </div>
                             
                             <div class="col-md-3">  
                               <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="SUN" value="1" id="<?php echo $lang['SUN'];?>" <?php if($_branch){if($_branch[SUN] == 1){echo 'checked';}}else{if($u[SUN] == 1){echo 'checked';}}?> >
+                                <input type="checkbox" class="custom-control-input" name="SUN" value="1" id="<?php echo $lang['SUN'];?>" <?php if($_branch){if($_branch['SUN'] == 1){echo 'checked';}}else{if($u['SUN'] == 1){echo 'checked';}}?> >
                                 <label class="custom-control-label" for="<?php echo $lang['SUN'];?>"><?php echo $lang['SUN'];?></label>
                               </div>  
                             </div> 
                             <div class="col-md-3">  
                              <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="MON" value="1" id="<?php echo $lang['MON'];?>" <?php if($_branch){if($_branch[MON] == 1){echo 'checked';}}else{if($u[MON] == 1){echo 'checked';}}?>>
+                                <input type="checkbox" class="custom-control-input" name="MON" value="1" id="<?php echo $lang['MON'];?>" <?php if($_branch){if($_branch['MON'] == 1){echo 'checked';}}else{if($u['MON'] == 1){echo 'checked';}}?>>
                                 <label class="custom-control-label" for="<?php echo $lang['MON'];?>"><?php echo $lang['MON'];?></label>
                               </div> 
                             </div> 
                             <div class="col-md-3">
                              <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="TUE" value="1" id="<?php echo $lang['TUE'];?>" <?php if($_branch){if($_branch[TUE] == 1){echo 'checked';}}else{if($u[TUE] == 1){echo 'checked';}}?>>
+                                <input type="checkbox" class="custom-control-input" name="TUE" value="1" id="<?php echo $lang['TUE'];?>" <?php if($_branch){if($_branch['TUE'] == 1){echo 'checked';}}else{if($u['TUE'] == 1){echo 'checked';}}?>>
                                 <label class="custom-control-label" for="<?php echo $lang['TUE'];?>"><?php echo $lang['TUE'];?></label>
                               </div> 
                             </div>
                             <div class="col-md-3">  
                              <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="WED" value="1" id="<?php echo $lang['WED'];?>" <?php if($_branch){if($_branch[WED] == 1){echo 'checked';}}else{if($u[WED] == 1){echo 'checked';}}?>>
+                                <input type="checkbox" class="custom-control-input" name="WED" value="1" id="<?php echo $lang['WED'];?>" <?php if($_branch){if($_branch['WED'] == 1){echo 'checked';}}else{if($u['WED'] == 1){echo 'checked';}}?>>
                                 <label class="custom-control-label" for="<?php echo $lang['WED'];?>"><?php echo $lang['WED'];?></label>
                               </div> 
                             </div> 
                             <div class="col-md-3">  
                               <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="THU" value="1" id="<?php echo $lang['THU'];?>" <?php if($_branch){if($_branch[THU] == 1){echo 'checked';}}else{if($u[THU] == 1){echo 'checked';}}?>>
+                                <input type="checkbox" class="custom-control-input" name="THU" value="1" id="<?php echo $lang['THU'];?>" <?php if($_branch){if($_branch['THU'] == 1){echo 'checked';}}else{if($u['THU'] == 1){echo 'checked';}}?>>
                                 <label class="custom-control-label" for="<?php echo $lang['THU'];?>"><?php echo $lang['THU'];?></label>
                               </div>
                             </div>
                             <div class="col-md-3">
                              <div class="custom-control custom-checkbox col-md-3">
-                                <input type="checkbox" class="custom-control-input" name="FRI" value="1" id="<?php echo $lang['FRI'];?>" <?php if($_branch){if($_branch[FRI] == 1){echo 'checked';}}else{if($u[FRI] == 1){echo 'checked';}}?>>
+                                <input type="checkbox" class="custom-control-input" name="FRI" value="1" id="<?php echo $lang['FRI'];?>" <?php if($_branch){if($_branch['FRI'] == 1){echo 'checked';}}else{if($u['FRI'] == 1){echo 'checked';}}?>>
                                 <label class="custom-control-label" for="<?php echo $lang['FRI'];?>"><?php echo $lang['FRI'];?></label>
                               </div> 
                           </div>

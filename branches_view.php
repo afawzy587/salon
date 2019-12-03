@@ -41,7 +41,7 @@
                       <div class="card card-profile">
 
                         <div class="card-body">
-                          <h4 class="card-title"><?php echo getsalonname($branch['salon_id']).'-'.$branch['branch_name'];?></h4>
+                          <h4 class="card-title"><?php echo $branch['branch_name'];?></h4>
                         </div>
                       </div>
                         <div class="row">
@@ -161,4 +161,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

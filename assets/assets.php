@@ -138,7 +138,7 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']); 
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
@@ -154,23 +154,23 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']); 
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
     function getbranchname($_Id)
 	{
 
-		$branch = $GLOBALS['db']->query(" SELECT s.`salon_name`,b.`branch_name` FROM `salons` s INNER JOIN `salon_branches` b ON s.`salon_serial` = b.`salon_id` WHERE b.`branch_serial` = '".$_Id."' LIMIT 1");
+		$branch = $GLOBALS['db']->query(" SELECT b.`branch_name` FROM `salon_branches` b WHERE b.`branch_serial` = '".$_Id."' LIMIT 1");
 		$branchCount = $GLOBALS['db']->resultcount();
 		if($branchCount == 1)
 		{
 			$_branch = $GLOBALS['db']->fetchitem($branch);
-			return ($_branch['salon_name']. ' - ' .$_branch['branch_name']);
+			return $_branch['branch_name'];
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']); 
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
@@ -186,7 +186,7 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']); 
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
@@ -202,7 +202,7 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']);
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
@@ -218,7 +218,7 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']);
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 
@@ -234,7 +234,7 @@
 		}
 		else
 		{
-			return ($GLOBALS['lang']['not_define']);
+			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
 

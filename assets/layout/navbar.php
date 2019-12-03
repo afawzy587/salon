@@ -2,7 +2,6 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="./index.php">Dashboard</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -27,14 +26,14 @@
                 <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
-                    Account
+                    <?php echo $lang['settings']; ?>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+<!--                  <a class="dropdown-item" href="#">Profile</a>-->
+                <?php if($group['salons_edit'] == 1){echo '<a class="dropdown-item" href="./salons_edit.php">'.$lang['SETTING_MANGMENT'].'</a>';}?>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="./login.php?do=logout">Log out</a>
+                  <a class="dropdown-item" href="./login.php?do=logout"><?php echo $lang['Log_out']; ?></a>
                 </div>
               </li>
             </ul>

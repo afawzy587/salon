@@ -9,8 +9,7 @@
     include './assets/layout/header.php';
 //    echo' <link href="./assets/css/materialize.min.css" rel="stylesheet" />';
 
-    include("./inc/Classes/system-salons.php");
-	$salons = new systemsalons();
+
 
     include("./inc/Classes/system-branches.php");
 	$branches = new systembranches();
@@ -29,24 +28,15 @@
             header("Location:./permission.php");
         }else{ 
             $user   = $users->getsiteUsers();
-            $salon  = $salons->getsitesalons();
-             $salon_id = intval($_GET['salon']);
             if($_POST)
             {
                 
-                if( $salon_id == 0)
-                {
-                    $_branch['salon_id']      =       intval($_POST["salon_id"]);
-                }else{
-                    $_branch['salon_id']       =       $salon_id; 
-                   
-                }
+
                 $_branch['name']          =       sanitize($_POST["name"]);
                 $_branch['address']       =       sanitize($_POST["address"]);
                 $_branch['branch_from']   =       sanitize($_POST["branch_from"]);
                 $_branch['branch_to']     =       sanitize($_POST["branch_to"]);
                 $_branch['address']       =       sanitize($_POST["address"]);
-                
                 $_branch['manager_id']    =       intval($_POST["manager_id"]);
                 $_branch['SAT']           =       intval($_POST["SAT"]);
                 $_branch['SUN']           =       intval($_POST["SUN"]);
@@ -84,10 +74,7 @@
                     $errors[address] = $lang['INSERT_ADDRESS'];
                 }
                 
-                if ($_branch[salon_id] == 0 )
-                {
-                    $errors[salon_id] = $lang['NO_SALON_ID'];
-                }
+
 
                 if ($_branch[manager_id] == 0 )
                 {
@@ -218,30 +205,6 @@
                             </div>
                           </div>
                         </div>
-                        <?php if(!$salon_id){
-                                echo '<div class="row">
-                                  <div class="col-md-12">
-                                    <div class="form-group">
-                                      <label class="bmd-label-floating">'.$lang["salon"].'</label>
-                                      <select class="browser-default custom-select choose" name="salon_id">
-                                          <option disabled  selected>'.$lang["choose"].'</option>';
-                                           if(!empty($salon))
-                                                {
-                                                    foreach($salon as $k => $s)
-                                                    {
-                                                        echo '<option value="'.$s[salon_serial].'"';if($s[salon_serial] == $_branch[salon_id]){echo 'selected';}echo'>'.$s[salon_name].'</option>';
-                                                    }
-
-                                                }
-                                    echo '</select>
-                                    </div>
-                                  </div>
-                                </div>';
-    
-                            }
-                  ?>
-                        
-                       
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
@@ -368,4 +331,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

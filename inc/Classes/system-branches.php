@@ -51,7 +51,6 @@ class systembranches
 					"branch_serial"	        => 		$sitebranches['branch_serial'],
 					"branch_name"			=> 		$sitebranches['branch_name'],
 					"address"    		    => 		$sitebranches['address'],
-					"salon_id"      		=> 		$sitebranches['salon_id'],
 					"manager_id"      		=> 		$sitebranches['manager_id'],
 					"image"	         	    => 		$sitebranches['photo'],
 					"SAT"	                => 		$sitebranches['branch_sat'],
@@ -102,7 +101,6 @@ class systembranches
         $GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
 			`branch_name`			    =	'".$branches[name]."',".$queryimage."
 			`address`      	            =	'".$branches[address]."',
-			`salon_id`      	        =	'".$branches[salon_id]."',
 			`manager_id`      	        =	'".$branches[manager_id]."',
 			`branch_sat`      	        =	'".$branches[SAT]."',
 			`branch_sun`      	        =	'".$branches[SUN]."',
@@ -124,8 +122,8 @@ class systembranches
          $to   = date('H:i', (strtotime($branches["branch_to"])));
 		
 		$GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `".$this->tableName."`
-		(`branch_serial`, `branch_name`, `address`, `salon_id`, `manager_id`, `photo`, `branch_sat`, `branch_sun`, `branch_mon`, `branch_tus`, `branch_wed`, `branch_thurs`, `branch_fri`, `branch_from`, `branch_to`, `branch_status`)
-		VALUES ( NULL ,  '".$branches[name]."' ,'".$branches[address]."' ,'".$branches[salon_id]."' ,'".$branches[manager_id]."' , '".$branches[image]."' ,'".$branches[SAT]."' ,'".$branches[SUN]."','".$branches[MON]."' ,'".$branches[TUE]."' ,'".$branches[WED]."' ,'".$branches[THU]."' ,'".$branches[FRI]."' ,'".$from."' ,'".$to."' ,'".$branches[branch_status]."')");
+		(`branch_serial`, `branch_name`, `address`,  `manager_id`, `photo`, `branch_sat`, `branch_sun`, `branch_mon`, `branch_tus`, `branch_wed`, `branch_thurs`, `branch_fri`, `branch_from`, `branch_to`, `branch_status`)
+		VALUES ( NULL ,  '".$branches[name]."' ,'".$branches[address]."' ,'".$branches[manager_id]."' , '".$branches[image]."' ,'".$branches[SAT]."' ,'".$branches[SUN]."','".$branches[MON]."' ,'".$branches[TUE]."' ,'".$branches[WED]."' ,'".$branches[THU]."' ,'".$branches[FRI]."' ,'".$from."' ,'".$to."' ,'".$branches[branch_status]."')");
 		return 1;
 	}
 

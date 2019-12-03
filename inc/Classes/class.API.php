@@ -14,7 +14,7 @@ class API
 		$settings = array(
 			"url"			     	    => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/",
 			"img_url"			        => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/uploads/",
-			"pagination"				=> 10,
+			"pagination"				=> 20,
 			"salt"					    => "wZy",
 			"unknown"					=> "unknown",
 			"img-default-avater"        => "uploads/defaults/avater.png",
@@ -1192,9 +1192,6 @@ class API
     
     /*******  باقى لينك الاكتف وفورجت باسورد   */
     /************ END authenticat funtion ***/
-    
-    
-    
     /* START CLIENT APP FUNCTION ***/
     public function client_get_salon()
     {
@@ -1311,7 +1308,8 @@ class API
         {
             $addquery = "AND `category_serial` = '".$id."' LIMIT 1";
         }else{
-            $addquery = "ORDER BY `category_serial` DESC";
+            $addquery           = "ORDER BY `category_serial` DESC";
+            $queryLimit 		= " LIMIT 9 ";
         }
 
         $categoryQuery = $GLOBALS['db']->query("SELECT *  FROM `product_categories` WHERE `category_status` = '1'".$addquery);
@@ -1549,11 +1547,22 @@ class API
 
             foreach($bestCredintials as $sId => $s)
             {
-                $_bestCredintials[$sId]['best_seller_serial']        =       intval($s['best_seller_serial']);
-                $_bestCredintials[$sId]['product_id']                =       intval($s['product_id']);
-                $_bestCredintials[$sId]['product_name']              =       $s['product_name'];
-                $_bestCredintials[$sId]['product_price']             =       floatval($s['product_price']);
-                $_bestCredintials[$sId]['product_image']             =       ($s["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$s["product_photo"];
+                 $productQuery = $GLOBALS['db']->query("SELECT p.* , c.`category_name` FROM `products` p INNER JOIN `product_categories` c ON p.`category_id` = c.`category_serial`  WHERE  p.`product_serial` ='".$s['product_id']."' LIMIT 1");
+                 $productCount = $GLOBALS['db']->resultcount();
+                 $_productCredintials =[];
+                 $p = $GLOBALS['db']->fetchitem($productQuery);
+                 $_productCredintials['product_serial']               =       intval($p['product_serial']);
+                 $_productCredintials['product_name']                 =       $p['product_name'];
+                 $_productCredintials['caegory']                      =       $p['category_name'];
+                 $_productCredintials['description']                  =       $p['product_description'];
+                 $_productCredintials['price']                        =       floatval($p['product_price']);
+                 $_productCredintials['discount']                     =       floatval($p['product_discount']);
+                 $_productCredintials['discount_percentage']          =       ($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
+                 $_productCredintials['discount_from']                =       $p['product_from'];
+                 $_productCredintials['discount_to']                  =       $p['product_to'];
+                 $_productCredintials['image']                        =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];
+                 $_bestCredintials[$sId]['best_seller_serial']        =       intval($s['best_seller_serial']);
+                 $_bestCredintials[$sId]['product']                   =       $_productCredintials;
             }
 
             $this->terminate('success',$_bestCredintials,200);
@@ -1755,7 +1764,6 @@ class API
 			}
 		}
 	}
-
     public function client_set_service_order()      ///log 12
 	{
 		$tokenUserId  = $this->testToken();
@@ -1884,8 +1892,6 @@ class API
 			}
 		}
 	}
-
-	
 /* end client function */        
 /* ----------------------------------------------------------------------------------------*/	
 	private function testToken()
@@ -1975,7 +1981,6 @@ class API
     {
         return array(200,201,202);
     }
-
     public function send_sms($phone,$message)
     {
         $phone      = str_replace("+20","0",$phone);

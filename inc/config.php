@@ -8,8 +8,7 @@ $dbpassword = "";
 
  $db = new DB($dbuser,$dbpassword,$dbName,$dbserver);
 
- $frontUrl 		= $host.$mainFolder;
- $adminUrl 		= $host.$mainFolder.$adminFolder;
+
 
 
 

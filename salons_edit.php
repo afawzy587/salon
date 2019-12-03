@@ -22,11 +22,13 @@
         if($group['salons_edit'] == 0){
             header("Location:./permission.php");
         }else{ 
-        
-            $id    = intval($_GET['id']);
-            if($id != 0){
+                if($_GET['message']== "update")
+                {
+                    $success = $lang['edit_salons_success'];
+                }
+
                 $user = $users->getsiteUsers();
-                $u  = $salons->getsalonsInformation($id);
+                $u  = $salons->getsalonsInformation();
                 if($_POST)
                 {
                     $_salon['id']         =       $id;
@@ -38,15 +40,6 @@
                     if ($_salon[name] =="" )
                     {
                         $errors[name] = $lang['no_salon_name'];
-                    }else{
-                        $check = $salons->issalonsExists($_salon['name']);
-                        if(is_array($check))
-                        {
-                            if($check['id'] != $_salon['id'])
-                            {
-                                $errors[name] = $lang['add_this_salon_before'];
-                            }
-                        }
                     }
 
                     if ($_salon[owner_id] == 0 )
@@ -117,14 +110,12 @@
                     if(empty($errors)){
                         $update = $salons->setsalonsInformation($_salon);
                         if($update == 1){
-                            header("Location:./salons.php?message=update");
+                            header("Location:./salons_edit.php?message=update");
                         }
 
                     }
                 }
-            }else{
-                header("Location:./error.php");
-            }
+
         }
 	}
 ?>
@@ -162,7 +153,7 @@
                       <h4 class="card-title"><?php echo $lang['edit_salon'];?></h4>
                     </div>
                     <div class="card-body">
-                      <form role='form' action="./salons_edit.php?id=<?php echo $u['salon_serial'];?>" method="post" enctype="multipart/form-data">
+                      <form role='form' action="./salons_edit.php" method="post" enctype="multipart/form-data">
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
@@ -193,16 +184,16 @@
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="bmd-label-floating"><?php echo $lang['User'];?></label>
+                              <label class="bmd-label-floating"><?php echo $lang['owner'];?></label>
                               <select class="browser-default custom-select choose" name="owner_id">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
 								  <?php if(!empty($user))
 										{
 											foreach($user as $k => $v)
 											{
-												echo '<option value="'.$v[user_serial].'"';
-                                                if($_salon){if($v[user_serial] == $_salon[owner_id]){echo 'selected';}}else{if($v[user_serial] == $u[owner_id]){echo 'selected';}}
-                                                echo '>'.$v[user_name].'</option>';
+												echo '<option value="'.$v['user_serial'].'"';
+                                                if($_salon){if($v['user_serial'] == $_salon['owner_id']){echo 'selected';}}else{if($v['user_serial'] == $u['owner_id']){echo 'selected';}}
+                                                echo '>'.$v['user_name'].'</option>';
 											}
 	
 										}
@@ -218,9 +209,9 @@
                               <select class="browser-default custom-select" name="status">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
                                   
-									<option value="0" <?php if($_salon){if($_salon[status] == 0){echo 'selected';}}else{if($u[status] == 0){echo 'selected';}}?>>
+									<option value="0" <?php if($_salon){if($_salon['status'] == 0){echo 'selected';}}else{if($u['status'] == 0){echo 'selected';}}?>>
                                         <?php echo $lang['deactive'];?></option>
-								  <option value="1" <?php if($_salon){if($_salon[status] == 1){echo 'selected';}}else{if($u[status] == 1){echo 'selected';}}?>><?php echo $lang['active'];?></option>
+								  <option value="1" <?php if($_salon){if($_salon['status'] == 1){echo 'selected';}}else{if($u['status'] == 1){echo 'selected';}}?>><?php echo $lang['active'];?></option>
 								</select>
                             </div>
                           </div>
