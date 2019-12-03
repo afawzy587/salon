@@ -1,5 +1,7 @@
 <?php
-		require '../inc/classes/mail/autoload.php';
+//		require '/mail/autoload.php';
+        require_once __DIR__ . '/mail/autoload.php';
+
 		// Import PHPMailer classes into the global namespace
 		// These must be at the top of your script, not inside a function
 		use PHPMailer\PHPMailer\PHPMailer;

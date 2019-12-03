@@ -116,9 +116,10 @@ class systemorders
                         `quantity`		                =	'".$q."'
                         WHERE `order_cart_serial` 		= 	'".$cartproduct['order_cart_serial']."' LIMIT 1 ");
                 }else{
+                    $price          = $siteoproduct['product_price'] - ($siteoproduct['product_price'] *($siteoproduct['product_discount']/100));
                     $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `order_cart`
                     (`order_cart_serial`, `order_id`, `product_id`, `quantity`, `price`)
-                    VALUES ( NULL ,  '".$orders['id']."' ,'".$p."' , '".$orders['quantity'][$k]."','".$siteoproduct['product_price']."') ");
+                    VALUES ( NULL ,  '".$orders['id']."' ,'".$p."' , '".$orders['quantity'][$k]."','".$price."') ");
                 }
 
 
@@ -153,16 +154,16 @@ class systemorders
                         `quantity`		                =	'".$q."'
                         WHERE `order_cart_serial` 		= 	'".$cartproduct[order_cart_serial]."' LIMIT 1 ");
                 }else{
+                    $price          = $siteoproduct['product_price'] - ($siteoproduct['product_price'] *($siteoproduct['product_discount']/100));
                     $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `order_cart`
                     (`order_cart_serial`, `order_id`, `product_id`, `quantity`, `price`)
-                    VALUES ( NULL ,  '".$pid."' ,'".$p."' , '".$orders['quantity'][$k]."','".$siteoproduct['product_price']."') ");
+                    VALUES ( NULL ,  '".$pid."' ,'".$p."' , '".$orders['quantity'][$k]."','".$price."') ");
                 }
 
 
             }
         }
         return 1;
-
 	}
 
 	function deleteorders($order_serial)

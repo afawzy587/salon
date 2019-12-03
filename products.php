@@ -144,7 +144,7 @@
                                                     <td><a href='products_view.php?id=".$u['product_serial']."'>".$u['product_name']."</a></td>
                                                     <td>".getcategoryname($u['category_id'])."</td>
                                                     <td>".$u['product_price']."\n".$lang['Currancy']."</td>
-                                                    <td>"; if($u['product_discount'] != 0){echo $u['product_discount'] ." % ". "<br>" . $lang['FROM'] . " : " . _date_format($u['product_from']) . "<br/    >". $lang['TO'] . " : " . _date_format($u['product_to']) ; }else{ echo "ـــــــــ" ;}
+                                                    <td>"; if($u['product_discount'] != 0){echo $u['product_discount'] ."\n".$lang['Currancy']. "<br>" . $lang['FROM'] . " : " . _date_format($u['product_from']) . "<br/    >". $lang['TO'] . " : " . _date_format($u['product_to']) ; }else{ echo "ـــــــــ" ;}
                                                     echo "</td>
                                                     <td id='item_".$u['product_serial']."'class='td-actions text-right'>";
                                                     if($group['products_edit'] == 1)

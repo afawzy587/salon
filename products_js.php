@@ -8,6 +8,12 @@
     include("./inc/Classes/system-products.php");
 	$products = new systemproducts();
 
+    include("./inc/Classes/system-services.php");
+	$services = new systemservices();
+
+    include("./inc/Classes/system-staffs.php");
+	$staff = new systemstaff();
+
 	if($login->doCheck() == false)
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
@@ -84,8 +90,88 @@
                     exit;
                 }
             }
+            break;
+           case"service_price":
+                if($_POST)
+                {
+                    $ID  = $_POST['service_id'];
+                    $service = $services->getservicesInformation($ID);
+                    echo $service['price'];
+                    exit;
+                }
+            break;
+            case"service":
+                   $service  = $services->getsiteservices();
+                    $ID         = $_POST['branch_id'];
+                    $staffs     = $staff->getbranchstaff($ID);
+                   $time     = time();
+                    echo '<tr id="tr_'.$time.'"><td >
+                             <div class="form-group" id="'.$time.'">
+                              <select class="browser-default custom-select service"  name="service[]" >
+                                  <option disabled  selected>'.$lang['service'].'</option>';
+                                    foreach($service as $s)
+                                    {
+                                        echo'<option value="'.$s['service_serial'].'">'.$s['service_name'].'</option>';
+                                    }
+                           echo'</select>
+                            </div>
+                         </td>
+                         <td >
+                             <div class="form-group" id=1>
+                              <select class="staff browser-default custom-select" name="staff[]">';
+                                    if($ID == 0){
+                                        echo'<option disabled  selected>'.$lang['CHOOSE_BRANCH_FIRST'].'</option>';
+                                    }else{
+                                        if(!empty($staffs))
+                                        {
+                                            foreach($staffs as $k => $s)
+                                            {
+                                                echo '<option value="'.$s['staff_serial'].'">'.$s['staff_name'].'</option>';
+                                            }
+                                        }else{
+                                            echo '<option value="">'.$lang['no_branch_staff'].'</option>';
+                                        }
+                                    }
 
-                break;
+                            echo'</select>
+                            </div>
+                         </td>
+                       <td>
+                         <div class="form-group">
+                              <input type="datetime" class="date form-control" autocomplete="off"  name ="date[]"  value="">
+                            </div>
+                         </td>
+                         <td>
+                             <div class="form-group">
+                              <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="" readonly>
+                            </div>
+                         </td>
+
+                         <td id="item_'.$time.'">
+                            <a  rel=\'tooltip\' title="'.$lang['delete'].'"class=\'btn btn-danger btn-link btn-sm delete_product\'>
+                                <i class=\'material-icons\'>close</i>
+                            </a>
+                         </td>
+                         </tr>';
+                exit;
+            break;
+            case"branch_staff":
+                    $ID         = $_POST['branch_id'];
+                    $staffs     = $staff->getbranchstaff($ID);
+                    if(is_array($staffs))
+                    {
+                       foreach($staffs as $s)
+                        {
+                            echo '<option value="'.$s['staff_serial'].'">'.$s['staff_name'].'</option>';
+                        }
+                    }else{
+                        echo '<option value="">'.$lang['no_branch_staff'].'</option>';
+                    }
+
+
+
+                exit;
+            break;
 
         }
 

@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                               <div class="alert ">
 								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['discount'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php if($product['discount'] !=0){echo $product['discount'] .' % '. "<br>" . $lang['FROM'] . " : " . _date_format($u['from']) ."<br>". $lang['TO'] . " : " . _date_format($u['to']) ;}else{ echo "ـــــــــ" ;} ?></span>
+								<span style="width:70%;display:inline-block;"><?php if($product['discount'] !=0){echo $product['discount'] ."\n".$lang['Currancy']. "<br>" . $lang['FROM'] . " : " . _date_format($product['from']) ."<br>". $lang['TO'] . " : " . _date_format($product['to']) ;}else{ echo "ـــــــــ" ;} ?></span>
 							  </div> 
 							</div>
                        </div> 
@@ -106,4 +106,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

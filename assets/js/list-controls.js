@@ -176,11 +176,11 @@ $(document).ready(function(){
 		}
 	});
 	
-$(document).on("click", ".browse", function() {
+    $(document).on("click", ".browse", function() {
   var file = $(this).parents().find(".file");
   file.trigger("click");
 });
-$('input[type="file"]').change(function(e) {
+    $('input[type="file"]').change(function(e) {
   var fileName = e.target.files[0].name;
   $("#file").val(fileName);
 
@@ -193,7 +193,7 @@ $('input[type="file"]').change(function(e) {
   reader.readAsDataURL(this.files[0]);
 });
 
-$(".choose").select2( {} );
+    $(".choose").select2( {} );
 
     $('a.addrequest').click(function(e){
 	e.preventDefault();
@@ -209,8 +209,6 @@ $(".choose").select2( {} );
 			}
 		});
 	});
-
-
 
     $('.request').on('change', 'select.product',function(){
 	var productID = $(this).val();
@@ -252,10 +250,96 @@ $(".choose").select2( {} );
 			});
 		}
 	});
+
+
+
+    $('a.delete_order_service').click(function(e){
+        e.preventDefault();
+		id  = $(this).parent('td').attr('id').replace("item_","");
+		if (confirm($('#lang_del').val()+" "+$('#lang_name').val()+" ؟ "))
+		{
+			jQuery.ajax( {
+				async :true,
+				type :"POST",
+				url :"products_js.php?do=delete_order_service",
+				data: "id=" + id + "",
+				success : function(data) {
+                    if(data == 116)
+                    {
+                        $("#tr_" + id).fadeTo(400, 0, function () { $("#tr_" + id).slideUp(400);});
+                        return false;
+                    }
+
+
+				},
+				error : function() {
+					return true;
+				}
+			});
+		}
+	});
+
     $('.request').on('click', 'a.delete_product',function(e){
         e.preventDefault();
       $(this).closest('tr').remove();
 	});
 
+    $('.request').on('click', 'a.delete_service',function(e){
+        e.preventDefault();
+      $(this).closest('tr').remove();
+	});
+
+
+    $('.request').on('change', 'select.service',function(){
+        $("input.date").datetimepicker({
+		format:"Y-m-d H:i:s",
+		validateOnBlur: false,
+		step:15
+	});
+	var serviceID = $(this).val();
+	var id        = $(this).parent('div').attr('id');
+	if(serviceID){
+		$.ajax({
+			type:'POST',
+			url:'products_js.php?do=service_price',
+			data:'service_id='+serviceID,
+			success:function(data){
+				$('input#price_'+id).val(data);
+								  }
+			   });
+				  }
+	});
+
+    $('select.branch').on('change',function(){
+	var branchID = $(this).val();
+	if(branchID){
+		$.ajax({
+			type:'POST',
+			url:'products_js.php?do=branch_staff',
+			data:'branch_id='+branchID,
+			success:function(html){
+				$('select.staff').html(html);
+								  }
+			   });
+				  }
+	});
+
+
+     $('.services').on('click', 'a.addservice',function(e){
+        e.preventDefault();
+        var branchID = $('select.branch').val();
+            jQuery.ajax( {
+                async :true,
+                type :"POST",
+                url :'products_js.php?do=service',
+                data:'branch_id='+branchID,
+                success:function(html){
+                    $('tbody.request').append(html);
+                },
+                error : function() {
+                    return true;
+                }
+            });
+        });
 
 });

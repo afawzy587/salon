@@ -217,19 +217,19 @@
                           <div class="col-md-4">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['discount'];?></label>
-                              <input type="number" class="form-control"  max="100" name ="discount"  value="<?php echo $_product['discount'] ?>">
+                              <input type="number" class="form-control"  step="any" name ="discount"  value="<?php echo $_product['discount'] ?>">
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['FROM'];?></label>
-                              <input type="datetime" class="date form-control"  name ="from"  value="<?php echo $_product['from'] ?>">
+                              <input type="datetime" class="date form-control" autocomplete="off"  name ="from"  value="<?php echo $_product['from'] ?>">
                             </div>
                           </div>
                          <div class="col-md-4">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['TO'];?></label>
-                              <input type="datetime" class="date form-control"   name ="to"  value="<?php echo $_product['to'] ?>">
+                              <input type="datetime" class="date form-control" autocomplete="off"  name ="to"  value="<?php echo $_product['to'] ?>">
                             </div>
                           </div>
                         </div>
@@ -311,4 +311,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

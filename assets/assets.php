@@ -54,6 +54,12 @@
 	    return  date('Y-m-d / g:i A', strtotime($date));
 	}
 
+
+    function end_time ($start,$end)
+	{
+	    return  date('Y-m-d H:m:s', (strtotime($date)+($end*60)));
+	}
+
     function time_format ($time)
 	{
 	    return  date('g:i A', strtotime($time));

@@ -180,7 +180,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['discount'];?></label>
-                              <input type="number" class="form-control"  max="100" name ="discount"  value="<?php echo $_service['discount'] ?>">
+                              <input type="number" class="form-control"  step="any" name ="discount"  value="<?php echo $_service['discount'] ?>">
                             </div>
                           </div>
                         </div>
@@ -236,4 +236,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

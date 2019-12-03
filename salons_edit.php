@@ -9,7 +9,7 @@
     include './assets/layout/header.php';
     include("./inc/Classes/system-salons.php");
 	$salons = new systemsalons();
-	include("./inc/Classes/system-Users.php");
+	include("./inc/Classes/system-users.php");
 	$users = new systemUsers();
 
 	

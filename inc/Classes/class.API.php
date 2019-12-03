@@ -12,8 +12,8 @@ class API
 	private function getDefaults($attribute = "unknown")	
 	{
 		$settings = array(
-			"url"			     	    => "http://".$_SERVER['SERVER_NAME']."/salon/",
-			"img_url"			        => "http://".$_SERVER['SERVER_NAME']."/salon/uploads/",
+			"url"			     	    => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/",
+			"img_url"			        => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/uploads/",
 			"pagination"				=> 10,
 			"salt"					    => "wZy",
 			"unknown"					=> "unknown",
@@ -272,202 +272,456 @@ class API
 /* start client function */
     
     /************ START authenticat funtion ***/
-    public function AddNewuserRegister()
+    public function AddNewuserRegister($t = "")  ///log 1
     {
-        if(sanitize($_POST['email']) == "")
-		{
-			$this->terminate('error',$GLOBALS['lang']['INSERT_EMAIL'],400);
-		}else
-		{
-            if( checkMail($_POST['email']) == false)
+        $_mail 			= 		sanitize(strtolower($_POST['email']));
+        $_phone		    = 		sanitize($_POST['phone']);
+        $_name 			= 		sanitize($_POST['name']);
+        $_address 	    = 		sanitize($_POST['address']);
+        $_password 		= 		sanitize($_POST['password']);
+        $type		    =       sanitize($_POST['type']);
+        $_Type 	        =       ($t != "") ? ( ($t == "normal" || $t == "facebook" || $t == "google") ? ( $t ) : "normal" ) : ( ($type == "normal" || $type == "facebook" || $type == "google") ? ( $type ) : "normal"  );
+        if($_Type == "" && ($_Type =='normal' || $_Type =='facebook'|| $_Type =='google' ))
+        {
+            $this->terminate('error', $GLOBALS['lang']['INSERT_REGISTERTION_TYPE'],400);
+        }else{
+            if(sanitize($_POST['name']) == "")
             {
-                $this->terminate('error',$GLOBALS['lang']['INCORRECT_EMAIL'],400);
-            }else{
-                if(sanitize($_POST['phone']) == "")
+                $this->terminate('error',$GLOBALS['lang']['INSERT_NAME'],400);
+            }else
+            {
+                if(sanitize($_POST['email']) == "")
                 {
-                    $this->terminate('error',$GLOBALS['lang']['INSERT_PHONE'],400);
+                    $this->terminate('error',$GLOBALS['lang']['INSERT_EMAIL'],400);
                 }else
                 {
-                    if(checkPhone($_POST['phone']) == false)
+                    if( checkMail($_POST['email']) == false)
                     {
-                        $this->terminate('error', $GLOBALS['lang']['INCORRECT_PHONE'],400);
+                        $this->terminate('error',$GLOBALS['lang']['INCORRECT_EMAIL'],400);
                     }else{
-                        if(sanitize($_POST['address']) == "")
+
+                        if($_FILES)
                         {
-                            $this->terminate('error', $GLOBALS['lang']['INSERT_ADDRESS'],400);
-                        }else{
-                            if(sanitize($_POST['password']) == "" || strlen($phone) >= 8 )
+                            if(!empty($_FILES['image']['error']))
                             {
-                                $this->terminate('error', $GLOBALS['lang']['INSERT_PASSWORD'],400);
-                            }else{
-                                 
-                                $_mail 			= 		sanitize(strtolower($_POST['email']));
-                                $_phone		    = 		sanitize($_POST['phone']);
-                                $_name 			= 		sanitize($_POST['name']);
-                                $_address 	    = 		sanitize($_POST['address']);
-                                $_password 		= 		sanitize($_POST['password']);
-                                $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `email` = '".($_mail)."' OR `phone` = '".($_phone)."' ");
+                                switch($_FILES['image']['error'])
+                                {
+                                    case '1':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                        break;
+                                    case '2':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                        break;
+                                    case '3':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
+                                        break;
+                                    case '4':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
+                                        break;
+                                    case '6':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
+                                        break;
+                                    case '7':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
+                                        break;
+                                    case '8':
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
+                                        break;
+                                    case '999':
+                                    default:
+                                        $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
+                                }
+                            }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
+                            {
+                                $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
+                            }else
+                            {
+
+                                include_once("upload.class.php");
+                                $allow_ext = array("jpg","jpeg","gif","png");
+                                $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
+                                $files[name] 	= addslashes($_FILES["image"]["name"]);
+                                $files[type] 	= $_FILES["image"]['type'];
+                                $files[size] 	= $_FILES["image"]['size']/1024;
+                                $files[tmp] 	= $_FILES["image"]['tmp_name'];
+                                $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
+
+
+                                $upfile	= $upload->Upload_File($files);
+
+                                if($upfile)
+                                {
+                                    $imgUrl =  $upfile[newname];
+
+                                }else
+                                {
+                                   $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],400);
+                                }
+
+                                @unlink($_FILES['image']);
+                            }
+                        }
+
+                        if($_Type == 'normal')
+                        {
+                            if(sanitize($_POST['phone']) == "" || strlen($phone) >= 8)
+                            {
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_PHONE'],400);
+                            }else
+                            {
+                                if(checkPhone($_POST['phone']) == false)
+                                {
+                                    $this->terminate('error', $GLOBALS['lang']['INCORRECT_PHONE'],400);
+                                }else{
+                                    if(sanitize($_POST['address']) == "")
+                                    {
+                                        $this->terminate('error', $GLOBALS['lang']['INSERT_ADDRESS'],400);
+                                    }else{
+                                        if(sanitize($_POST['password']) == ""  )
+                                        {
+                                            $this->terminate('error', $GLOBALS['lang']['INSERT_PASSWORD'],400);
+                                        }else{
+                                            $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `email` = '".($_mail)."' OR `phone` = '".($_phone)."' ");
+                                            $prevReg = $GLOBALS['db']->resultcount();
+                                            if($prevReg > 0 )
+                                            {
+                                                $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
+                                            }else
+                                            {
+                                                $verifiedcode 	= $this->generateKey(5);
+                                                $GLOBALS['db']->query
+                                                ("
+                                                    INSERT INTO `users`
+                                                    (
+                                                         `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                    ) VALUES
+                                                    (
+                                                        '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                    )
+                                                ");
+                                                $pid = $GLOBALS['db']->fetchLastInsertId();
+                                                if($pid)
+                                                {
+                                                    include_once("send_email.php");
+
+                                                    $send    = new sendmail();
+
+                                                    $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+
+                                                    $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                                    $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                                    $done = $send->email($_mail,$_link,$subject);
+
+                                                    if($done == 1)
+                                                    {
+                                                        $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                    }
+                                                    $this->addLog(1,
+                                                            array(
+                                                                "type" 		=> 	"client",
+                                                                "module" 	=> 	"membership",
+                                                                "mode" 		=> 	"register_normal",
+                                                                "id" 		=>	$pid,
+                                                            ),"patient",$pid,1
+                                                        );
+                                                }else
+                                                {
+                                                    $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
+                                                }
+                                           }
+                                      }
+                                   }
+                                }
+                            }
+                        }elseif($_Type == 'facebook')
+                        {
+                            if(sanitize($_POST['facebook_id']) == "" )
+                            {
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_FACEBOOK_ID'],400);
+                            }else
+                            {
+                                $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `email` = '".($_mail)."' ");
                                 $prevReg = $GLOBALS['db']->resultcount();
                                 if($prevReg > 0 )
                                 {
                                     $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
                                 }else
                                 {
-                                    if($_FILES)
+                                   if(sanitize($_POST['facebook_token']) == "" )
                                     {
-                                        if(!empty($_FILES['image']['error']))
+                                        $this->terminate('error',$GLOBALS['lang']['INSERT_FACEBOOK_TOKEN'],400);
+                                    }else{
+                                        $fb_id     =  sanitize($_POST['facebook_id']);
+                                        $fb_token  =  sanitize($_POST['facebook_token']);
+                                        $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `face_id` = '".($_mail)."' OR `face_token` = '".($fb_token)."' ");
+                                        $prevReg = $GLOBALS['db']->resultcount();
+                                        if($prevReg > 0 )
                                         {
-                                            switch($_FILES['image']['error'])
-                                            {
-                                                case '1':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                                    break;
-                                                case '2':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                                    break;
-                                                case '3':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
-                                                    break;
-                                                case '4':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
-                                                    break;
-                                                case '6':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
-                                                    break;
-                                                case '7':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
-                                                    break;
-                                                case '8':
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
-                                                    break;
-                                                case '999':
-                                                default:
-                                                    $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
-                                            }
-                                        }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
-                                        {
-                                            $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
+                                            $this->terminate('error',$GLOBALS['lang']['FACEBOOK_ID_USED'],400);
                                         }else
                                         {
-                                           
-                                            include_once("upload.class.php");
-                                            $allow_ext = array("jpg","jpeg","gif","png");
-                                            $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
-                                            $files[name] 	= addslashes($_FILES["image"]["name"]);
-                                            $files[type] 	= $_FILES["image"]['type'];
-                                            $files[size] 	= $_FILES["image"]['size']/1024;
-                                            $files[tmp] 	= $_FILES["image"]['tmp_name'];
-                                            $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
+                                            $verifiedcode 	= $this->generateKey(5);
+                                            $GLOBALS['db']->query
+                                            ("
+                                                INSERT INTO `users`
+                                                (
+                                                     `user_name`, `email`, `face_id`, `face_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                ) VALUES
+                                                (
+                                                    '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                )
+                                            ");
 
+                                            $pid = $GLOBALS['db']->fetchLastInsertId();
 
-                                            $upfile	= $upload->Upload_File($files);
-
-                                            if($upfile)
+                                            if($pid)
                                             {
-                                                $imgUrl =  $upfile[newname];
+                                                include_once("send_email.php");
 
+                                                $send    = new sendmail();
+
+                                                $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+
+                                                $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                                $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                                $done = $send->email($_mail,$_link,$subject);
+
+                                                if($done == 1)
+                                                {
+                                                    $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                }
+                                                $this->addLog(1,
+                                                        array(
+                                                            "type" 		=> 	"client",
+                                                            "module" 	=> 	"membership",
+                                                            "mode" 		=> 	"register_normal",
+                                                            "id" 		=>	$pid,
+                                                        ),"patient",$pid,1
+                                                    );
                                             }else
                                             {
-                                               $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],400);
+                                                $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                             }
-
-                                            @unlink($_FILES['image']);
-                                        }	
-                                    }
-
-                                    $verifiedcode 	= $this->generateKey(5);
-                                    $GLOBALS['db']->query
-                                    ("
-                                        INSERT INTO `users`
-                                        (
-                                             `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
-                                        ) VALUES
-                                        (
-                                            '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
-                                        )
-                                    ");
-                                       
-                                    $pid = $GLOBALS['db']->fetchLastInsertId();
-                                        
-                                    if($pid)
-                                    {
-                                        include_once("send_email.php");
-                                        
-                                        $send    = new sendmail();
-                                        
-                                        $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-                                        
-                                        $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-                                        
-                                        $subject = $GLOBALS['lang']['Salon_verified_email'];
-                                        
-                                        $done = $send->email($_mail,$_link,$subject);
-                                        
-                                        if($done == 1)
-                                        {
-                                            $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
-                                        }
-                                        $this->addLog(1,
-                                                array(
-                                                    "type" 		=> 	"client",
-                                                    "module" 	=> 	"membership",
-                                                    "mode" 		=> 	"register_normal",
-                                                    "id" 		=>	$pid,
-                                                ),"patient",$pid,1
-                                            );
-                                    }else
-                                    {
-                                        $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
-                                    }
+                                       }
+                                   }
                                }
-                          }
-                       }
+                            }
+
+                        }elseif($_Type == 'google'){
+                            if(sanitize($_POST['google_id']) == "" )
+                            {
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_GOOGLE_ID'],400);
+                            }else
+                            {
+                                $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `email` = '".($_mail)."'");
+                                $prevReg = $GLOBALS['db']->resultcount();
+                                if($prevReg > 0 )
+                                {
+                                    $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
+                                }else
+                                {
+                                   if(sanitize($_POST['google_token']) == "" )
+                                    {
+                                        $this->terminate('error',$GLOBALS['lang']['INSERT_GOOGLE_TOKEN'],400);
+                                    }else{
+                                        $fb_id     =  sanitize($_POST['google_id']);
+                                        $fb_token  =  sanitize($_POST['google_token']);
+                                        $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `google_id` = '".($_mail)."' OR `google_token` = '".($fb_token)."' ");
+                                        $prevReg = $GLOBALS['db']->resultcount();
+                                        if($prevReg > 0 )
+                                        {
+                                            $this->terminate('error',$GLOBALS['lang']['GOOGLE_ID_USED'],400);
+                                        }else
+                                        {
+                                            $verifiedcode 	= $this->generateKey(5);
+                                            $GLOBALS['db']->query
+                                            ("
+                                                INSERT INTO `users`
+                                                (
+                                                     `user_name`, `email`, `google_id`, `google_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                ) VALUES
+                                                (
+                                                    '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                )
+                                            ");
+
+                                            $pid = $GLOBALS['db']->fetchLastInsertId();
+
+                                            if($pid)
+                                            {
+                                                include_once("send_email.php");
+
+                                                $send    = new sendmail();
+
+                                                $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+
+                                                $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                                $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                                $done = $send->email($_mail,$_link,$subject);
+
+                                                if($done == 1)
+                                                {
+                                                    $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                }
+                                                $this->addLog(1,
+                                                        array(
+                                                            "type" 		=> 	"client",
+                                                            "module" 	=> 	"membership",
+                                                            "mode" 		=> 	"register_normal",
+                                                            "id" 		=>	$pid,
+                                                        ),"patient",$pid,1
+                                                    );
+                                            }else
+                                            {
+                                                $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
+                                            }
+                                       }
+                                   }
+                               }
+                            }
+
+                        }
+
                     }
                 }
             }
         }
     }
-    public function checkCredintials()
+    public function checkCredintials() ///log 2
 	{
 		$_empho 	= sanitize(strtolower($_POST['empho']));
 		$_pass 		= sanitize($_POST['password']);
 		$_udid 		= sanitize($_POST['udid']);
-		$userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE ( `email` = '".$_empho."' OR `phone` = '".$_empho."' ) AND `password` = '".crypt($_pass,$this->getDefaults("salt"))."' LIMIT 1");
-        $userCount = $GLOBALS['db']->resultcount();
-		if($userCount == 1)
-		{                
-			$userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
-            if($userCredintials['user_status'] != 0)
-			{
-                if($userCredintials['type'] == "client")
+        if($_empho != "" || $_pass !="")
+        {
+            $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE ( `email` = '".$_empho."' OR `phone` = '".$_empho."' ) AND `password` = '".crypt($_pass,$this->getDefaults("salt"))."' LIMIT 1");
+            $userCount = $GLOBALS['db']->resultcount();
+            if($userCount == 1)
+            {
+                $userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
+                if($userCredintials['user_status'] != 0)
                 {
-                    if($userCredintials['verified'] == 1)
-                    {  
-                        $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
-                        $this->updateLoginTime($doctorCredintials['id']);
-                        $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
-                        $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
-                        $this->addLog(2,
-                            array(
-                                "type" 		=> 	"client",
-                                "module" 	=> 	"login",
-                                "mode" 		=> 	"login",
-                                "id" 		=>	$userCredintials['user_serial'],
-                            ),"client",$userCredintials['user_serial'],1
-                        );
-                        $this->terminate('success',$_doctorCredintials,200);
-                    }else{
-                        $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                    if($userCredintials['type'] == "client")
+                    {
+                        if($userCredintials['verified'] == 1)
+                        {
+                            $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
+                            $this->updateLoginTime($doctorCredintials['id']);
+                            $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+                            $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
+                            $this->addLog(2,
+                                array(
+                                    "type" 		=> 	"client",
+                                    "module" 	=> 	"login",
+                                    "mode" 		=> 	"login",
+                                    "id" 		=>	$userCredintials['user_serial'],
+                                ),"client",$userCredintials['user_serial'],1
+                            );
+                            $this->terminate('success',$_doctorCredintials,200);
+                        }else{
+                            $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                        }
                     }
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
                 }
             }else{
-                $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
-            }
+                $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+		   }
+
         }else{
-			$this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
-		}
+            $_fbId 					= sanitize($_POST['face_id']);
+            if ( $_fbId != ""  )
+            {
+                $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE  `face_id` = '".$_fbId."'  LIMIT 1");
+                $userCount = $GLOBALS['db']->resultcount();
+                if($userCount == 1)
+                {
+                    $userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
+                    if($userCredintials['user_status'] != 0)
+                    {
+                        if($userCredintials['type'] == "client")
+                        {
+                            if($userCredintials['verified'] == 1)
+                            {
+                                $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
+                                $this->updateLoginTime($doctorCredintials['id']);
+                                $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+                                $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
+                                $this->addLog(2,
+                                    array(
+                                        "type" 		=> 	"client",
+                                        "module" 	=> 	"login",
+                                        "mode" 		=> 	"login",
+                                        "id" 		=>	$userCredintials['user_serial'],
+                                    ),"client",$userCredintials['user_serial'],1
+                                );
+                                $this->terminate('success',$_doctorCredintials,200);
+                            }else{
+                                $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                            }
+                        }
+                    }else{
+                        $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
+                    }
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+//                    $this->AddNewuserRegister('facebook');
+               }
+
+            }else
+            {
+                $_gId 					= sanitize($_POST['google_id']);
+                if ( $_gId != ""  )
+                {
+                    $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE  `google_id` = '".$_gId."'  LIMIT 1");
+                    $userCount = $GLOBALS['db']->resultcount();
+                    if($userCount == 1)
+                    {
+                        $userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
+                        if($userCredintials['user_status'] != 0)
+                        {
+                            if($userCredintials['type'] == "client")
+                            {
+                                if($userCredintials['verified'] == 1)
+                                {
+                                    $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
+                                    $this->updateLoginTime($doctorCredintials['id']);
+                                    $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+                                    $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
+                                    $this->addLog(2,
+                                        array(
+                                            "type" 		=> 	"client",
+                                            "module" 	=> 	"login",
+                                            "mode" 		=> 	"login",
+                                            "id" 		=>	$userCredintials['user_serial'],
+                                        ),"client",$userCredintials['user_serial'],1
+                                    );
+                                    $this->terminate('success',$_doctorCredintials,200);
+                                }else{
+                                    $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                                }
+                            }
+                        }else{
+                            $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
+                        }
+                    }else{
+                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                   }
+
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                }
+            }
+        }
     }
-    public function user_doLogOut()
+    public function user_doLogOut()   ///log 3
 	{
 		$tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -492,7 +746,7 @@ class API
 			}
         }
 	}
-    public function user_setAvater()
+    public function user_setAvater()   ///log 4
 	{
         $tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -632,7 +886,7 @@ class API
 			}
         }
 	}
-    public function user_getCredintials()
+    public function user_getCredintials() ///log 5
 	{   
         $tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -658,7 +912,7 @@ class API
             }
         }
 	}
-    public function user_edit_profile()
+    public function user_edit_profile()   ///log 6
 	{   
         $tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -758,7 +1012,7 @@ class API
             }
         }
 	}
-    public function user_activemail()
+    public function user_activemail() ///log 7
 	{   
         if($_GET)
         {
@@ -799,7 +1053,7 @@ class API
             
         }
 	}
-    public function user_recovery_pass()
+    public function user_recovery_pass()    ///log 8
 	{   
         if($_POST)
         {
@@ -863,7 +1117,7 @@ class API
             
         }
 	}
-    public function user_setclientPushId()
+    public function user_setclientPushId()  ///log 9
 	{
 		$tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -944,15 +1198,15 @@ class API
     /* START CLIENT APP FUNCTION ***/
     public function client_get_salon()
     {
-        $id = intval($_GET['id']);
-        if($id != 0)
-        {
-            $addquery = "AND s.`salon_serial` = '".$id."' LIMIT 1";
-        }else{
-            $addquery = "ORDER BY `salon_serial` DESC";
-        }
+//        $id = intval($_GET['id']);
+//        if($id != 0)
+//        {
+//            $addquery = "AND s.`salon_serial` = '".$id."' LIMIT 1";
+//        }else{
+//            $addquery = "ORDER BY `salon_serial` DESC";
+//        }
         
-        $salonQuery = $GLOBALS['db']->query("SELECT s.* , u.user_name FROM `salons` s INNER JOIN `users` u ON s.`owner_id` = u.`user_serial`  WHERE s.`salon_status` = '1'".$addquery);
+        $salonQuery = $GLOBALS['db']->query("SELECT s.* , u.user_name FROM `salons` s INNER JOIN `users` u ON s.`owner_id` = u.`user_serial`  WHERE s.`salon_status` = '1' LIMIT 1");
         $salonCount = $GLOBALS['db']->resultcount();
         $_salonCredintials =[];
         if($salonCount != 0)
@@ -974,55 +1228,37 @@ class API
             $this->terminate('success',$_salonCredintials,100);
         }
     }
-    
     public function client_get_salon_branch()
     {
-        $id = intval($_GET['salon_id']);
-        if($id != 0)
+        $branchQuery = $GLOBALS['db']->query("SELECT DISTINCT b.* , s.user_name FROM `salon_branches` b INNER JOIN `users` s ON b.`manager_id` = s.`user_serial` WHERE b.`branch_status` = '1'");
+        $branchCount = $GLOBALS['db']->resultcount();
+        $_branchCredintials =[];
+        if($branchCount != 0)
         {
-            $salonQuery = $GLOBALS['db']->query("SELECT DISTINCT  * FROM `salons` WHERE `salon_status` = '1' AND  `salon_serial`= '".$id."' LIMIT 1");
-            $salonCount = $GLOBALS['db']->resultcount();
-            $salonCredintials = $GLOBALS['db']->fetchitem();
-            if($salonCount != 0)
+            $branchCredintials = $GLOBALS['db']->fetchlist();
+            foreach($branchCredintials as $sId => $s)
             {
-                $branchQuery = $GLOBALS['db']->query("SELECT DISTINCT b.* , s.user_name FROM `salon_branches` b INNER JOIN `users` s ON b.`manager_id` = s.`user_serial` WHERE b.`branch_status` = '1' AND  b.`salon_id`= '".$id."'");
-                $branchCount = $GLOBALS['db']->resultcount();
-                $_branchCredintials =[];
-                if($branchCount != 0)
-                {
-                    $branchCredintials = $GLOBALS['db']->fetchlist();
-                    foreach($branchCredintials as $sId => $s)
-                    {
-                        $_branchCredintials[$sId]['branch_serial']        =       intval($s['branch_serial']); 
-                        $_branchCredintials[$sId]['salon_name']           =       $salonCredintials['salon_name']; 
-                        $_branchCredintials[$sId]['branch_name']          =       $s['branch_name']; 
-                        $_branchCredintials[$sId]['manger']               =       $s['user_name']; 
-                        $_branchCredintials[$sId]['logo']                 =       ($s["photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("branch-default-image") : $this->getDefaults("img_url").$s["photo"];
-                        $_branchCredintials[$sId]['address']              =       $s['address']; 
-                        $_branchCredintials[$sId]['branch_sat']           =       intval($s['branch_sat']); 
-                        $_branchCredintials[$sId]['branch_sun']           =       intval($s['branch_sun']); 
-                        $_branchCredintials[$sId]['branch_mon']           =       intval($s['branch_mon']); 
-                        $_branchCredintials[$sId]['branch_tus']           =       intval($s['branch_tus']); 
-                        $_branchCredintials[$sId]['branch_wed']           =       intval($s['branch_wed']); 
-                        $_branchCredintials[$sId]['branch_thurs']         =       intval($s['branch_thurs']); 
-                        $_branchCredintials[$sId]['branch_fri']           =       intval($s['branch_fri']);
-                        $_branchCredintials[$sId]['branch_from']          =       date('g:i A', strtotime($s['branch_from'])); 
-                        $_branchCredintials[$sId]['branch_to']            =       date('g:i A', strtotime($s['branch_to']));
-                        $_branchCredintials[$sId]['branch_status']        =       intval($s['branch_status']); 
-                    } 
-                    $this->terminate('success',$_branchCredintials,200);
-                }else{
-                    $this->terminate('success',$_branchCredintials,100);
-                }
-            }else
-            {
-                $this->terminate('error',$GLOBALS['lang']['NOT_FOUND_SALON_ID'],400);
+                $_branchCredintials[$sId]['branch_serial']        =       intval($s['branch_serial']);
+                $_branchCredintials[$sId]['branch_name']          =       $s['branch_name'];
+                $_branchCredintials[$sId]['manger']               =       $s['user_name'];
+                $_branchCredintials[$sId]['logo']                 =       ($s["photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("branch-default-image") : $this->getDefaults("img_url").$s["photo"];
+                $_branchCredintials[$sId]['address']              =       $s['address'];
+                $_branchCredintials[$sId]['branch_sat']           =       intval($s['branch_sat']);
+                $_branchCredintials[$sId]['branch_sun']           =       intval($s['branch_sun']);
+                $_branchCredintials[$sId]['branch_mon']           =       intval($s['branch_mon']);
+                $_branchCredintials[$sId]['branch_tus']           =       intval($s['branch_tus']);
+                $_branchCredintials[$sId]['branch_wed']           =       intval($s['branch_wed']);
+                $_branchCredintials[$sId]['branch_thurs']         =       intval($s['branch_thurs']);
+                $_branchCredintials[$sId]['branch_fri']           =       intval($s['branch_fri']);
+                $_branchCredintials[$sId]['branch_from']          =       date('g:i A', strtotime($s['branch_from']));
+                $_branchCredintials[$sId]['branch_to']            =       date('g:i A', strtotime($s['branch_to']));
             }
+            $this->terminate('success',$_branchCredintials,200);
         }else{
-            $this->terminate('error',$GLOBALS['lang']['INSERT_SALON_ID'],400);
+            $this->terminate('success',$_branchCredintials,100);
         }
+
     }
-    
     public function client_get_services_branch()
     {
         $id = intval($_GET['branch_id']);
@@ -1049,10 +1285,9 @@ class API
                         $_services[$sId]['service_name']          =       $s['service_name']; 
                         $_services[$sId]['price']                 =       floatval($s['price']); 
                         $_services[$sId]['discount']              =       floatval($s['discount']); 
+                        $_services[$sId]['discount_percentage']   =       ($s["discount"] == 0) ? 0 : floatval((($s['price'] - $s['discount'])/$s['price'])*100);
                         $_services[$sId]['duration']              =       intval($s['duration']); 
                         $_services[$sId]['logo']                  =       ($s["service_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("service-default-image") : $this->getDefaults("img_url").$s["service_photo"];
-                        $_services[$sId]['service_status']        =       $s['service_status']; 
-                        
                     } 
                     $this->terminate('success',$_services,200);
                 }else{
@@ -1068,8 +1303,6 @@ class API
             $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCHE_ID'],400);
         }
     }
-    
-
     public function client_get_category_products()
     {
 
@@ -1096,8 +1329,13 @@ class API
 
 
                 /* #############################category products ##################*/
-                $start 				= ( intval($_GET['p']) == 0)? 0 : intval($_GET['p']);
-                $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+
+                if( intval($_GET['p']) > 0)
+                {
+                    $start 				= intval($_GET['p']) - 1 ;
+                    $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+                }
+
 
                 $productQuery = $GLOBALS['db']->query("SELECT * FROM `products` WHERE `product_status` = '1' AND `category_id` = '".$c['category_serial']."' ORDER BY `product_serial` DESC ".$queryLimit);
                 $productCount = $GLOBALS['db']->resultcount();
@@ -1113,7 +1351,8 @@ class API
                         $_product[$pId]['caegory']               =       $c['category_name'];
                         $_product[$pId]['description']           =       $p['product_description'];
                         $_product[$pId]['price']                 =       floatval($p['product_price']);
-                        $_product[$pId]['discount']              =       intval($p['product_discount']);
+                        $_product[$pId]['discount']              =       floatval($p['product_discount']);
+                        $_product[$pId]['discount_percentage']   =       ($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
                         $_product[$pId]['discount_from']         =       $p['product_from'];
                         $_product[$pId]['discount_to']           =       $p['product_to'];
                         $_product[$pId]['image']                 =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];
@@ -1121,7 +1360,8 @@ class API
                 }
 
                 /* #############################category products ##################*/
-                $_category[$cId]['products']                     = $_product;
+                $_category[$cId]['products_count']                   = $productCount;
+                $_category[$cId]['products']                         = $_product;
             }
             $this->terminate('success',$_category,200);
         }else{
@@ -1129,12 +1369,14 @@ class API
         }
 
     }
-
     public function client_get_products()
     {
         
-        $start 				= ( intval($_GET['p']) == 0)? 0 : intval($_GET['p']);
-        $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+        if( intval($_GET['p']) > 0)
+        {
+            $start 				= intval($_GET['p']) - 1 ;
+            $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+        }
         $id = intval($_GET['id']);
         if($id != 0)
         {
@@ -1157,7 +1399,8 @@ class API
                 $_productCredintials[$pId]['caegory']               =       $p['category_name']; 
                 $_productCredintials[$pId]['description']           =       $p['product_description']; 
                 $_productCredintials[$pId]['price']                 =       floatval($p['product_price']); 
-                $_productCredintials[$pId]['discount']              =       intval($p['product_discount']); 
+                $_productCredintials[$pId]['discount']              =       floatval($p['product_discount']);
+                $_productCredintials[$pId]['discount_percentage']   =       ($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
                 $_productCredintials[$pId]['discount_from']         =       $p['product_from']; 
                 $_productCredintials[$pId]['discount_to']           =       $p['product_to']; 
                 $_productCredintials[$pId]['image']                 =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];	 
@@ -1170,20 +1413,25 @@ class API
             $this->terminate('success',$_productCredintials,100);
         }
     }
-
-
     public function client_get_branch_staff()
     {
         $id = intval($_GET['branch_id']);
         if($id != 0)
         {
-            $branchQuery = $GLOBALS['db']->query("SELECT * FROM `salon_branches` WHERE `branch_status` = '1' AND `branch_serial` = '".$id."' ".$addquery);
+            $branchQuery = $GLOBALS['db']->query("SELECT * FROM `salon_branches` WHERE `branch_status` = '1' AND `branch_serial` = '".$id."' ");
             $branchCount = $GLOBALS['db']->resultcount();
             if($branchCount != 0)
             {
-                $addquery = "AND `staff_serial` = '".$id."' LIMIT 1";
+                $staff_id = intval($_GET['staff_id']);
+                if($staff_id !=0)
+                {
+                    $addstaff = "AND `staff_serial` = '".$staff_id."' LIMIT 1";
+                }else{
+                    $addstaff = "";
+                }
 
-                $staffQuery = $GLOBALS['db']->query("SELECT *  FROM `branche_staff` WHERE `staff_status` = '1' AND `branch_id` = '".$id."' ");
+
+                $staffQuery = $GLOBALS['db']->query("SELECT *  FROM `branche_staff` WHERE `staff_status` = '1' AND `branch_id` = '".$id."'".$addstaff);
                 $staffCount = $GLOBALS['db']->resultcount();
                 $_staff =[];
                 if($staffCount != 0)
@@ -1192,6 +1440,16 @@ class API
 
                     foreach($staff as $sId => $s)
                     {
+                        $worktime   = $GLOBALS['db']->query("SELECT `start_time` ,`duration` FROM `service_cart` WHERE  `staff_id` = '".$s['staff_serial']."'");
+                        $timeCount  = $GLOBALS['db']->resultcount();
+                        $time       = $GLOBALS['db']->fetchlist();
+                        $_time =[];
+                        foreach($time as $tId => $t)
+                        {
+                            $To = date("Y-m-d H:i:s", strtotime($t['start_time'])+($t['duration']*60));
+                            $_time[$tId]['start_time']                      =      $t['start_time'];
+                            $_time[$tId]['end_time']                        =      $To;
+                        }
                         $_staff[$sId]['staff_serial']                       =       intval($s['staff_serial']);
                         $_staff[$sId]['staff_name']                         =       $s['staff_name'];
                         $_staff[$sId]['image']                              =       ($s["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$s["staff_photo"];
@@ -1216,6 +1474,7 @@ class API
                         $_staff[$sId]['fri']                                =       intval($s['staff_fri']);
                         $_staff[$sId]['fri_from']                           =       $s['staff_fri_from'];
                         $_staff[$sId]['fri_to']                             =       $s['staff_fri_to'];
+                        $_staff[$sId]['unavalibale_time']                   =       $_time;
                     }
 
                     $this->terminate('success',$_staff,200);
@@ -1229,20 +1488,22 @@ class API
             }
 
         }else{
-                $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_ID'],400);
+            $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_ID'],400);
         }
     }
-    
     public function client_get_gallery()
     {
         
-        $start 				= ( intval($_GET['p']) == 0)? 0 : intval($_GET['p']);
-        $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+        if( intval($_GET['p']) > 0)
+        {
+            $start 				= intval($_GET['p']) - 1 ;
+            $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+        }
     
         $type = sanitize($_GET['type']);
         if($type != "")
         {
-            $addquery = "AND `gallery_type` = '".$type."' LIMIT 1";
+            $addquery = "AND `gallery_type` = '".$type."' ";
         }else{
             $addquery = "ORDER BY `gallery_serial` DESC".$queryLimit;
         }
@@ -1268,16 +1529,18 @@ class API
             $this->terminate('success',$_galleryCredintials,100);
         }
     }
-    
     public function client_get_best_saller()
     {
 
-        $start 				= ( intval($_GET['p']) == 0)? 0 : intval($_GET['p']);
-        $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
+        if( intval($_GET['p']) > 0)
+        {
+            $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
+            $queryLimit 		= " LIMIT ".($start * 20) ." , 20";
+        }
 
 
 
-        $bestQuery = $GLOBALS['db']->query("SELECT b.* ,p.`product_name` , p.`product_photo` , p.`product_price` FROM `best_sellers` b INNER JOIN `products` p  ON b.`product_id` = p.`product_serial` ORDER BY `best_seller_serial` DESC".$queryLimit);
+        $bestQuery = $GLOBALS['db']->query("SELECT b.* ,p.`product_name` , p.`product_photo` , p.`product_price` FROM `best_sellers` b INNER JOIN `products` p  ON b.`product_id` = p.`product_serial` ORDER BY `quantity` DESC".$queryLimit);
         $bestCount = $GLOBALS['db']->resultcount();
         $_bestCredintials =[];
         if($bestCount != 0)
@@ -1290,8 +1553,7 @@ class API
                 $_bestCredintials[$sId]['product_id']                =       intval($s['product_id']);
                 $_bestCredintials[$sId]['product_name']              =       $s['product_name'];
                 $_bestCredintials[$sId]['product_price']             =       floatval($s['product_price']);
-                $_bestCredintials[$sId]['product_image']             =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];
-                $_bestCredintials[$sId]['quantity']                  =       intval($s['quantity']);
+                $_bestCredintials[$sId]['product_image']             =       ($s["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$s["product_photo"];
             }
 
             $this->terminate('success',$_bestCredintials,200);
@@ -1301,9 +1563,7 @@ class API
             $this->terminate('success',$_bestCredintials,100);
         }
     }
-
-
-    public function client_set_rate()
+    public function client_set_rate()   ///log 10
 	{
 		$tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
@@ -1375,6 +1635,248 @@ class API
                             }
                         }
                     }
+                }
+			}else
+			{
+            	$this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
+			}
+		}
+	}
+    public function client_set_product_order()      ///log 11
+	{
+		$tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+			$userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+			$usersCount = $GLOBALS['db']->resultcount();
+			if($usersCount == 1)
+			{
+				$userCredintials = $GLOBALS['db']->fetchitem($userQuery);
+                if( $userCredintials['user_address'] != "" || $userCredintials['phone'] != "" )
+                {
+                    $type         =   sanitize($_POST['type']);
+                    $products     =   sanitize($_POST['products']);
+                    if($type != "")
+                    {
+                        if(($type == 'home') || ($type == 'branch'))
+                        {
+                            if($products != "")
+                            {
+                                $prod         =   rtrim($products, ", ");
+                                $_products    =   explode(",",$prod);
+                                if(is_array($_products))
+                                {
+                                    $items =[];
+                                    foreach($_products as $k => $p)
+                                    {
+                                        $items[$k]           =  explode("-",$p);
+                                        $items_product[$k]   =  intval($items[$k][0]);
+                                        $items_count[$k]     =  intval($items[$k][1]);
+                                    }
+                                    if(is_array($items_product))
+                                    {
+                                        foreach($items_product as $IP => $i)
+                                        {
+                                            if($i == 0)
+                                            {
+                                                $this->terminate('error',$GLOBALS['lang']['INSERT_PRODUCTS'],400);
+                                            }else{
+                                                if($items_count[$IP] ==0)
+                                                {
+                                                    $this->terminate('error',$GLOBALS['lang']['INSERT_QUANTITY'].($IP+1),400);
+                                                }else{
+                                                    $productQuery = $GLOBALS['db']->query(" SELECT * FROM `products` WHERE `product_serial` = '".$i."' LIMIT 1");
+                                                    $productsCount = $GLOBALS['db']->resultcount();
+                                                    if($productsCount == 1)
+                                                    {
+                                                        $siteproduct    = $GLOBALS['db']->fetchitem($productQuery);
+                                                        if($IP == 0)
+                                                        {
+                                                            $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `orders`
+                                                            (`order_serial`, `user_id`, `order_type`, `order_date`, `order_status`)
+                                                            VALUES ( NULL ,  '".$tokenUserId."' ,'".$type."' , NOW() ,'1') ");
+                                                            $pid = $GLOBALS['db']->fetchLastInsertId();
+                                                        }
+                                                        $cartquery = $GLOBALS['db']->query("SELECT * FROM `order_cart`  WHERE `order_id` = '".$pid."' AND `product_id` = '".$i."' LIMIT 1 ");
+                                                        $cartTotal = $GLOBALS['db']->resultcount();
+                                                        if($cartTotal>0)
+                                                        {
+                                                             $cartproduct    = $GLOBALS['db']->fetchitem($query);
+                                                             $q             = $cartproduct['quantity'] + $items_count[$IP];
+
+                                                             $GLOBALS['db']->query("UPDATE LOW_PRIORITY `order_cart` SET
+                                                                `quantity`		                =	'".$q."'
+                                                                WHERE `order_cart_serial` 		= 	'".$cartproduct['order_cart_serial']."' LIMIT 1 ");
+                                                        }else{
+
+                                                            if($siteproduct['product_discount'] > 0)
+                                                            {
+                                                                $price          = $siteproduct['product_discount'];
+                                                            }else{
+                                                                $price          = $siteproduct['product_price'];
+                                                            }
+                                                            $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `order_cart`
+                                                            (`order_cart_serial`, `order_id`, `product_id`, `quantity`, `price`)
+                                                            VALUES ( NULL ,  '".$pid."' ,'".$i."' , '".$items_count[$IP]."','".$price."') ");
+                                                        }
+                                                    }else{
+                                                        $this->terminate('error',$GLOBALS['lang']['PRODUCT_DELETED'].($IP+1),400);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        $this->addLog(11,
+                                            array(
+                                                "type" 		=> 	"client",
+                                                "module" 	=> 	"order_cart",
+                                                "mode" 		=> 	"insert",
+                                                "id" 		=>	$userCredintials['user_serial'],
+                                            ),"client",$userCredintials['user_serial'],1
+                                        );
+                                        $this->terminate('success',$GLOBALS['lang']['ORDER_PRODUCT_INSERTED'],100);
+                                    }
+                                }
+                            }else{
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_PRODUCTS'],400);
+                            }
+                        }else{
+                          $this->terminate('error',$GLOBALS['lang']['FALSE_ORDER_TYPE'],400);
+                        }
+                    }else{
+                        $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_TYPE'],400);
+                    }
+
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['COMPLETE_PROFILE_DATA'],400);
+                }
+			}else
+			{
+            	$this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
+			}
+		}
+	}
+
+    public function client_set_service_order()      ///log 12
+	{
+		$tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+			$userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+			$usersCount = $GLOBALS['db']->resultcount();
+			if($usersCount == 1)
+			{
+				$userCredintials = $GLOBALS['db']->fetchitem($userQuery);
+                if( $userCredintials['user_address'] != "" || $userCredintials['phone'] != "" )
+                {
+                    $type              =   sanitize($_POST['type']);
+                    $branch_id         =   intval($_POST['branch_id']);
+                    $serivces          =   sanitize($_POST['serivces']);
+
+                    if($branch_id != 0)
+                    {
+                        $branchQuery = $GLOBALS['db']->query(" SELECT * FROM `salon_branches` WHERE `branch_serial` = '".$branch_id."' LIMIT 1");
+                        $branchCount = $GLOBALS['db']->resultcount();
+                        if($branchCount == 1)
+                        {
+                            if($type != "")
+                            {
+                                if(($type == 'home') || ($type == 'branch'))
+                                {
+                                    if($serivces != "")
+                                    {
+                                        $serv         =   rtrim($serivces,",");
+                                        $_serivces    =   explode(",",$serv);
+                                        if(is_array($_serivces))
+                                        {
+                                            $items =[];
+                                            foreach($_serivces as $k => $s)
+                                            {
+                                                $items[$k]           =  explode("-",$s);
+                                                $items_serivce[$k]   =  intval($items[$k][0]);
+                                                $items_staff[$k]     =  intval($items[$k][1]);
+                                                $items_date[$k]      =  sanitize($items[$k][2]);
+                                            }
+                                            if(is_array($items_serivce))
+                                            {
+                                                foreach($items_serivce as $Is => $s)
+                                                {
+                                                    if($s == 0)
+                                                    {
+                                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE'],400);
+                                                    }else{
+                                                        if($items_date[$Is] =="")
+                                                        {
+                                                            $this->terminate('error',$GLOBALS['lang']['INSERT_DATE_START'].($Is+1),400);
+                                                        }else{
+                                                            if($items_staff[$Is] =="")
+                                                            {
+                                                                $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE_STAFF'].($Is+1),400);
+                                                            }else{
+                                                                $staffQuery = $GLOBALS['db']->query(" SELECT * FROM `branche_staff` WHERE `staff_serial` = '".$items_staff[$Is]."' AND `branch_id`= '".$branch_id."' LIMIT 1");
+                                                                $staffCount = $GLOBALS['db']->resultcount();
+                                                                if($staffCount == 1)
+                                                                {
+                                                                    $serviceQuery = $GLOBALS['db']->query(" SELECT s.* FROM `services` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE s.`service_serial` = '".$s."' AND b.`branch_id` = '".$branch_id."' LIMIT 1");
+                                                                    $serviceCount = $GLOBALS['db']->resultcount();
+                                                                    if($serviceCount == 1)
+                                                                    {
+                                                                        $siteservice    = $GLOBALS['db']->fetchitem($serviceQuery);
+                                                                        if($Is == 0)
+                                                                        {
+                                                                            $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_order`
+                                                                            (`service_order_serial`, `user_id`, `branch_id`, `service_order_type`, `date`, `service_order_status`)
+                                                                            VALUES ( NULL ,  '".$tokenUserId."' ,'".$branch_id."' ,'".$type."' , NOW() ,'1') ");
+                                                                            $pid = $GLOBALS['db']->fetchLastInsertId();
+                                                                        }
+                                                                        if($siteservice['discount'] > 0)
+                                                                        {
+                                                                            $cost = $siteservice['discount'];
+                                                                        }else{
+                                                                            $cost = $siteservice['price'];
+                                                                        }
+                                                                        $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_cart`
+                                                                        (`cart_serial`, `order_id`, `service_id`, `staff_id`, `start_time`, `duration`, `cost`)
+                                                                        VALUES ( NULL ,  '".$pid."' ,'".$s."' , '".$items_staff[$Is]."', '".$items_date[$Is]."','".$siteservice['duration']."','".$cost."') ");
+                                                                    }else{
+                                                                        $this->terminate('error',$GLOBALS['lang']['PRODUCT_DELETED'].($IP+1),400);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                $this->terminate('success',$GLOBALS['lang']['ORDER_service_INSERTED'],100);
+                                                $this->addLog(12,
+                                                    array(
+                                                        "type" 		=> 	"client",
+                                                        "module" 	=> 	"service_cart",
+                                                        "mode" 		=> 	"insert",
+                                                        "id" 		=>	$userCredintials['user_serial'],
+                                                    ),"client",$userCredintials['user_serial'],1
+                                                );
+                                            }else{
+                                                $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICES'],400);
+                                            }
+                                        }
+                                    }else{
+                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICES'],400);
+                                    }
+                                }else{
+                                  $this->terminate('error',$GLOBALS['lang']['FALSE_ORDER_TYPE'],400);
+                                }
+                            }else{
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_TYPE'],400);
+                            }
+
+                        }else{
+                            $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_DELETED'],400);
+                        }
+
+                    }else{
+                        $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_ID'],400);
+                    }
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['COMPLETE_PROFILE_DATA'],400);
                 }
 			}else
 			{

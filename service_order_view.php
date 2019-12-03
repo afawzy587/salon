@@ -140,7 +140,7 @@
                                             }elseif($service_order['status'] == 1){
                                               echo '<i class="fa fa-minus-circle"style="font-size:18px"  dir="ltr">'.$lang['unfinished'].'</i>';
                                             }elseif($service_order['status'] == 2){
-                                                echo '<i class="fa fa-check"style="font-size:18px;color:grean"  dir="ltr">'.$lang['finished'].'</i>';
+                                                echo '<i class="fa fa-check"style="font-size:18px;color:grean"  dir="ltr">'.$lang['DONE'].'</i>';
                                             }?></span>
                                 </div>
                             </div>

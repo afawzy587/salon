@@ -111,8 +111,8 @@ class systemUsers
 
 	function deleteUsers($user_serial,$path)
 	{
-        $site = $this->getstaffInformation($user_serial);
-        @unlink($path.$site['image']);
+//        $site = $this->getstaffInformation($user_serial);
+//        @unlink($path.$site['image']);
 		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `".$this->tableName."` WHERE `user_serial` = '".$user_serial."' LIMIT 1 ");
 		return 1;
 	}

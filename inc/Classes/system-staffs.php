@@ -27,6 +27,19 @@ class systemstaff
 		}else{$GLOBALS['login']->doDestroy();return false;}
 	}
 
+    function getbranchstaff($ID)
+	{
+		if($GLOBALS['login']->doCheck() == true)
+		{
+			$query = $GLOBALS['db']->query("SELECT * FROM `branche_staff` WHERE `branch_id` = '".$ID."'");
+			$queryTotal = $GLOBALS['db']->resultcount();
+			if($queryTotal > 0)
+			{
+				return($GLOBALS['db']->fetchlist());
+			}else{return null;}
+		}else{$GLOBALS['login']->doDestroy();return false;}
+	}
+
 	function getstaffInformation($staff_serial)
 	{
 		if($GLOBALS['login']->doCheck() == true)

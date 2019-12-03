@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                               <div class="alert ">
 								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['discount'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php echo ' % ' .$service['discount'] ;?></span>
+								<span style="width:70%;display:inline-block;"><?php echo $service['discount'] ."\n".$lang['Currancy'] ;?></span>
 							  </div> 
 							</div>
                        </div> 
@@ -108,4 +108,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

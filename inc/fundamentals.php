@@ -15,7 +15,7 @@
     ######### Admin Authorization Class #########
 	include(CLASSES_PATH 	."login.class.php");
 	$login = new loginClass();
-    $basicLimit = 15;
+    $basicLimit = 10;
     ######## Image path #######################
     $upload_path ='./uploads';
     $path ='./uploads/';

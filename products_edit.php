@@ -216,7 +216,7 @@
                           <div class="col-md-4">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['discount'];?></label>
-                              <input type="number" class="form-control"  max="100" name ="discount"  value="<?php if($_product){echo $_product['discount'];}else{echo $u['discount'];}?>">
+                              <input type="number" class="form-control"  step="any" name ="discount"  value="<?php if($_product){echo $_product['discount'];}else{echo $u['discount'];}?>">
                             </div>
                           </div>
                           <div class="col-md-4">

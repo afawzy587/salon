@@ -48,18 +48,18 @@
 
                     if($_GET['message']== "update")
                     {
-                        $message = $lang['edit_service_order_success'];
+                        $message = $lang['edit_order_success'];
                     }elseif($_GET['message']== "add"){
-                        $message = $lang['add_service_order_success'];
+                        $message = $lang['add_order_success'];
                     }elseif($_GET['message']== "delete"){
-                        $message = $lang['delete_service_order_success'];
+                        $message = $lang['delete_order_success'];
                     }
                 }
 
             break;
             case"delete":
                 $mId = intval($_POST['id']);
-                $delete = $service_order->deleteservice_order($mId,$path);
+                $delete = $service_order->deleteservice_order($mId);
                 if($delete == 1)
                 {
                     echo 116;
@@ -72,6 +72,7 @@
                     header("Location:./permission.php");
                 }else{
                     $mId = intval($_GET['id']);
+                    print_r( $service_order->deleteservice_order($mId));
                     $delete = $service_order->deleteservice_order($mId);
                     if($delete == 1)
                     {
@@ -90,7 +91,7 @@
         <div class="main-panel">
           <?php include './assets/layout/navbar.php';?>
           <div class="content">
-            <input type="hidden" value="service_orders" id="page">
+            <input type="hidden" value="service_order" id="page">
             <input type="hidden" value="<?php echo $lang['order']?>" id="lang_name">
             <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_men']?>" id="lang_del">
             <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_men']?>" id="lang_status">
@@ -143,25 +144,25 @@
                                         foreach( $service_order as $k => $u)
                                         {
                                             echo"
-                                            <tr id=tr_".$u['serice_order_serial'].">
-                                                    <td><a href='service_order_view.php?id=".$u['serice_order_serial']."'>".$u['serice_order_serial']."</a></td>
+                                            <tr id=tr_".$u['service_order_serial'].">
+                                                    <td><a href='service_order_view.php?id=".$u['service_order_serial']."'>".$u['service_order_serial']."</a></td>
                                                     <td>".getusername($u['user_id'])."</td>
                                                     <td>".getbranchname($u['branch_id'])."</td>
-                                                    <td><a href='service_order_view.php?id=".$u['serice_order_serial']."'>";
-                                                    if($u['serice_order_type'] == 'home'){ echo $lang['from_home'].'<i class="material-icons">motorcycle</i>'; }else{ echo $lang['from_branch'].'<i class="material-icons">store</i>';}
+                                                    <td><a href='service_order_view.php?id=".$u['service_order_serial']."'>";
+                                                    if($u['service_order_type'] == 'home'){ echo $lang['from_home'].'<i class="material-icons">motorcycle</i>'; }else{ echo $lang['from_branch'].'<i class="material-icons">store</i>';}
                                                     echo"</a></td>
                                                     <td>"._date_format($u['date'])."</td>
                                                     <td><span>";
-                                                    if($u['serice_order_status'] == 0){
+                                                    if($u['service_order_status'] == 0){
                                                         echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['admin_cancel'].'</i>';
-                                                    }elseif($u['serice_order_status'] == 1){
+                                                    }elseif($u['service_order_status'] == 1){
                                                         echo '<i class=\"fa fa-minus-circle"style="font-size:18px\"  dir=\"ltr\">'.$lang['unfinished'].'</i>';
-                                                    }elseif($u['serice_order_status'] == 2){
+                                                    }elseif($u['service_order_status'] == 2){
                                                         echo '<i class=\"fa fa-check"style="font-size:18px;color:grean\"  dir=\"ltr\">'.$lang['finished'].'</i>';
                                                     }
                                                     echo"</span>
                                                         </td>
-                                                          <td id='item_".$u['serice_order_serial']."'class='td-actions text-right'>";
+                                                          <td id='item_".$u['service_order_serial']."'class='td-actions text-right'>";
                                                         if($group['service_order_edit'] == 1)
                                                         {
                                                             echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>

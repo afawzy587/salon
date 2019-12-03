@@ -44,6 +44,10 @@
             }elseif($_POST['mode'] == "rate")
             {
                 $api->client_set_rate();
+            }elseif($_POST['mode'] == "product_cart"){
+                $api->client_set_product_order();
+            }elseif($_POST['mode'] == "service_cart"){
+                $api->client_set_service_order();
             }
         }
 	}elseif($_GET){
@@ -70,7 +74,7 @@
         }
         
     }else{
-		$api->terminate('error','unknown POST parameters',6);
+		$api->terminate('error','unknown POST parameters',404);
 	}
 
 ?>
