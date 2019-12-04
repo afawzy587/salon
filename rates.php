@@ -26,11 +26,21 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$rates->getTotalrates(),"rates.php".$paginationAddons,$paginationDialm);
+                        $total      = $rates->getTotalrates();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"rates.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $rates = $rates->getsiterates($limitmequry); 
+                        $logs->addLog(84,
+                                    array(
+                                        "type" 		        => 	"admin",
+                                        "module" 	        => 	"rates",
+                                        "mode" 		        => 	"view",
+                                        "rates" 		    => 	$total,
+                                        "id" 	        	=>	$login->getUserId(),
+                                    ),"admin",$login->getUserId(),1
+                                );
                     if($_GET['message']== "update")
                     {
                         $message = $lang['edit_rates_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $rates->deleterates($mId,$path);
+                $logs->addLog(85,
+                                    array(
+                                        "type" 		        => 	"admin",
+                                        "module" 	        => 	"rates",
+                                        "mode" 		        => 	"delete",
+                                        "rate_id" 		    => 	$mId,
+                                        "id" 	        	=>	$login->getUserId(),
+                                    ),"admin",$login->getUserId(),1
+                                );
                 if($delete == 1)
                 {
                     echo 116;
@@ -57,6 +76,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $rates->deleterates($mId,$path);
+                    $logs->addLog(85,
+                                    array(
+                                        "type" 		        => 	"admin",
+                                        "module" 	        => 	"rates",
+                                        "mode" 		        => 	"delete",
+                                        "rate_id" 		    => 	$mId,
+                                        "id" 	        	=>	$login->getUserId(),
+                                    ),"admin",$login->getUserId(),1
+                                );
                     if($delete == 1)
                     {
                         header("Location:./rates.php?message=delete");

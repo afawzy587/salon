@@ -149,6 +149,14 @@
 
                 if(empty($errors)){
                     $add = $staff->addNewstaff($_staff);
+                    $logs->addLog(104,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"add",
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($add == 1){
                         header("Location:./staffs.php?message=add");
                     }
@@ -391,4 +399,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

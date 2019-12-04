@@ -29,21 +29,41 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$service_order->getTotalservice_order(),"service_order.php".$paginationAddons,$paginationDialm);
+                        $total      = $service_order->getTotalservice_order();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"service_order.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $service_order = $service_order->getsiteservice_order($limitmequry);
+                        $logs->addLog(91,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     }else{
                         include("./inc/Classes/pager.class.php");
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$service_order->getTotaluserservice_order($user_id),"service_order.php".$paginationAddons,$paginationDialm);
+                        $total      = $service_order->getTotaluserservice_order($user_id);
+                        $pager->doAnalysisPager("page",$page,$basicLimit,,"service_order.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $service_order = $service_order->getuserservice_order($limitmequry,$user_id);
+                        $logs->addLog(91,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     }
 
                     if($_GET['message']== "update")
@@ -60,6 +80,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $service_order->deleteservice_order($mId);
+                 $logs->addLog(92,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"delete",
+										"service_order_id"  => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                 if($delete == 1)
                 {
                     echo 116;
@@ -72,8 +101,16 @@
                     header("Location:./permission.php");
                 }else{
                     $mId = intval($_GET['id']);
-                    print_r( $service_order->deleteservice_order($mId));
                     $delete = $service_order->deleteservice_order($mId);
+                    $logs->addLog(92,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"delete",
+										"service_order_id"  => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($delete == 1)
                     {
                         header("Location:./service_order.php?message=delete");

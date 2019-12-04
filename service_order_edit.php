@@ -108,6 +108,15 @@
 
                     if(empty($errors)){
                         $update = $service_order->setservice_orderInformation($_order);
+                        $logs->addLog(94,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"update",
+										"order_id" 		    => 	$_order['id'],
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         if($update == 1){
                             header("Location:./service_order.php?message=update");
                         }

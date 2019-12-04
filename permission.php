@@ -11,6 +11,14 @@
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
 	}
+    $logs->addLog(78,
+                    array(
+                        "type" 		        => 	"admin",
+                        "module" 	        => 	"permission",
+                        "mode" 		        => 	"view",
+                        "id" 	        	=>	$login->getUserId(),
+                    ),"admin",$login->getUserId(),1
+                );
     
 ?>
     <body class="">

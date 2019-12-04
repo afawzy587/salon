@@ -19,6 +19,15 @@
 		{
             
 			$service = $services->getservicesInformation($_GET['id']);
+            $logs->addLog(101,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"services",
+                                "mode" 		        => 	"view",
+                                "service_id" 		=> 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }

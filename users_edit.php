@@ -25,7 +25,7 @@
         
             $id    = intval($_GET['id']);
             if($id != 0){
-                $group = $groups->getsiteGroups();
+                $_group = $groups->getsiteGroups();
                 $u  = $Users->getUsersInformation($id);
                 if($_POST)
                 {
@@ -35,6 +35,7 @@
                     $_user['email']      =       sanitize(strtolower($_POST["email"]));
                     $_user['address']    =       sanitize($_POST["address"]);
                     $_user['password']   =       sanitize($_POST["password"]);
+                    $_user['type']       =       sanitize($_POST["type"]);
                     $_user['group']      =       intval($_POST["group"]);
                     $_user['status']     =       intval($_POST["status"]);
 
@@ -90,6 +91,10 @@
                         $errors[address] = $lang['NO_ADDRESS'];
                     }
 
+                    if ($_user['type'] =="" )
+                    {
+                        $errors['type'] = $lang['SELECT_TYPE'];
+                    }
 
                     if ($_user[group] == 0 )
                     {
@@ -160,6 +165,15 @@
 
                     if(empty($errors)){
                         $update = $Users->setUsersInformation($_user);
+                         $logs->addLog(110,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"users",
+										"mode" 		        => 	"update",
+										"user_id" 		        => 	$_user['id'],
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         if($update == 1){
                             header("Location:./users.php?message=update");
                         }
@@ -264,9 +278,20 @@
 							<div class="ml-2 col-sm-6">
 							  <img src="<?php echo $path.$u['image'];?>" id="preview" class="img-thumbnail" style="width:100px;height:100px">
 							</div>
-
 							</div>
-
+                          </div>
+                        </div>
+                         <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="bmd-label-floating"><?php echo $lang['USER_TYPE'];?></label>
+                              <select class="browser-default custom-select" name="type">
+								  <option disabled  selected><?php echo $lang['choose'];?></option>
+									<option value="0" <?php if($_user){if($_user['type'] == 'user'){echo 'selected';}}else{if($u['type'] == 'user'){echo 'selected';}}?>>
+                                        <?php echo $lang['DAS_user'];?></option>
+								  <option value="1" <?php if($_user){if($_user['type'] == 'client'){echo 'selected';}}else{if($u['type'] == 'client'){echo 'selected';}}?>><?php echo $lang['APP_CLIENT'];?></option>
+								</select>
+                            </div>
                           </div>
                         </div>
                         <div class="row">
@@ -275,9 +300,9 @@
                               <label class="bmd-label-floating"><?php echo $lang['group'];?></label>
                               <select class="browser-default custom-select" name="group">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-								  <?php if(!empty($group))
+								  <?php if(!empty($_group))
 										{
-											foreach($group as $k => $v)
+											foreach($_group as $k => $v)
 											{
 												echo '<option value="'.$v[group_serial].'"';
                                                 if($_user){if($v[group_serial] == $_user[group]){echo 'selected';}}else{if($v[group_serial] == $u[group_id]){echo 'selected';}}
@@ -290,13 +315,13 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['status'];?></label>
                               <select class="browser-default custom-select" name="status">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-                                  
 									<option value="0" <?php if($_user){if($_user[status] == 0){echo 'selected';}}else{if($u[status] == 0){echo 'selected';}}?>>
                                         <?php echo $lang['deactive'];?></option>
 								  <option value="1" <?php if($_user){if($_user[status] == 1){echo 'selected';}}else{if($u[status] == 1){echo 'selected';}}?>><?php echo $lang['active'];?></option>
@@ -316,4 +341,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

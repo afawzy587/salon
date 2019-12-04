@@ -39,6 +39,14 @@
                 }
 
                 if(empty($errors)){
+                    $logs->addLog(59,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"categories",
+                                "mode" 		        => 	"add",
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     $add = $categories->addNewcategories($_category);
                     if($add == 1){
                         header("Location:./categories.php?message=add");
@@ -115,4 +123,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

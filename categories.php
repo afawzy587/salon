@@ -26,11 +26,21 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$categories->getTotalcategories(),"categories.php".$paginationAddons,$paginationDialm);
+                        $total      = $categories->getTotalcategories();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"categories.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $categories = $categories->getsitecategories($limitmequry); 
+                        $logs->addLog(57,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"categories",
+                                "mode" 		        => 	"list",
+                                "total" 	        => 	$total,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                         if($_GET['message']== "update")
                         {
                             $message = $lang['edit_categories_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $categories->deletecategories($mId,$path);
+                $logs->addLog(58,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"categories",
+                                "mode" 		        => 	"delete",
+                                "category" 	        => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                 if($delete == 1)
                 {
                     echo 116;
@@ -58,6 +77,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $categories->deletecategories($mId,$path);
+                    $logs->addLog(58,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"categories",
+                                "mode" 		        => 	"delete",
+                                "category" 	        => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($delete == 1)
                     {
                         header("Location:./categories.php?message=delete");

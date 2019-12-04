@@ -237,6 +237,21 @@
 			return ($GLOBALS['lang']['DELETED']);
 		}
 	}
+    function getlog_type($_Id)
+    {
+
+        $product = $GLOBALS['db']->query(" SELECT * FROM `log_type` WHERE `id` = '".$_Id."' LIMIT 1");
+        $productCount = $GLOBALS['db']->resultcount();
+        if($productCount == 1)
+        {
+            $_product = $GLOBALS['db']->fetchitem($product);
+            return ("<b>".$_product['module']."</b>");
+        }else
+        {
+            return ($GLOBALS['lang']['DELETED']);
+        }
+    }
+
 
 
 

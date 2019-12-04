@@ -19,6 +19,15 @@
 		{
             
 			$branch = $branch->getbranchesInformation($_GET['id']);
+            $logs->addLog(56,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"best_saller",
+                                "mode" 		        => 	"list",
+                                "best_saller" 	    => 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }

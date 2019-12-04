@@ -19,6 +19,15 @@
 		{
             
 			$salon = $salons->getsalonsInformation($_GET['id']);
+            $logs->addLog(90,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"salons",
+                                "mode" 		        => 	"update",
+                                "salon_id" 		    => 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }
@@ -101,4 +110,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

@@ -29,21 +29,41 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$orders->getTotalorders(),"orders.php".$paginationAddons,$paginationDialm);
+                        $total      = $orders->getTotalorders();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,,"orders.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $orders = $orders->getsiteorders($limitmequry);
+                        $logs->addLog(72,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"list",
+                                    "orders" 		    => 	$total,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     }else{
                         include("./inc/Classes/pager.class.php");
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$orders->getTotaluserorders($user_id),"orders.php".$paginationAddons,$paginationDialm);
+                        $total      = $orders->getTotaluserorders($user_id);
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"orders.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $orders = $orders->getuserorders($limitmequry,$user_id);
+                        $logs->addLog(73,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"list",
+                                    "orders" 		    => 	$total,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     }
 
                     if($_GET['message']== "update")
@@ -60,6 +80,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $orders->deleteorders($mId,$path);
+                $logs->addLog(74,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"delete",
+                                    "order_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                 if($delete == 1)
                 {
                     echo 116;
@@ -73,6 +102,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $orders->deleteorders($mId);
+                    $logs->addLog(74,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"delete",
+                                    "order_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($delete == 1)
                     {
                         header("Location:./orders.php?message=delete");

@@ -84,6 +84,15 @@
 
                     if(empty($errors)){
                         $edit = $orders->setordersInformation($_order);
+                        $logs->addLog(76,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"update",
+                                    "order_id" 		    => 	$_order['id'],
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                         if($edit == 1){
                             header("Location:./orders.php?message=update");
                         }

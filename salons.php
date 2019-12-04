@@ -26,11 +26,21 @@
                     $page;
                     $pager      = new pager();
                     $page 		= intval($_GET[page]);
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$salons->getTotalsalons(),"salons.php".$paginationAddons,$paginationDialm);
+                    $total      = $salons->getTotalsalons();
+                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"salons.php".$paginationAddons,$paginationDialm);
                     $thispage = $pager->getPage();
                     $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                     $pager =$pager->getAnalysis();
                     $salons = $salons->getsitesalons($limitmequry);
+                    $logs->addLog(86,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"salons",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($_GET['message']== "update")
                     {
                         $message = $lang['edit_salons_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $salons->deletesalons($mId);
+                $logs->addLog(87,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"salons",
+										"mode" 		        => 	"delete",
+										"salon_id" 		    => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                 if($delete == 1)
                 {
                     echo 116;
@@ -57,6 +76,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $salons->deletesalons($mId);
+                    $logs->addLog(87,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"salons",
+										"mode" 		        => 	"delete",
+										"salon_id" 		    => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($delete == 1)
                     {
                         header("Location:./salons.php?message=delete");

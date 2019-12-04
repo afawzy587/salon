@@ -146,6 +146,14 @@
                 if(empty($errors)){
                     $add = $branches->addNewbranches($_branch);
                     if($add == 1){
+                        $logs->addLog(54,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"branches",
+										"mode" 		        => 	"add",
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         header("Location:./branches.php?message=add");
                     }
                 }

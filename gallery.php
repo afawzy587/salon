@@ -26,11 +26,21 @@
                     $page;
                     $pager      = new pager();
                     $page 		= intval($_GET[page]);
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$gallery->getTotalgallery(),"gallery.php".$paginationAddons,$paginationDialm);
+                    $total      = $gallery->getTotalgallery();
+                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"gallery.php".$paginationAddons,$paginationDialm);
                     $thispage = $pager->getPage();
                     $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                     $pager =$pager->getAnalysis();
                     $gallery = $gallery->getsitegallery($limitmequry); 
+                    $logs->addLog(61,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"gallery",
+                                "mode" 		        => 	"list",
+                                "total" 	        => 	$total,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     
                     if($_GET['message']== "update")
                     {
@@ -46,8 +56,18 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $gallery->deletegallery($mId,$path);
+                $logs->addLog(62,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"gallery",
+                                "mode" 		        => 	"delete",
+                                "gallery_id" 	    => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                 if($delete == 1)
                 {
+
                     echo 116;
                     exit;
                 }
@@ -59,6 +79,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $gallery->deletegallery($mId,$path);
+                    $logs->addLog(62,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"gallery",
+                                "mode" 		        => 	"delete",
+                                "gallery_id" 	    => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($delete == 1)
                     {
                         header("Location:./gallery.php?message=delete");

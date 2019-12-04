@@ -110,6 +110,14 @@
 
 
                 if(empty($errors)){
+                    $logs->addLog(63,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"gallery",
+                                "mode" 		        => 	"add",
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     $add = $gallery->addNewgallery($_gallery);
                     if($add == 1){
                         header("Location:./gallery.php?message=add");
@@ -225,4 +233,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

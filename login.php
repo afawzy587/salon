@@ -25,6 +25,14 @@
                         $message = $lang['LGN_EMPTY_DATA'];
                     }elseif($logResult ==1)
                     {
+                        $logs->addLog(69,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"login",
+                                    "mode" 		        => 	"login",
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                         $message = $lang['LGN_IS_SUCESSFULLY'];
                         header("Location:./index.php");
 
@@ -43,6 +51,14 @@
                 if($login->doLogout() == true)
                 {
                     $message = $lang['LGN_SUCCESSFUL_LOGOUT'];
+                    $logs->addLog(70,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"login",
+                                    "mode" 		        => 	"logout",
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                 }else
                 {
                     $message = $lang['login_first'];

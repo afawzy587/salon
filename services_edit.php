@@ -118,6 +118,15 @@
 
                     if(empty($errors)){
                         $update = $services->setservicesInformation($_service);
+                        $logs->addLog(100,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"services",
+                                "mode" 		        => 	"update",
+                                "service_id" 		        => 	$_service['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                         if($update == 1){
                             header("Location:./services.php?message=update");
                         }

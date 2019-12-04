@@ -45,6 +45,15 @@
 
                     if(empty($errors)){
                         $update = $categories->setcategoriesInformation($_category);
+                        $logs->addLog(60,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"categories",
+                                "mode" 		        => 	"update",
+                                "category" 		    => 	$_category['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                         if($update == 1){
                             header("Location:./categories.php?message=update");
                         }
@@ -128,4 +137,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

@@ -26,11 +26,21 @@
                     $page;
                     $pager      = new pager();
                     $page 		= intval($_GET[page]);
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$staff->getTotalstaff(),"staff.php".$paginationAddons,$paginationDialm);
+                    $total      = $staff->getTotalstaff();
+                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"staff.php".$paginationAddons,$paginationDialm);
                     $thispage = $pager->getPage();
                     $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                     $pager =$pager->getAnalysis();
                     $staff = $staff->getsitestaff($limitmequry);
+                    $logs->addLog(102,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"list",
+                                "total" 		    => 	$total,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($_GET['message']== "update")
                     {
                       $message = $lang['edit_staff_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $staff->deletestaff($mId,$path);
+                $logs->addLog(103,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"delete",
+                                "total" 		    => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                 if($delete == 1)
                 {
                     echo 116;
@@ -57,6 +76,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $staff->deletestaff($mId,$path);
+                     $logs->addLog(103,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"delete",
+                                "total" 		    => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($delete == 1)
                     {
                         header("Location:./staffs.php?message=delete");

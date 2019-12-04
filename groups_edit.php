@@ -68,6 +68,7 @@
                   $_group["best_sellers_view"]            =          intval($_POST["best_sellers_view"]);
                   $_group["salons_edit"]                  =          intval($_POST["salons_edit"]);
                   $_group["rates_view"]                   =          intval($_POST["rates_view"]);
+                  $_group["logs_view"]                    =          intval($_POST["logs_view"]);
                   $_group['status']                       =          intval($_POST["status"]);
 
 
@@ -76,6 +77,15 @@
                         $errors['name'] = $lang['no_group_name'];
                     }
                     if(empty($errors)){
+                        $logs->addLog(67,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"groups",
+                                    "mode" 		        => 	"update",
+                                    "group_id" 		    => 	$_group['id'],
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                         $update = $groups->setgroupsInformation($_group);
                         if($update == 1){
                             header("Location:./groups.php?message=update");
@@ -510,6 +520,14 @@
                                     <input type="checkbox" class="checkhour custom-control-input" name="rates_view" value="1" id="rates_view"
                                            <?php if($_group){if($_group['rates_view'] == 1){echo 'checked';}}else{if($u['rates_view'] == 1){echo 'checked';}}?>/>
                                      <label class="custom-control-label" for="rates_view"><b><?php echo $lang['rates_view'];?></b></label>
+                                </div>
+                            </div>
+                          </div><div class="col-md-3">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="checkhour custom-control-input" name="logs_view" value="1" id="logs_view"
+                                           <?php if($_group){if($_group['logs_view'] == 1){echo 'checked';}}else{if($u['logs_view'] == 1){echo 'checked';}}?>/>
+                                     <label class="custom-control-label" for="logs_view"><b><?php echo $lang['LOGS_VIEW'];?></b></label>
                                 </div>
                             </div>
                           </div>

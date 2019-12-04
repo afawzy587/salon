@@ -12,10 +12,15 @@
 	include(CLASSES_PATH 	. 	"database.class.php");
 	include(INCLUDES_PATH 	. 	"config.php");
 	include(ASSETS_PATH		.	"assets.php");
+
     ######### Admin Authorization Class #########
 	include(CLASSES_PATH 	."login.class.php");
 	$login = new loginClass();
-    $basicLimit = 10;
+    $basicLimit = 15;
+
+    ######## LOGS #############################
+    include(CLASSES_PATH  ."system.logs.php");
+	$logs = new logs();
     ######## Image path #######################
     $upload_path ='./uploads';
     $path ='./uploads/';
@@ -76,6 +81,7 @@
                 "gallery_add"                     =>          $sitegroup['gallery_add'],
                 "best_sellers_view"               =>          $sitegroup['best_sellers_view'],
                 "salons_edit"                     =>          $sitegroup['salons_edit'],
+                "logs_view"                       =>          $sitegroup['logs_view'],
                 "rates_view"                      =>          $sitegroup['rates_view']
     
             );

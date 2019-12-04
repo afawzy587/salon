@@ -7,8 +7,7 @@
 	include("./inc/fundamentals.php");
 
     include './assets/layout/header.php';
-    include("./inc/Classes/system-best_sellers.php");
-	$best_sellers = new systembest_sellers();
+
 
 	if($login->doCheck() == false)
 	{
@@ -19,28 +18,19 @@
 		{
 			case"":
 			case"list":
-                if($group['best_sellers_view'] == 0){
+                if($group['logs_view'] == 0){
                     header("Location:./permission.php");
                 }else{
                        include("./inc/Classes/pager.class.php");
                         $page;
                         $pager      = new pager();
-                        $page 		= intval($_GET['page']);
-                        $total      = $best_sellers->getTotalbest_sellers()
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"best_sellers.php".$paginationAddons,$paginationDialm);
+                        $page 		= intval($_GET[page]);
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$logs->getTotallogs(),"logs.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
-                        $best_sellers = $best_sellers->getsitebest_sellers($limitmequry);
-                        $logs->addLog(50,
-									array(
-										"type" 		        => 	"admin",
-										"module" 	        => 	"best_saller",
-										"mode" 		        => 	"list",
-										"total" 		    => 	$total,
-										"id" 	        	=>	$login->getUserId(),
-									),"admin",$login->getUserId(),1
-								);
+                        $logs = $logs->getsitelogs($limitmequry);
+
 
                 }
 
@@ -56,7 +46,7 @@
         <div class="main-panel">
           <?php include './assets/layout/navbar.php';?>
           <div class="content">
-            <input type="hidden" value="best_sellers" id="page">
+            <input type="hidden" value="logs" id="page">
             <div class="container-fluid">
               <div class="row">
               	<div class="col-lg-12">
@@ -70,7 +60,7 @@
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header card-header-primary">
-                      <h4 class="card-title "><?php echo $lang['best_sellers'];?></h4>
+                      <h4 class="card-title "><?php echo $lang['logs'];?></h4>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
@@ -80,23 +70,31 @@
                               #
                             </th>
                             <th>
-                              <?php echo $lang['product'];?>
+                              <?php echo $lang['log_type'];?>
                             </th>
                             <th>
-                              <?php echo $lang['best_sellers_quantity'];?>
+                              <?php echo $lang['log_by'];?>
+                            </th>
+                              <th>
+                              <?php echo $lang['log_user_name'];?>
+                            </th>
+                              <th>
+                              <?php echo $lang['log_time'];?>
                             </th>
                           </thead>
                           <tbody>
-                            <?php  if(empty($best_sellers))
+                            <?php  if(empty($logs))
                                     {
-                                        echo "<tr><td colspan=\"5\">".$lang['no_best_sellers']."</td></tr>";
+                                        echo "<tr><td colspan=\"5\">".$lang['no_logs']."</td></tr>";
                                     }else{
-                                        foreach( $best_sellers as $k => $u)
+                                        foreach( $logs as $k => $u)
                                         {
-                                            echo"<tr id=tr_".$u['best_seller_serial'].">
-                                                    <td>".$u['best_seller_serial']."</td>
-                                                    <td>".getproductname($u['product_id'])."</td>
-                                                    <td>".$u['quantity']."</td>
+                                            echo"<tr id=tr_".$u['id'].">
+                                                    <td>".$u['id']."</td>
+                                                    <td>".getlog_type($u['type'])."<br>".replacestring($u['message'])."</td>
+                                                    <td>".$u['who']."</td>
+                                                    <td>".getusername($u['user_id'])."</td>
+                                                    <td>"._date_format($u['time'])."</td>
                                                 </tr>";
                                         }
                                     }
@@ -104,7 +102,7 @@
                           </tbody>
                             <tfoot>
                                 <tr>
-								    <td colspan="3" align="right"><?php echo $pager;?></td>
+								    <td colspan="4" align="right"><?php echo $pager;?></td>
 								</tr>
                             </tfoot>
                         </table>

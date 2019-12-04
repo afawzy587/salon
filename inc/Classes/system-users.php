@@ -44,6 +44,7 @@ class systemUsers
 					"image"      		    => 		$siteUsers['user_photo'],
 					"group_id"	         	=> 		$siteUsers['group_id'],
 					"group"	         	    => 		$siteUsers['group_name'],
+					"type"	         	    => 		$siteUsers['type'],
 					"last_login"		    => 		$siteUsers['last_login'],
 					"email"		            => 		$siteUsers['email'],
 					"status"			    => 		$siteUsers['user_status']
@@ -87,13 +88,14 @@ class systemUsers
 		}
 	
         $GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-			`user_name`			        =	'".$Users[name]."',".$queryPass."
-			`user_address`              =	'".$Users[address]."',".$queryimage."
-			`email`      	            =	'".$Users[email]."',
-			`phone`      	            =	'".$Users[phone]."',
-			`group_id`      	        =	'".$Users[group]."',
-			`user_status`		        =	'".$Users[status]."'
-			WHERE `user_serial` 		= 	'".$Users[id]."' LIMIT 1 ");
+			`user_name`			        =	'".$Users['name']."',".$queryPass."
+			`user_address`              =	'".$Users['address']."',".$queryimage."
+			`email`      	            =	'".$Users['email']."',
+			`phone`      	            =	'".$Users['phone']."',
+			`type`      	            =	'".$Users['type']."',
+			`group_id`      	        =	'".$Users['group']."',
+			`user_status`		        =	'".$Users['status']."'
+			WHERE `user_serial` 		= 	'".$Users['id']."' LIMIT 1 ");
 		return 1;
 	}
 
@@ -104,8 +106,8 @@ class systemUsers
 			 $Users[password] = crypt($Users[password],$GLOBALS['login']->salt);
 		}
 		$GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `".$this->tableName."`
-		(`user_serial`, `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `group_id`,`user_status`)
-		VALUES ( NULL ,  '".$Users[name]."' ,'".$Users[email]."' , '".$Users[address]."' ,'".$Users[password]."' ,'".$Users[phone]."' ,'".$Users[image]."' ,'".$Users[group]."','".$Users[status]."'  ) ");
+		(`user_serial`, `user_name`, `email`, `user_address`, `password`, `phone`, `type`, `user_photo`, `group_id`,`user_status`,`verified`)
+		VALUES ( NULL ,  '".$Users['name']."' ,'".$Users['email']."' , '".$Users['address']."' ,'".$Users['password']."' ,'".$Users['phone']."' ,''".$Users['type']."' ,'".$Users['image']."' ,'".$Users['group']."','".$Users['status']."',1) ");
 		return 1;
 	}
 

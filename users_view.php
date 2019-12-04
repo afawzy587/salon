@@ -19,6 +19,15 @@
 		{
             
 			$user = $Users->getUsersInformation($_GET['id']);
+             $logs->addLog(111,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"users",
+                                "mode" 		        => 	"view",
+                                "user_id" 		    => 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }
@@ -102,4 +111,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

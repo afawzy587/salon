@@ -29,21 +29,41 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$products->getTotalproducts(),"products.php".$paginationAddons,$paginationDialm);
+                        $total      = $products->getTotalproducts();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"products.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $products = $products->getsiteproducts($limitmequry); 
+                        $logs->addLog(79,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"list",
+                                    "products" 		    => 	$total,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     }else{
                         include("./inc/Classes/pager.class.php");
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$products->getTotalcategoryproducts($cat_id),"products.php".$paginationAddons,$paginationDialm);
+                        $total      = $products->getTotalcategoryproducts($cat_id)
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"products.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $products = $products->getcategoryproducts($limitmequry,$cat_id);
+                         $logs->addLog(79,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"list",
+                                    "products" 		    => 	$total,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     }
                     
                     if($_GET['message']== "update")
@@ -60,6 +80,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $products->deleteproducts($mId,$path);
+                $logs->addLog(80,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"delete",
+                                    "product_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                 if($delete == 1)
                 {
                     echo 116;
@@ -72,6 +101,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $products->deleteproducts($mId,$path);
+                    $logs->addLog(80,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"delete",
+                                    "product_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($delete == 1)
                     {
                         header("Location:./products.php?message=delete");

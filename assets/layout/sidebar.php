@@ -146,6 +146,17 @@
                   </li>';
             }
             ?>
+        <?php
+            if($group['logs_view'] == 1)
+            {
+               echo'<li class="nav-item">
+                    <a class="nav-link" href="./logs.php">
+                      <i class="material-icons">assignment</i>
+                      <p>'.$lang['logs'].'</p>
+                    </a>
+                  </li>';
+            }
+            ?>
 
         </ul>
           

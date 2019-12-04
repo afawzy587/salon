@@ -19,6 +19,15 @@
 		{
             
 			$staff = $staff->getstaffInformation($_GET['id']);
+            $logs->addLog(106,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"update",
+                                "staff_id" 		    => 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }
@@ -207,4 +216,4 @@
           </div>
        </div>
     </div>
-<?php include './assets/layout/footer.php';?>    
+<?php include './assets/layout/footer.php';?>

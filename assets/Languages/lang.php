@@ -170,6 +170,10 @@ $lang['delete_users_success']      = "تم حذف المستخدم ";
 $lang['users']                     = " المستخدمين ";
 $lang['user_details']              = " بيانات المستخدم ";
 $lang['user']                      = " المستخدم ";
+$lang['DAS_user']                  = " مستخدم لوحة التحكم  ";
+$lang['APP_CLIENT']                = " عميل ";
+$lang['USER_TYPE']                 = " نوع المستخدم ";
+$lang['SELECT_TYPE']               = "أدخل نوع المستخدم ";
 $lang['no_users']                  = " عفوا لا يوجد مستخدم ";
 $lang['add_user']                  = " إضافة مستخدم جديد ";
 $lang['edit_user']                 = " تعديل بيانات المستخدم ";
@@ -374,6 +378,16 @@ $lang['EDIT_CONTROLLER']                  = "  التحكم فى التعديل 
 $lang['PAGE']                             = "  اسم الصفحة ";
 $lang['best_sellers_view']                = " رؤية المنتجات الاكثر مبيعا ";
 $lang['rates_view']                       = " رؤية التقييمات ";
+
+
+//********************LOGS****************************//
+$lang['logs']                             = 'سجلات الدخول';
+$lang['no_logs']                          = 'لا يوجد سجلات الدخول';
+$lang['log_type']                         = 'النوع';
+$lang['log_by']                           = 'بواسطة';
+$lang['log_user_name']                    = 'اسم المستخدم';
+$lang['log_time']                         = 'التوقيت';
+$lang['LOGS_VIEW']                        = 'رؤية السجلات';
 
 
 

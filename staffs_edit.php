@@ -138,6 +138,15 @@
 
                     if(empty($errors)){
                         $update = $staff->setstaffInformation($_staff);
+                        $logs->addLog(105,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"staff",
+                                "mode" 		        => 	"update",
+                                "staff_id" 		    => 	$_staff['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                         if($update == 1){
                             header("Location:./staffs.php?message=update");
                         }
@@ -391,4 +400,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

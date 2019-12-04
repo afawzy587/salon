@@ -154,6 +154,14 @@
 
                 if(empty($errors)){
                     $add = $products->addNewproducts($_product);
+                    $logs->addLog(81,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"add",
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($add == 1){
                         header("Location:./products.php?message=add");
                     }

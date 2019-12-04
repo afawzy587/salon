@@ -26,11 +26,21 @@
                     $page;
                     $pager      = new pager();
                     $page 		= intval($_GET[page]);
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$Users->getTotalUsers(),"users.php".$paginationAddons,$paginationDialm);
+                    $total      = $Users->getTotalUsers();
+                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"users.php".$paginationAddons,$paginationDialm);
                     $thispage = $pager->getPage();
                     $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                     $pager =$pager->getAnalysis();
                     $users = $Users->getsiteUsers($limitmequry);
+                    $logs->addLog(107,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"users",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($_GET['message']== "update")
                     {
                         $message = $lang['edit_users_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $Users->deleteUsers($mId,$path);
+                $logs->addLog(108,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"users",
+										"mode" 		        => 	"delete",
+										"user_id" 		    => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                 if($delete == 1)
                 {
                     echo 116;
@@ -56,7 +75,15 @@
                     header("Location:./permission.php");
                 }else{
                     $mId = intval($_GET['id']);
-                    print_r($Users->deleteUsers($mId,$path));
+                    $logs->addLog(108,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"users",
+										"mode" 		        => 	"delete",
+										"user_id" 		    => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     $delete = $Users->deleteUsers($mId,$path);
                     if($delete == 1)
                     {

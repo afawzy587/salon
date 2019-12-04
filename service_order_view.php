@@ -18,6 +18,15 @@
         if($_GET['id'] != 0 )
 		{
 			$service_order = $service_order->getservice_orderInformation($_GET['id']);
+            $logs->addLog(95,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"service_order",
+                                "mode" 		        => 	"view",
+                                "order_id" 		    => 	$_GET['id'],
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
         }else{
             header("Location:./error.php");
         }

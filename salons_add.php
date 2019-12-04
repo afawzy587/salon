@@ -110,6 +110,14 @@
 
                 if(empty($errors)){
                     $add = $salons->addNewsalons($_salon);
+                    $logs->addLog(88,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"salons",
+										"mode" 		        => 	"add",
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($add == 1){
                         header("Location:./salons.php?message=add");
                     }

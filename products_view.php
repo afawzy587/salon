@@ -18,6 +18,15 @@
         if($_GET['id'] != 0 )
 		{
 			$product = $products->getproductsInformation($_GET['id']);
+             $logs->addLog(83,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"view",
+                                    "product_id" 		=> 	$_GET['id'],
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
         }else{
             header("Location:./error.php");
         }

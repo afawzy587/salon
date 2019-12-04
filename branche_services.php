@@ -50,6 +50,14 @@
                     if(empty($errors)){
                         $add = $services->addNewbranceservices($_service);
                         if($add == 1){
+                            $logs->addLog(51,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"brache_services",
+										"mode" 		        => 	"add",
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                             header("Location:./branches.php?message=add");
                         }
                     }
@@ -130,4 +138,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

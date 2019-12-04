@@ -117,6 +117,14 @@
 
                 if(empty($errors)){
                     $add = $services->addNewservices($_service);
+                    $logs->addLog(99,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"services",
+                                "mode" 		        => 	"add",
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($add == 1){
                         header("Location:./services.php?message=add");
                     }

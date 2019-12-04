@@ -29,11 +29,21 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$services->getTotalservices(),"services.php".$paginationAddons,$paginationDialm);
+                        $total      = $services->getTotalservices();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"services.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $services = $services->getsiteservices($limitmequry); 
+                        $logs->addLog(96,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"services",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     }else{
                         include("./inc/Classes/pager.class.php");
                         $page;
@@ -60,6 +70,16 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $services->deleteservices($mId,$path);
+                $logs->addLog(97,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"services",
+                                "mode" 		        => 	"delete",
+                                "service_id" 		=> 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
+                    }else{
                 if($delete == 1)
                 {
                     echo 116;
@@ -69,6 +89,15 @@
             case"delete_service":
                 $mId = intval($_POST['id']);
                 $delete = $services->deletebranchservices($mId);
+                $logs->addLog(98,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"services",
+                                    "mode" 		        => 	"delete_service",
+                                    "service_id" 	    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                 if($delete == 1)
                 {
                     echo 116;
@@ -81,6 +110,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $services->deleteservices($mId,$path);
+                    $logs->addLog(97,
+                            array(
+                                "type" 		        => 	"admin",
+                                "module" 	        => 	"services",
+                                "mode" 		        => 	"delete",
+                                "service_id" 		    => 	$mId,
+                                "id" 	        	=>	$login->getUserId(),
+                            ),"admin",$login->getUserId(),1
+                        );
                     if($delete == 1)
                     {
                         header("Location:./services.php?message=delete");

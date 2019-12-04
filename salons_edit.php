@@ -109,6 +109,15 @@
 
                     if(empty($errors)){
                         $update = $salons->setsalonsInformation($_salon);
+                        $logs->addLog(89,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"salons",
+										"mode" 		        => 	"update",
+										"salon_id" 		    => 	$_salon['id'],
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         if($update == 1){
                             header("Location:./salons_edit.php?message=update");
                         }

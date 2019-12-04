@@ -151,7 +151,17 @@
 
                     if(empty($errors)){
                         $update = $branches->setbranchesInformation($_branch);
+                        $logs->addLog(55,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"branches",
+										"mode" 		        => 	"update",
+                                        "branch"            =>  $_branch['id'],
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         if($update == 1){
+
                             header("Location:./branches.php?message=update");
                         }
                     }
@@ -225,9 +235,9 @@
 										{
 											foreach($user as $k => $v)
 											{
-                                                echo '<option value="'.$v[user_serial].'"';
-                                                if($_branch){if($v[user_serial] == $_branch[manager_id]){echo 'selected';}}else{if($v[user_serial] == $u[manager_id]){echo 'selected';}}
-                                                echo '>'.$v[user_name].'</option>';
+                                                echo '<option value="'.$v['user_serial'].'"';
+                                                if($_branch){if($v['user_serial'] == $_branch['manager_id']){echo 'selected';}}else{if($v['user_serial'] == $u['manager_id']){echo 'selected';}}
+                                                echo '>'.$v['user_name'].'</option>';
 											}
 	
 										}

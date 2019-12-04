@@ -105,6 +105,14 @@
 
                 if(empty($errors)){
                     $add = $service_order->addNewservice_order($_order);
+                    $logs->addLog(93,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"service_order",
+										"mode" 		        => 	"add",
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($add == 1){
                         header("Location:./service_order.php?message=add");
                     }

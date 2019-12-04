@@ -80,6 +80,14 @@
                 }
                 if(empty($errors)){
                     $add = $orders->addNeworders($_order);
+                    $logs->addLog(75,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"orders",
+                                    "mode" 		        => 	"add",
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($add == 1){
                         header("Location:./orders.php?message=add");
                     }

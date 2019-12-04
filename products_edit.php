@@ -150,6 +150,15 @@
 
                     if(empty($errors)){
                         $update = $products->setproductsInformation($_product);
+                        $logs->addLog(82,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"products",
+                                    "mode" 		        => 	"update",
+                                    "product_id" 		=> 	$_product['id'],
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                         if($update == 1){
                             header("Location:./products.php?message=update");
                         }

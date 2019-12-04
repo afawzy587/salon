@@ -26,11 +26,21 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$groups->getTotalgroups(),"groups.php".$paginationAddons,$paginationDialm);
+                        $total      = $groups->getTotalgroups();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"groups.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
                         $groups = $groups->getsitegroups($limitmequry);
+                        $logs->addLog(64,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"groups",
+										"mode" 		        => 	"list",
+										"total" 		    => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         if($_GET['message']== "update")
                         {
                             $message = $lang['edit_groups_success'];
@@ -45,6 +55,15 @@
             case"delete":
                 $mId = intval($_POST['id']);
                 $delete = $groups->deletegroups($mId,$path);
+                $logs->addLog(65,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"groups",
+                                    "mode" 		        => 	"delete",
+                                    "group_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                 if($delete == 1)
                 {
                     echo 116;
@@ -58,6 +77,15 @@
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $groups->deletegroups($mId,$path);
+                    $logs->addLog(65,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"groups",
+                                    "mode" 		        => 	"delete",
+                                    "group_id" 		    => 	$mId,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($delete == 1)
                     {
                         header("Location:./groups.php?message=delete");

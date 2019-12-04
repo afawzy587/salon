@@ -28,11 +28,21 @@
                     $page;
                     $pager      = new pager();
                     $page 		= intval($_GET[page]);
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$branches->getTotalbranches($salon_id),"branches.php".$paginationAddons,$paginationDialm);
+                    $total      = $branches->getTotalbranches($salon_id);
+                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"branches.php".$paginationAddons,$paginationDialm);
                     $thispage = $pager->getPage();
                     $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                     $pager =$pager->getAnalysis();
                     $branches = $branches->getsitebranches($limitmequry ,$salon_id);
+                    $logs->addLog(52,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"branches",
+										"mode" 		        => 	"list",
+                                        "total" 	        => 	$total,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($_GET['message']== "update")
                     {
                         $message = $lang['edit_branches_success'];
@@ -49,6 +59,15 @@
                 $delete = $branches->deletebranches($mId);
                 if($delete == 1)
                 {
+                    $logs->addLog(53,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"branches",
+										"mode" 		        => 	"delete",
+										"branch" 	        => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     echo 116;
                     exit;
                 }
@@ -61,6 +80,15 @@
                     $delete = $branches->deletebranches($mId);
                     if($delete == 1)
                     {
+                        $logs->addLog(53,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"branches",
+										"mode" 		        => 	"delete",
+										"branch" 	        => 	$mId,
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                         header("Location:./branches.php?message=delete");
                         
                     }

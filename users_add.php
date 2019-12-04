@@ -22,7 +22,7 @@
         if($group['users_add'] == 0){
             header("Location:./permission.php");
         }else{ 
-            $group= $groups->getsiteGroups();
+            $_group= $groups->getsiteGroups();
             if($_POST)
             {
                 $_user['name']       =       sanitize($_POST["name"]);
@@ -30,62 +30,67 @@
                 $_user['email']      =       sanitize(strtolower($_POST["email"]));
                 $_user['address']    =       sanitize($_POST["address"]);
                 $_user['password']   =       sanitize($_POST["password"]);
+                $_user['type']       =       sanitize($_POST["type"]);
                 $_user['group']      =       intval($_POST["group"]);
                 $_user['status']     =       intval($_POST["status"]);
 
 
-                if ($_user[name] =="" )
+                if ($_user['name'] =="" )
                 {
-                    $errors[name] = $lang['no_user_name'];
+                    $errors['name'] = $lang['no_user_name'];
                 }
 
 
 
-                if ($_user[email] =="" )
+                if ($_user['email'] =="" )
                 {
-                    $errors[email] = $lang['NOEMAIL'];
+                    $errors['email'] = $lang['NOEMAIL'];
                 }
                 else
                 {
-                    if(checkMail($_user[email]) == false){
-                        $errors[email] = $lang['NOT_VALID_EMAIL'];
+                    if(checkMail($_user['email']) == false){
+                        $errors['email'] = $lang['NOT_VALID_EMAIL'];
                     }else{
                         $check = $Users->isUsersExists($_user['email']);
                         if(is_array($check))
                         {
-                           $errors[email] = $lang['EMAILISENTERBEFORE'];
+                           $errors['email'] = $lang['EMAILISENTERBEFORE'];
                         }
                     }
                 }
 
-                if ($_user[phone] =="" )
+                if ($_user['phone'] =="" )
                 {
-                    $errors[phone] = $lang['NOPHONE'] ;
+                    $errors['phone'] = $lang['NOPHONE'] ;
                 }else
                 {
-                    if(checkPhone($_user[phone]) == false){
-                        $errors[phone] = $lang['NOT_VALID_PHONE'];
+                    if(checkPhone($_user['phone']) == false){
+                        $errors['phone'] = $lang['NOT_VALID_PHONE'];
                     }else{
                         $check = $Users->isUsersExists($_user['phone']);
                         if(is_array($check))
                         {
-                             $errors[phone] = $lang['add_this_user_before'];
+                             $errors['phone'] = $lang['add_this_user_before'];
                         }
                     }
 
                 }
-                if ($_user[address] =="" )
+                if ($_user['address'] =="" )
                 {
-                    $errors[address] = $lang['NO_ADDRESS'];
+                    $errors['address'] = $lang['NO_ADDRESS'];
                 }
-                if ($_user[password] =="" )
+                if ($_user['password'] =="" )
                 {
-                    $errors[password] = $lang['nopassword'];
+                    $errors['password'] = $lang['nopassword'];
+                }
+                if ($_user['type'] =="" )
+                {
+                    $errors['type'] = $lang['SELECT_TYPE'];
                 }
 
-                if ($_user[group] == 0 )
+                if ($_user['group'] == 0 )
                 {
-                    $errors[group] = $lang['NO_GROUP'];
+                    $errors['group'] = $lang['NO_GROUP'];
                 }
 
                 if($_FILES && ( $_FILES['image']['name'] != "") && ( $_FILES['image']['tmp_name'] != "" ) )
@@ -152,6 +157,14 @@
 
                 if(empty($errors)){
                     $add = $Users->addNewUsers($_user);
+                    $logs->addLog(109,
+									array(
+										"type" 		        => 	"admin",
+										"module" 	        => 	"users",
+										"mode" 		        => 	"add",
+										"id" 	        	=>	$login->getUserId(),
+									),"admin",$login->getUserId(),1
+								);
                     if($add == 1){
                         header("Location:./users.php?message=add");
                     }
@@ -257,12 +270,24 @@
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
+                              <label class="bmd-label-floating"><?php echo $lang['USER_TYPE'];?></label>
+                              <select class="browser-default custom-select" name="type">
+								  <option disabled  selected><?php echo $lang['choose'];?></option>
+									<option value="user" <?php if($_user['type'] == 'user'){echo 'selected';}?>><?php echo $lang['DAS_user'];?></option>
+								  <option value="client" <?php if($_user['type'] == 'client'){echo 'selected';}?>><?php echo $lang['APP_CLIENT'];?></option>
+								</select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['group'];?></label>
                               <select class="browser-default custom-select" name="group">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-								  <?php if(!empty($group))
+								  <?php if(!empty($_group))
 										{
-											foreach($group as $k => $v)
+											foreach($_group as $k => $v)
 											{
 												echo '<option value="'.$v[group_serial].'"';if($v[group_serial] == $_user[group]){echo 'selected';}echo'>'.$v[group_name].'</option>';
 											}
@@ -273,14 +298,15 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['status'];?></label>
                               <select class="browser-default custom-select" name="status">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-									<option value="0" <?php if($_user[status] == 0){echo 'selected';}?>><?php echo $lang['deactive'];?></option>
-								  <option value="1"<?php if($_user[status] == 1){echo 'selected';}?>><?php echo $lang['active'];?></option>
+									<option value="0" <?php if($_user['status'] == 0){echo 'selected';}?>><?php echo $lang['deactive'];?></option>
+								  <option value="1"<?php if($_user['status'] == 1){echo 'selected';}?>><?php echo $lang['active'];?></option>
 								</select>
                             </div>
                           </div>
@@ -297,4 +323,4 @@
        </div>
     </div>
 <?php include './assets/layout/footer.php';?> 
-<script src="./assets/js/list-controls.js"></script>   
+<script src="./assets/js/list-controls.js"></script>

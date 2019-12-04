@@ -40,6 +40,14 @@
 
                 if(empty($errors)){
                     $add = $groups->addNewgroups($_group);
+                    $logs->addLog(66,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"groups",
+                                    "mode" 		        => 	"add",
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
                     if($add == 1){
                         header("Location:./groups.php?message=add");
                     }

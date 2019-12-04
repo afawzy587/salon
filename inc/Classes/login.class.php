@@ -19,7 +19,7 @@ class loginClass
  		if($this->isLogged() == false){
 	 		global $db;
 			
-		 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `email`='".$email."' AND `password`='".crypt($pass,$this->salt)."'");
+		 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `type` ='user' AND `email`='".$email."' AND `password`='".crypt($pass,$this->salt)."'");
 	 		 $queryTotal = $db->resultcount();
 		    if($queryTotal == 1)
 		    {
@@ -113,8 +113,8 @@ function doRegister($user)
  	{
  		global $db;
 	 	$email = $this->getEmail();
-	 	$pass = $this->getPassword();
-	 	$id = $this->getUserId();
+	 	$pass  = $this->getPassword();
+	 	$id    = $this->getUserId();
 	 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `email`='$email' AND `password`='$pass' AND `id`='$id' LIMIT 1 ");
  		$queryTotal = $db->resultcount();
 	    if($queryTotal == 1)
