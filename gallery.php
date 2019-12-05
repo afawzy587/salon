@@ -107,8 +107,8 @@
           <div class="content">
             <input type="hidden" value="gallery" id="page">
             <input type="hidden" value="<?php echo $lang['gallery']?>" id="lang_name">
-            <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_woman']?>" id="lang_del">
-            <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_woman']?>" id="lang_status">  
+            <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_men']?>" id="lang_del">
+            <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_men']?>" id="lang_status">
             <div class="container-fluid">
               <div class="row">
               	<div class="col-lg-12">
@@ -159,16 +159,8 @@
                                                     }else{echo $lang['video']."</td><td>
                                                     <a href='".$u['gallery_link']."' target=\"_blank\">".$lang['go_to_link']."</a>
                                                     </td>"; }
-                                                        
-                                                    echo"<td><span>";
-                                                    if($u['gallery_status'] == 0){
-                                                        echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';
-                                                    }else{
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px\"  dir=\"ltr\">'.$lang['active'].'</i>';
-                                                    }
-                                                    echo"</span>
-                                                        </td>
-                                                          <td id='item_".$u['gallery_serial']."'class='td-actions text-right'>";
+                                                    status("gallery","gallery_serial","gallery_status",$u['gallery_serial'],$u['gallery_status']);
+                                                    echo"<td id='item_".$u['gallery_serial']."'class='td-actions text-right'>";
                                                         if($group['gallery_delete'] == 1)
                                                         {
                                                             echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>

@@ -18,23 +18,18 @@ $(document).ready(function(){
 
     $('a.status_active').click(function(e){
         e.preventDefault();
-		page=$('#page').val();
-	    id     = $(this).parent('span').attr('id').replace("active_","");
-		status = $(this).parent('span').attr('class').replace("sta_","");
+		data   = $(this).parent('span').attr('id');
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
 				async :true,
-				type :"POST",
-				url :page+".php?do=status",
-				data:  "id=" + id + "&status="+ status,
+				type  :"POST",
+				url   :"products_js.php?do=status",
+				data  :  "data=" + data,
 				success : function(data) {
 				if(data == 1190)
 				{
 					setTimeout(location.reload(), 1000);
-					$("a.status_active").attr("title","تم التفعيل");
-					$("a.status_active#"+id+"").attr("class","badge bg-success");
-							   
 
 				}else if(data == 111)
 				{
@@ -48,24 +43,26 @@ $(document).ready(function(){
 		}
 		});
 
-	$('a.status_deactive').click(function(e){
+
+    $('a.status_order').click(function(e){
         e.preventDefault();
-		page=$('#page').val();
-	    id     = $(this).parent('span').attr('id').replace("active_","");
-		status = $(this).parent('span').attr('class').replace("sta_","");
+		data   = $(this).parent('span').attr('id');
+                                    console.log(data);
+
+
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
 				async :true,
-				type :"POST",
-				url :page+".php?do=status",
-				data:  "id=" + id + "&status="+ status,
+				type  :"POST",
+				url   :"products_js.php?do=status_order",
+				data  :  "data=" + data,
 				success : function(data) {
+                     console.log(data);
 				if(data == 1190)
 				{
 					setTimeout(location.reload(), 1000);
-					$("a.status_deactive").attr("title"," غير مفعل");
-					$("a.status_deactive#"+id+"").attr("class","badge bg-danger");
+
 				}else if(data == 111)
 				{
 					alert("we can't Active default items.");
@@ -76,9 +73,8 @@ $(document).ready(function(){
 				}
 			});
 		}
-	});
+		});
 
-    
 	$('button.delete').click(function(e){
         e.preventDefault();
 		page=$('#page').val();

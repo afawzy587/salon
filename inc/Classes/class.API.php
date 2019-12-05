@@ -406,7 +406,7 @@ class API
 
                                                     $send    = new sendmail();
 
-                                                    $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+                                                    $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
 
                                                     $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
 
@@ -482,7 +482,7 @@ class API
 
                                                 $send    = new sendmail();
 
-                                                $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+                                                $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
 
                                                 $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
 
@@ -557,7 +557,7 @@ class API
 
                                                 $send    = new sendmail();
 
-                                                $link    = $this->getDefaults("url").'/api/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+                                                $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
 
                                                 $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
 
@@ -1079,7 +1079,7 @@ class API
                             $GLOBALS['db']->query(
                                 "UPDATE `users` SET 
                                 `recovery_code`    ='".$recovery_code."',
-                                `recovery_expired` ='".$expired_date."'
+                                `password` ='".$expired_date."'
                                 WHERE `user_serial`='".$userCredintials['user_serial']."'
                             ");
 
@@ -1087,7 +1087,7 @@ class API
                             include_once("send_email.php");
                             $send = new sendmail();
 
-                            $link  = $this->getDefaults("url").'/api/index.php?mode=active&data='.$recovery_code.$this->getDefaults("salt");
+                            $link  = $this->getDefaults("url").'/password/index.php?data='.$recovery_code.$this->getDefaults("salt");
 
                             $_link ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
 

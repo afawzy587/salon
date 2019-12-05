@@ -139,6 +139,9 @@
                               <?php echo $lang['image'];?>
                             </th>
                             <th>
+                              <?php echo $lang['status'];?>
+                            </th>
+                            <th>
                               <?php echo $lang['settings'];?>
                             </th>
                           </thead>
@@ -153,8 +156,9 @@
                                                     <td>".$u['staff_serial']."</td>
                                                     <td><a href='staffs_view.php?id=".$u['staff_serial']."'>".$u['staff_name']."</a></td>
                                                     <td>".getbranchname($u['branch_id'])."</td>
-                                                    <td><a href=".$path.$u['staff_photo']." target=\"_blank\"><img src=".$path.$u['staff_photo']." class=\"rounded\"  width=\"100\" height=\"100\"></a></td>
-                                                    <td id='item_".$u['staff_serial']."'class='td-actions text-right'>";
+                                                    <td><a href=".$path.$u['staff_photo']." target=\"_blank\"><img src=".$path.$u['staff_photo']." class=\"rounded\"  width=\"100\" height=\"100\"></a></td>";
+                                                     status("branche_staff","staff_serial","staff_status",$u['staff_serial'],$u['staff_status']);
+                                                    echo"<td id='item_".$u['staff_serial']."'class='td-actions text-right'>";
                                                     if($group['staffs_edit'] == 1)
                                                     {
                                                         echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
@@ -175,7 +179,7 @@
                           </tbody>
                             <tfoot>
                                 <tr>
-								    <td colspan="4" align="right"><?php echo $pager;?></td>
+								    <td colspan="5" align="right"><?php echo $pager;?></td>
                                     <?php if($group['staffs_add'] == 1)
                                             {
 								                echo '<td colspan="1" align="left"><a class="btn btn-primary pull-left" href="staffs_add.php">'.$lang['add_staff'].'</a></td>';

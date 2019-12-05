@@ -388,6 +388,13 @@ $lang['log_by']                           = 'بواسطة';
 $lang['log_user_name']                    = 'اسم المستخدم';
 $lang['log_time']                         = 'التوقيت';
 $lang['LOGS_VIEW']                        = 'رؤية السجلات';
+$lang['activtion']                        = 'تفعيل';
+$lang['deactivtion']                      = 'تعطيل';
+$lang['deleved']                          = 'توصيل \انهاء الطلب';
+$lang['ADMIN_CAN']                        = 'الغاء الطلب';
+$lang['edit_profile_success']             = 'تم تعديل بياناتك الشخصية بنجاح';
+$lang['edit_profile']                     = 'تعديل البيانات الشخصية';
+$lang['status_order_alarm_massage']       = 'هل تريد تغير حالة هذا';
 
 
 
@@ -462,6 +469,11 @@ $lang['LOGS_VIEW']                        = 'رؤية السجلات';
  $lang['ORDER_service_INSERTED']     =  'تم تنفيذ الطلب بنجاح';
  $lang['INSERT_SERVICES']            =  'من فضلك ادخل الخدمات';
  $lang['SELECT_ALL']                 =  'تحديد الكل';
+ $lang['recovery_PASS']              =  'استعادة كلمة المرور';
+ $lang['NEW_PASS']                   =  'كلمة المرور الجديدة';
+ $lang['INSERT_CONFIRM_PASSWORD']                 =  'ادخل تأكيد كلمة المرور';
+ $lang['NOT_CONFIRM_PASSWORD']                 =  'كلمات المرو غير متطابقة';
+ $lang['NEW_PASS2']                 =  'تأكيد كلمة المرور الجديدة';
 
 
 

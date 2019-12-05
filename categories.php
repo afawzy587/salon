@@ -148,30 +148,22 @@
                                         {
                                             echo"<tr id=tr_".$u['category_serial'].">
                                                     <td>".$u['category_serial']."</td>
-                                                    <td>".$u['category_name']."</td>
-                                                    <td><span>";
-                                                    if($u['category_status'] == 0){
-                                                        echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';
-                                                    }else{
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px\"  dir=\"ltr\">'.$lang['active'].'</i>';
+                                                    <td>".$u['category_name']."</td>";
+                                                    status("product_categories","category_serial","category_status",$u['category_serial'],$u['category_status']);
+                                                echo"<td id='item_".$u['category_serial']."'class='td-actions text-right'>";
+                                                    if($group['categories_edit'] == 1)
+                                                    {
+                                                        echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
+                                                            <i class='material-icons'>edit</i>
+                                                        </button>";
                                                     }
-                                                    echo"</span>
-                                                        </td>
-                                                          <td id='item_".$u['category_serial']."'class='td-actions text-right'>";
-                                                        if($group['categories_edit'] == 1)
-                                                        {
-                                                            echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
-                                                                <i class='material-icons'>edit</i>
+                                                    if($group['categories_delete'] == 1)
+                                                    {
+                                                        echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>
+                                                                <i class='material-icons'>close</i>
                                                             </button>";
-                                                        }
-                                                        if($group['categories_delete'] == 1)
-                                                        {
-                                                            echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>
-                                                                    <i class='material-icons'>close</i>
-                                                                </button>";
-                                                        }
-                                                       echo "</td>
-                                                  
+                                                    }
+                                                   echo "</td>
                                                 </tr>";
                                         }
                                     } 

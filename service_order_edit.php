@@ -436,7 +436,7 @@
                         </div>
                           <br>
                         <div class="clearfix">
-                             <button type="submit" class="btn btn-primary pull-right"><?php echo $lang['add_order'];?></button>
+                             <button type="submit" class="btn btn-primary pull-right"><?php echo $lang['edit_order'];?></button>
                         </div>
                       </form>
                     </div>

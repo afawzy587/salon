@@ -141,22 +141,37 @@ class systemproducts
 
    
 	
-//	function activestatusproducts($product_serial,$status)
-//	{  
-//		if($status==1)
-//		{
-//			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-//			`status`    =	'0'
-//			 WHERE `product_serial` 		 = 	'".$product_serial."' LIMIT 1 ");
-//			return 1;
-//		}else
-//		{
-//			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-//				`status`    =	'1'
-//			 	WHERE `product_serial` 		 = 	'".$product_serial."' LIMIT 1 ");
-//			return 1;
-//		}
-//	}
+	function activestatus($data)
+	{
+        $_data    =    explode("|",$data);
+        $table    =      $_data[0];
+        $where    =      $_data[1];
+        $s_col    =      $_data[2];
+        $id       =      $_data[3];
+        $status   =      $_data[4];
+		if($status==1)
+		{
+			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$table."` SET`".$s_col."`    =	'0' WHERE `".$where."` ='".$id."' LIMIT 1");
+			return 1;
+		}else
+		{
+			$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$table."` SET`".$s_col."`    =	'1' WHERE `".$where."` ='".$id."' LIMIT 1 ");
+			return 1;
+		}
+	}
+
+	function changestatus_order($data)
+	{
+        $_data    =    explode("|",$data);
+        $table    =      $_data[0];
+        $where    =      $_data[1];
+        $s_col    =      $_data[2];
+        $id       =      $_data[3];
+        $status   =      $_data[4];
+
+        $GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$table."` SET`".$s_col."`   = '".$status."' WHERE `".$where."` ='".$id."' LIMIT 1");
+        return 1;
+	}
 
 }
 ?>

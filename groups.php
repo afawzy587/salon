@@ -149,29 +149,29 @@
                                             echo"<tr id=tr_".$u['group_serial'].">
                                                     <td>".$u['group_serial']."</td>
                                                     <td><a href='groups_view.php?id=".$u['group_serial']."'>".$u['group_name']."</a></td>
-                                                    <td><span>";
-                                                    if($u['status'] == 0){
-                                                        echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';
-                                                    }else{
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px\"  dir=\"ltr\">'.$lang['active'].'</i>';
+                                                    <td>
+                                                        <span id='user_groups|group_serial|group_status|".$u['group_serial']."|".$u['group_status']."'>";
+                                                        if($u['group_status'] == 0){
+                                                            echo '<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$lang['activtion'].'">'.$lang['deactive'].'</a>';
+                                                        }else{
+                                                            echo '<a class="btn btn-success btn-sm status_active" style="color:white;border-radius:12px;" id="user_groups|group_serial|group_status|'.$u['group_serial'].'|'.$u['group_status'].'"  title="'.$lang['deactivtion'].'">'.$lang['active'].'</a>';
+                                                        }
+                                                        echo"</span>
+                                                    </td>
+                                                    <td id='item_".$u['group_serial']."'class='td-actions text-right'>";
+                                                    if($group['groups_edit'] == 1)
+                                                    {
+                                                        echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
+                                                            <i class='material-icons'>edit</i>
+                                                        </button>";
                                                     }
-                                                    echo"</span>
-                                                        </td>
-                                                          <td id='item_".$u['group_serial']."'class='td-actions text-right'>";
-                                                        if($group['groups_edit'] == 1)
-                                                        {
-                                                            echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
-                                                                <i class='material-icons'>edit</i>
+                                                    if($group['groups_delete'] == 1)
+                                                    {
+                                                        echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>
+                                                                <i class='material-icons'>close</i>
                                                             </button>";
-                                                        }
-                                                        if($group['groups_delete'] == 1)
-                                                        {
-                                                            echo"<button  rel='tooltip' title='".$lang['delete']."'class='btn btn-danger btn-link btn-sm delete'>
-                                                                    <i class='material-icons'>close</i>
-                                                                </button>";
-                                                        }
-                                                       echo "</td>
-
+                                                    }
+                                                   echo "</td>
                                                 </tr>";
                                         }
                                     }

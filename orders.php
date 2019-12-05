@@ -30,7 +30,7 @@
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
                         $total      = $orders->getTotalorders();
-                        $pager->doAnalysisPager("page",$page,$basicLimit,,"orders.php".$paginationAddons,$paginationDialm);
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"orders.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
@@ -131,7 +131,7 @@
             <input type="hidden" value="orders" id="page">
             <input type="hidden" value="<?php echo $lang['order']?>" id="lang_name">
             <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_men']?>" id="lang_del">
-            <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_men']?>" id="lang_status">
+            <input type="hidden" value="<?php echo $lang['status_order_alarm_massage']?>" id="lang_status">
             <div class="container-fluid">
               <div class="row">
               	<div class="col-lg-12">
@@ -185,15 +185,20 @@
                                                     if($u['order_type'] == 'home'){ echo $lang['from_home'].'<i class="material-icons">motorcycle</i>'; }else{ echo $lang['from_branch'].'<i class="material-icons">store</i>';}
                                                     echo"</a></td>
                                                     <td>"._date_format($u['order_date'])."</td>
-                                                    <td><span>";
+                                                    <td>";
                                                     if($u['order_status'] == 0){
-                                                        echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['admin_cancel'].'</i>';
+                                                        echo '<a style="color:#f44336;">'.$lang['admin_cancel'].'<i class="material-icons success">remove_shopping_cart</i></a>';
                                                     }elseif($u['order_status'] == 1){
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px\"  dir=\"ltr\">'.$lang['unfinished'].'</i>';
+                                                        echo'<span id="orders|order_serial|order_status|'.$u['order_serial'].'|2">
+                                                               <a class="status_order btn btn-success btn-sm" style="color:white;border-radius:4px;padding: 0.40625rem 0.5rem;"   title="'.$lang['deleved'].'"><i class="material-icons">directions_car</i></a>
+                                                            </span>
+                                                            <span id="orders|order_serial|order_status|'.$u['order_serial'].'|0">
+                                                                <a class="btn btn-danger btn-sm status_order" style="color:white;border-radius:4px;padding: 0.40625rem 0.5rem;"   title="'.$lang['ADMIN_CAN'].'"><i class="material-icons">remove_shopping_cart</i></a>
+                                                            </span>';
                                                     }elseif($u['order_status'] == 2){
-                                                        echo '<i class=\"fa fa-check"style="font-size:18px;color:grean\"  dir=\"ltr\">'.$lang['finished'].'</i>';
+                                                        echo '<a style="color:#1fcc26;">'.$lang['finished'].'<i class="material-icons success">check_circle</i></a>';
                                                     }
-                                                    echo"</span>
+                                                    echo"
                                                         </td>
                                                           <td id='item_".$u['order_serial']."'class='td-actions text-right'>";
                                                         if($group['orders_edit'] == 1)

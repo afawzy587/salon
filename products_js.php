@@ -172,6 +172,50 @@
 
                 exit;
             break;
+            case"status":
+                if($_POST)
+                {
+                    $data      = sanitize($_POST['data']);
+                    $_data    =    explode("|",$data);
+                    $active    = $products->activestatus($data);
+                    $logs->addLog(112,
+                                array(
+                                    "type" 		=> 	"admin",
+                                    "module" 	=> 	$table,
+                                    "mode" 		=> 	"status",
+                                    "status_id" 	=> 	$_data[3],
+                                    "id" 		=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
+                    if($active == 1)
+                    {
+                        echo 1190;
+                        exit;
+                    }
+                }
+            break;
+            case"status_order":
+                if($_POST)
+                {
+                    $data      = sanitize($_POST['data']);
+                    $_data     =    explode("|",$data);
+                    $active    = $products->changestatus_order($data);
+                    $logs->addLog(113,
+                                array(
+                                    "type" 		    => 	"admin",
+                                    "module" 	    => 	$table,
+                                    "mode" 		    => 	"status",
+                                    "status_id" 	=> 	$_data[3],
+                                    "id" 		    =>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
+                    if($active == 1)
+                    {
+                        echo 1190;
+                        exit;
+                    }
+                }
+            break;
 
         }
 

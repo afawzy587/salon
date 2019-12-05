@@ -79,7 +79,6 @@
                                 "id" 	        	=>	$login->getUserId(),
                             ),"admin",$login->getUserId(),1
                         );
-                    }else{
                 if($delete == 1)
                 {
                     echo 116;
@@ -173,6 +172,9 @@
                               <?php echo $lang['duration'];?>
                             </th>
                             <th>
+                              <?php echo $lang['status'];?>
+                            </th>
+                            <th>
                               <?php echo $lang['settings'];?>
                             </th>
                           </thead>
@@ -188,8 +190,7 @@
                                                     <td><a href='services_view.php?id=".$u['service_serial']."'>".$u['service_name']."</a></td>
                                                     <td>".$u['price']."</td>
                                                     <td>".$u['duration'].$lang['minute']."</td>";
-                                                    
-                                            
+                                                    status("services","service_serial","service_status",$u['service_serial'],$u['service_status']);
                                                 if($branch_id){ 
                                                         
                                                         echo"<td id='item_".$u['branche_serivce_serial']."'class='td-actions text-right del_".$u['service_serial']."'>
@@ -222,7 +223,7 @@
                           </tbody>
                             <tfoot>
                                 <tr>
-								    <td colspan="4" align="right"><?php echo $pager;?></td>
+								    <td colspan="5" align="right"><?php echo $pager;?></td>
                                     <?php if($branch_id){
                                                          echo '<td colspan="1" align="left"><a class="btn btn-primary pull-left" href="branche_services.php?branch='.$branch_id.'">'.$lang['add_branch_service'].'</a></td>';   
                                                 }else{

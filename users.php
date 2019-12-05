@@ -139,6 +139,9 @@
                               <?php echo $lang['phone'];?>
                             </th>
                             <th>
+                              <?php echo $lang['status'];?>
+                            </th>
+                            <th>
                               <?php echo $lang['settings'];?>
                             </th>
                           </thead>
@@ -154,6 +157,15 @@
                                                     <td><a href='users_view.php?id=".$u['user_serial']."'>".$u['user_name']."</a></td>
                                                     <td>".$u['email']."</td>
                                                     <td>".$u['phone']."</td>
+                                                    <td>
+                                                        <span id='users|user_serial|user_status|".$u['user_serial']."|".$u['user_status']."'>";
+                                                        if($u['user_status'] == 0){
+                                                            echo '<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$lang['activtion'].'">'.$lang['deactive'].'</a>';
+                                                        }else{
+                                                            echo '<a class="btn btn-success btn-sm status_active" style="color:white;border-radius:12px;"  title="'.$lang['deactivtion'].'">'.$lang['active'].'</a>';
+                                                        }
+                                                        echo"</span>
+                                                    </td>
                                                     <td id='item_".$u['user_serial']."'class='td-actions text-right'>";
                                                     if($group['users_edit'] == 1)
                                                     {
@@ -175,7 +187,7 @@
                           </tbody>
                             <tfoot>
                                 <tr>
-								    <td colspan="4" align="right"><?php echo $pager;?></td>
+								    <td colspan="5" align="right"><?php echo $pager;?></td>
                                     <?php if($group['users_add'] == 1)
                                             {
 								                echo '<td colspan="1" align="left"><a class="btn btn-primary pull-left" href="users_add.php">'.$lang['add_user'].'</a></td>';

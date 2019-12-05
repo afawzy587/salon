@@ -1,33 +1,9 @@
-<tr>
-                                        <td>
-                                            <h4><?php echo $lang['orders'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_view" value="1" id="<?php echo $lang['orders_view'];?>"
-                                                       <?php if($_group){if($_group['orders_view'] == 1){echo 'checked';}}else{if($u['orders_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="<?php echo $lang['orders_view'];?>"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_add" value="1" id="<?php echo $lang['orders_add'];?>"
-                                                       <?php if($_group){if($_group['orders_add'] == 1){echo 'checked';}}else{if($u['orders_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="<?php echo $lang['orders_add'];?>"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_delete" value="1" id="<?php echo $lang['orders_delete'];?>"
-                                                       <?php if($_group){if($_group['orders_delete'] == 1){echo 'checked';}}else{if($u['orders_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="<?php echo $lang['orders_delete'];?>"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_edit" value="1" id="<?php echo $lang['orders_edit'];?>"
-                                                       <?php if($_group){if($_group['orders_edit'] == 1){echo 'checked';}}else{if($u['orders_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="<?php echo $lang['orders_edit'];?>"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
+(NULL, 'زيت مركز', 'f6ecbd6432.jpg', 30, 'زيت مركز زيت مركز زيت مركز زيت مركز', 1, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(NULL, 'كريم شعر', '2964b5db3c.jpg', 20, 'كريم شعر مميز كريم شعر مميز  كريم شعر مميز  كريم شعر مميز  كريم شعر مميز', 1, 5, '2019-11-25 12:42:24', '2019-12-31 12:42:28', 1),
+(NULL, 'زيت كلير', 'f536fcfa82.jpg', 45, 'زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير\r<br />\r<br />زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير      زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير\r<br />\r<br />زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير\r<br />زيت كلير     زيت كلير     زيت كلير     زيت كلير        زيت كلير', 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(NULL, 'كريم للشعر  الجاف', '2f19d77d68.jpg', 30, 'كريم للشعر  الجاف\r<br />\r<br />كريم للشعر  الجاف\r<br />\r<br />كريم للشعر  الجاف', 2, 10, '2019-11-26 16:13:14', '2019-12-29 16:13:28', 1),
+(NULL, 'KERATIN SMOOTH SHAMPOO', 'cbf4e00923.jpg', 50, 'KERATIN SMOOTH SHAMPOO\r<br />KERATIN SMOOTH SHAMPOO\r<br />KERATIN SMOOTH SHAMPOO', 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(NULL, 'شاموبه1', '7c8d4e2ef9.jpg', 10, 'شاموبه1\r<br />شاموبه1\r<br />شاموبه1', 3, 5, '2019-12-21 12:24:32', '2020-01-03 12:24:34', 1),
+(NULL, 'شاموبه2', '0f2441ce95.jpg', 10, 'شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1', 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(NULL, 'شاموبه3', 'dc351bafe4.jpg', 45, 'شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1شاموبه1', 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),
+(NULL, 'شاموبه4', 'a0c5900d1c.jpg', 10, 'شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4شاموبه4', 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1),

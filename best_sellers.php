@@ -26,7 +26,7 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET['page']);
-                        $total      = $best_sellers->getTotalbest_sellers()
+                        $total      = $best_sellers->getTotalbest_sellers();
                         $pager->doAnalysisPager("page",$page,$basicLimit,$total,"best_sellers.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;

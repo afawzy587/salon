@@ -252,6 +252,22 @@
         }
     }
 
+    function status($table,$where,$status,$id,$svalue)
+    {
+        $message ="<td>
+                <span id='".$table."|".$where."|".$status."|".$id."|".$svalue."'>";
+                if($svalue == 0){
+                    $message .='<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$GLOBALS['lang']['activtion'].'">'.$GLOBALS['lang']['deactive'].'</a></span></td>';
+                }else{
+                    $message .='<a class="btn btn-success btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$GLOBALS['lang']['deactivtion'].'">'.$GLOBALS['lang']['active'].'</a></span>
+                                </td>';
+                }
+
+        echo $message;
+    }
+
+
+
 
 
 

@@ -81,7 +81,7 @@ class systemgroups
                     "best_sellers_view"               =>          $sitegroup['best_sellers_view'],
                     "salons_edit"                     =>          $sitegroup['salons_edit'],
                     "rates_view"                      =>          $sitegroup['rates_view'],
-                    "status"                          =>          $sitegroup['status']
+                    "status"                          =>          $sitegroup['group_status']
 				);
 			}else{return null;}
 		}else{$GLOBALS['login']->doDestroy();return false;}

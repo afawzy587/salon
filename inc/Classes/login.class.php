@@ -115,16 +115,17 @@ function doRegister($user)
 	 	$email = $this->getEmail();
 	 	$pass  = $this->getPassword();
 	 	$id    = $this->getUserId();
-	 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `email`='$email' AND `password`='$pass' AND `id`='$id' LIMIT 1 ");
+	 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `email`='$email' AND `password`='$pass' AND `user_serial`='$id' LIMIT 1 ");
  		$queryTotal = $db->resultcount();
 	    if($queryTotal == 1)
 	    {
 	    	$userInformation = $db->fetchitem($query);
 			return array(
-				"name"=> 		$userInformation['name'],
-				"email"=> 		$userInformation['email'],
-				"password"=> 	$userInformation['password'],
-				"mobile"=> 		$userInformation['mobile'],
+                "user_name"				=> 		$userInformation['user_name'],
+                "address"    		    => 		$userInformation['user_address'],
+                "phone"		            => 		$userInformation['phone'],
+                "image"      		    => 		$userInformation['user_photo'],
+                "email"		            => 		$userInformation['email'],
 			);
 	    }else{$this->doDestroy();return false;}
  	}else{$this->doDestroy();return false;}
@@ -145,13 +146,22 @@ function doRegister($user)
 	 	{
 	 		$queryGlue = "";
 	 	}
+        if($userInformation[image] != "")
+		{
+			$queryimage = "`user_photo`='".$userInformation[image]."',";
+		}else
+		{
+			$queryimage = "";
+		}
 	 	$this->setName($userInformation['name']);
 		$this->setEmail($userInformation['email']);
+
 	 	$db->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-	 	`name`='".$userInformation[name]."',
-	 	`email`='".$userInformation[email]."',".$queryGlue."
-	 	`mobile`='".$userInformation[mobile]."',
-	 	WHERE `id`='".$userInformation[id]."' LIMIT 1 ");
+	 	`user_name`       =  '".$userInformation[name]."',".$queryimage."
+	 	`email`           =  '".$userInformation[email]."',".$queryGlue."
+	 	`user_address`    =  '".$userInformation[address]."',
+	 	`phone`           =  '".$userInformation[phone]."'
+	 	WHERE `user_serial`='".$userInformation[id]."' LIMIT 1 ");
 
 	 	return 1;
  	}else{$this->doDestroy();return false;}

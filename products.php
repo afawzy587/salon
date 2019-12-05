@@ -49,7 +49,7 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $total      = $products->getTotalcategoryproducts($cat_id)
+                        $total      = $products->getTotalcategoryproducts($cat_id);
                         $pager->doAnalysisPager("page",$page,$basicLimit,$total,"products.php".$paginationAddons,$paginationDialm);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
@@ -130,7 +130,7 @@
             <input type="hidden" value="products" id="page">
             <input type="hidden" value="<?php echo $lang['product']?>" id="lang_name">
             <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_man']?>" id="lang_del">
-            <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_man']?>" id="lang_status">  
+            <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_men']?>" id="lang_status">
             <div class="container-fluid">
               <div class="row">
               	<div class="col-lg-12">
@@ -167,6 +167,9 @@
                               <?php echo $lang['discount'];?>
                             </th>
                             <th>
+                              <?php echo $lang['status'];?>
+                            </th>
+                            <th>
                               <?php echo $lang['settings'];?>
                             </th>
                           </thead>
@@ -183,7 +186,8 @@
                                                     <td>".getcategoryname($u['category_id'])."</td>
                                                     <td>".$u['product_price']."\n".$lang['Currancy']."</td>
                                                     <td>"; if($u['product_discount'] != 0){echo $u['product_discount'] ."\n".$lang['Currancy']. "<br>" . $lang['FROM'] . " : " . _date_format($u['product_from']) . "<br/    >". $lang['TO'] . " : " . _date_format($u['product_to']) ; }else{ echo "ـــــــــ" ;}
-                                                    echo "</td>
+                                                    status("products","product_serial","product_status",$u['product_serial'],$u['product_status']);
+                                              echo "</td>
                                                     <td id='item_".$u['product_serial']."'class='td-actions text-right'>";
                                                     if($group['products_edit'] == 1)
                                                     {
@@ -205,7 +209,7 @@
                           </tbody>
                             <tfoot>
                                 <tr>
-								    <td colspan="5" align="right"><?php echo $pager;?></td>
+								    <td colspan="6" align="right"><?php echo $pager;?></td>
                                     <?php 
                                          if($group['products_add'] == 1)
                                          {

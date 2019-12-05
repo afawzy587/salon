@@ -30,7 +30,7 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-<!--                  <a class="dropdown-item" href="#">Profile</a>-->
+                  <a class="dropdown-item" href="./profile.php"><?php echo $lang['edit_profile'];?></a>
                 <?php if($group['salons_edit'] == 1){echo '<a class="dropdown-item" href="./salons_edit.php">'.$lang['SETTING_MANGMENT'].'</a>';}?>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="./login.php?do=logout"><?php echo $lang['Log_out']; ?></a>
