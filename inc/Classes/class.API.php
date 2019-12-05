@@ -1079,7 +1079,7 @@ class API
                             $GLOBALS['db']->query(
                                 "UPDATE `users` SET 
                                 `recovery_code`    ='".$recovery_code."',
-                                `password` ='".$expired_date."'
+                                `recovery_expired` ='".$expired_date."'
                                 WHERE `user_serial`='".$userCredintials['user_serial']."'
                             ");
 

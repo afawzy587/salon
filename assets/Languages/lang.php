@@ -469,11 +469,13 @@ $lang['status_order_alarm_massage']       = 'هل تريد تغير حالة ه�
  $lang['ORDER_service_INSERTED']     =  'تم تنفيذ الطلب بنجاح';
  $lang['INSERT_SERVICES']            =  'من فضلك ادخل الخدمات';
  $lang['SELECT_ALL']                 =  'تحديد الكل';
+ $lang['SEND']                       =  'ارسال';
  $lang['recovery_PASS']              =  'استعادة كلمة المرور';
  $lang['NEW_PASS']                   =  'كلمة المرور الجديدة';
  $lang['INSERT_CONFIRM_PASSWORD']                 =  'ادخل تأكيد كلمة المرور';
  $lang['NOT_CONFIRM_PASSWORD']                 =  'كلمات المرو غير متطابقة';
  $lang['NEW_PASS2']                 =  'تأكيد كلمة المرور الجديدة';
+ $lang['password_back']                 =  'تم تحديث كلمة المرور';
 
 
 

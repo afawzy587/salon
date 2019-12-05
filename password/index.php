@@ -12,12 +12,12 @@ ob_start("ob_gzhandler");
             $data      = sanitize($_GET['data']);
             if($data == "")
             {
-                $error['data']  = $lang['INVALID_LINK'];
+                $error  = $lang['INVALID_LINK'];
             }else{
                 $salt  = "wZy";
                 $_data = str_replace($salt,"",$data);
 
-                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `recovery_code` = '".$_data."' AND (`recovery_expired` < NOW()) LIMIT 1");
+                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `recovery_code` = '".$_data."' AND (`recovery_expired` > NOW()) LIMIT 1");
                 $usersCount = $GLOBALS['db']->resultcount();
                 if($usersCount == 1)
                 {
@@ -27,25 +27,25 @@ ob_start("ob_gzhandler");
                         $pass2          = sanitize($_POST["pass2"]);
                         if($pass == "")
                         {
-                            $error['pass'] = $lang['INSERT_PASSWORD'];
+                            $error = $lang['INSERT_PASSWORD'];
                         }else{
                             if($pass == "")
                             {
-                                $error['pass2'] = $lang['INSERT_CONFIRM_PASSWORD'];
+                                $error = $lang['INSERT_CONFIRM_PASSWORD'];
                             }else{
                                 if($pass == $pass2)
                                 {
                                     $password = crypt($pass,$salt);
                                     $GLOBALS['db']->query(
                                         "UPDATE `users` SET
-                                        `recovery_code`='0',
-                                        `recovery_expired`='0',
-                                        `password`='0'
+                                        `recovery_code`='',
+                                        `recovery_expired`='',
+                                        `password`='".$password."'
                                         WHERE `user_serial`='".$userCredintials['user_serial']."'
                                     ");
-                                     $success = $lang['email_activated'];
+                                     $success = $lang['password_back'];
                                 }else{
-                                    $error['pass2'] = $lang['NOT_CONFIRM_PASSWORD'];
+                                    $error = $lang['NOT_CONFIRM_PASSWORD'];
                                 }
                             }
                         }
@@ -61,7 +61,7 @@ ob_start("ob_gzhandler");
                     );
                 }else
                 {
-                     $error['data']  = $lang['INVALID_LINK'];
+                     $error  = $lang['INVALID_LINK'];
                 }
             }
 
@@ -281,37 +281,32 @@ ob_start("ob_gzhandler");
         </aside>
         <aside class="right  col-sm-12 col-md-6">
             <div class="wrapper">
-                <div class="right col-sm-12 col-md-6">
 					<?php if ($success){
 							echo '<div class="alert alert-success">'.$success.'</div>';
 						}else{
-							if($errors)
+							if($error)
 							{
-								echo '<div class="alert alert-danger">
-								     <ul>';
-								foreach($errors as $k=> $e)
-								{
-									echo '<li><strong>'.$e.'</strong></li>';
-								}
-								echo'</ul>
-							         </div>';
+								echo'<div class="alert alert-danger">'.$error.'</div>';
 							}
 						}
 					?>
-                </div>
                 <h1><?php echo $lang['recovery_PASS'];?></h1>
-                <form action="./index.php?data=<?php echo $data;?>">
+                <form action="./index.php?data=<?php echo $data;?>"  method="post" enctype="multipart/form-data">
+                    <row>
                     <div class="form-group">
                         <label><?php echo $lang['NEW_PASS'];?></label>
                         <input class="form-control rounded" name="pass" type="password" placeholder="<?php echo $lang['NEW_PASS'];?>">
                         <i class="ti-user"></i>
                     </div>
+                        </row>
+                    <row>
                     <div class="form-group">
                         <label class="label2"><?php echo $lang['NEW_PASS2'];?></label>
                         <input class="form-control rounded" name="pass2" type="password" placeholder="<?php echo $lang['NEW_PASS2'];?>">
                         <i class="ti-user"></i>
                     </div>
-                    <a href="#0" class="btn_1 rounded full-width add_top_30">ارسال</a>
+                </row>
+                    <button type="submit" class="btn_1 rounded full-width add_top_30"><?php echo $lang['SEND'];?></button>
                 </form>
 
             </div>
