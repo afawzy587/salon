@@ -50,7 +50,8 @@
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
                         $total      = $orders->getTotaluserorders($user_id);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"orders.php".$paginationAddons,$paginationDialm);
+                        $paginationAddons ="?user=".$user_id;
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"orders.php".$paginationAddons,true);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
@@ -146,6 +147,7 @@
                   <div class="card">
                     <div class="card-header card-header-primary">
                       <h4 class="card-title "><?php echo $lang['orders'];?></h4>
+                      <p class="card-category"><?php if($user_id){ echo $lang['user'].' : '.getusername($user_id);}?></p>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">

@@ -595,8 +595,8 @@ class API
     }
     public function checkCredintials() ///log 2
 	{
-		$_empho 	= sanitize(strtolower($_POST['empho']));
-		$_pass 		= sanitize($_POST['password']);
+		 $_empho 	= sanitize(strtolower($_POST['empho']));
+		 $_pass 		= sanitize($_POST['password']);
 		$_udid 		= sanitize($_POST['udid']);
         if($_empho != "" || $_pass !="")
         {
@@ -627,6 +627,8 @@ class API
                         }else{
                             $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
                         }
+                    }else{
+                        $this->terminate('error',$GLOBALS['lang']['NO_ACCESS_TO_LOGIN'],400);
                     }
                 }else{
                     $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
@@ -666,6 +668,8 @@ class API
                             }else{
                                 $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
                             }
+                        }else{
+                            $this->terminate('error',$GLOBALS['lang']['NO_ACCESS_TO_LOGIN'],400);
                         }
                     }else{
                         $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
@@ -707,6 +711,8 @@ class API
                                 }else{
                                     $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
                                 }
+                            }else{
+                                $this->terminate('error',$GLOBALS['lang']['NO_ACCESS_TO_LOGIN'],400);
                             }
                         }else{
                             $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
@@ -1189,8 +1195,6 @@ class API
 			}
 		}
 	}
-    
-    /*******  باقى لينك الاكتف وفورجت باسورد   */
     /************ END authenticat funtion ***/
     /* START CLIENT APP FUNCTION ***/
     public function client_get_salon()
@@ -1334,8 +1338,12 @@ class API
                     $queryLimit 		= " LIMIT ".($start * $this->getDefaults("pagination")) ." , ". $this->getDefaults("pagination");
                 }
 
-
-                $productQuery = $GLOBALS['db']->query("SELECT * FROM `products` WHERE `product_status` = '1' AND `category_id` = '".$c['category_serial']."' ORDER BY `product_serial` DESC ".$queryLimit);
+                $discount = intval($_GET['discount']);
+                if($discount == 1)
+                {
+                    $_discount = "AND `product_discount` > '0' ";
+                }
+                $productQuery = $GLOBALS['db']->query("SELECT * FROM `products` WHERE `product_status` = '1' AND `category_id` = '".$c['category_serial']."' ".$_discount." ORDER BY `product_serial` DESC ".$queryLimit);
                 $productCount = $GLOBALS['db']->resultcount();
                 $_product =[];
                 if($productCount != 0)
@@ -1890,8 +1898,106 @@ class API
 			{
             	$this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
 			}
-		}
+		}else{
+            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+        }
 	}
+    public function client_get_history() #/// log 13
+    {
+        $tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+            $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+			$usersCount = $GLOBALS['db']->resultcount();
+			if($usersCount == 1)
+            {
+                $userCredintials = $GLOBALS['db']->fetchitem($userQuery);
+                $Query = $GLOBALS['db']->query(" SELECT r.*  FROM
+                (
+                    (SELECT s.`service_order_serial` AS id,s.`service_order_type` AS order_type , s.`date` AS date, s.`service_order_status` AS status,'service_order' AS type FROM `service_order` s WHERE s.`user_id` = '".$tokenUserId."')
+                      UNION ALL
+                    (SELECT o.`order_serial` AS id ,o.`order_type` AS order_type, o.`order_date` AS date, o.`order_status` AS status ,'product_order' AS type FROM `orders` o WHERE o.`user_id` = '".$tokenUserId."')
+                ) r ORDER BY r.`date` DESC");
+                $historyCount = $GLOBALS['db']->resultcount();
+                $_histories =[];
+                if($historyCount != 0)
+                {
+                    $histories = $GLOBALS['db']->fetchlist();
+                    $_histories  = [];
+                    foreach($histories as $hId =>$h)
+                    {
+//                        $_histories[$hId]['type']              =         $h['type'];
+//                        $_histories[$hId]['serial']            =         $h['id'];
+//                        $_histories[$hId]['order_type']        =         $h['order_type'];
+                        $_histories[$hId]['user']              =         $userCredintials['user_name'];
+                        $_histories[$hId]['date']              =         $h['date'];
+//                        $_histories[$hId]['status']            =         $h['status'];
+                        if($h['type']=='service_order')
+                        {
+                            $sevicequery   = $GLOBALS['db']->query("SELECT c.`cost` , s.`service_name` FROM `service_cart` c INNER JOIN `services` s ON s.`service_serial` = c.`service_id` WHERE c.`order_id` = '".$h['id']."' ");
+                            $seviceTotal   = $GLOBALS['db']->resultcount();
+                            $sevices       = $GLOBALS['db']->fetchlist();
+                            $_sevices      = [];
+                            foreach($sevices as $sid => $s)
+                            {
+//                                $_sevices[$sid]['cart_serial']           =  $s['cart_serial'];
+//                                $_sevices[$sid]['service_id']            =  $s['service_id'];
+//                                $_sevices[$sid]['staff_id']              =  $s['staff_id'];
+//                                $_sevices[$sid]['start_time']            =  $s['start_time'];
+//                                $_sevices[$sid]['duration']              =  $s['duration'];
+                                $_sevices[$sid]                          =  $s['service_name'];
+                                $total  += $s['cost'];
+                            }
+                            $_histories[$hId]['total']            =         $total;
+                            $_histories[$hId]['item']             =         implode(' و ' ,$_sevices);
+
+                        }elseif($h['type']=='product_order')
+                        {
+                            $productquery   = $GLOBALS['db']->query("SELECT  o.`quantity`, o.`price` , p.`product_name` FROM `order_cart` o INNER JOIN `products` p ON p.`product_serial` = o.`product_id` WHERE o.`order_id` = '".$h['id']."' ");
+                            $productTotal   = $GLOBALS['db']->resultcount();
+                            $products       = $GLOBALS['db']->fetchlist();
+                            $_products      = [];
+                            foreach($products as $pid => $p)
+                            {
+                                $_products[$pid]                  =  $p['product_name'];
+//                                $_products[$pid]['quantity']              =  $p['quantity'];
+//                                $_products[$pid]['price']                 =  $p['price'];
+//                                $_products[$pid]['product_total']         =  ($p['price'] * $p['quantity']);
+                                $p_total  += ($p['price'] * $p['quantity']);
+                            }
+                            $_histories[$hId]['total']            =         $p_total;
+                            $_histories[$hId]['item']             =         implode(' و ' ,$_products);
+                        }
+                    }
+                    $this->terminate('success',$_histories,200);
+                    $this->addLog(13,
+                        array(
+                            "type" 		=> 	"client",
+                            "module" 	=> 	"history",
+                            "mode" 		=> 	"get",
+                            "id" 		=>	$tokenUserId,
+                        ),"client",$tokenUserId,1
+                    );
+                }else{
+                    $this->addLog(13,
+                        array(
+                            "type" 		=> 	"client",
+                            "module" 	=> 	"history",
+                            "mode" 		=> 	"get",
+                            "id" 		=>	$tokenUserId,
+                        ),"client",$tokenUserId,1
+                    );
+                    $this->terminate('success',$_histories,100);
+                }
+
+            }else{
+                $this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
+            }
+        }else{
+            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+        }
+
+    }
 /* end client function */        
 /* ----------------------------------------------------------------------------------------*/	
 	private function testToken()

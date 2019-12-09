@@ -8,7 +8,7 @@
 	include("../inc/fundamentals_api.php");
 
    
-        
+
 
     if($_POST)
 	{
@@ -48,8 +48,13 @@
                 $api->client_set_product_order();
             }elseif($_POST['mode'] == "service_cart"){
                 $api->client_set_service_order();
+            }elseif($_POST['mode'] == "history"){
+                $api->client_get_history();
             }
         }
+
+
+
 	}elseif($_GET){
         
         if($_GET['mode'] == 'salon_details')

@@ -22,7 +22,7 @@
                 if($group['products_view'] == 0){
                     header("Location:./permission.php");
                 }else{
-                    $cat_id = intval($_GET['category']);
+                     $cat_id = intval($_GET['category']);
                     if($cat_id == 0)
                     {
                        include("./inc/Classes/pager.class.php");
@@ -50,7 +50,8 @@
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
                         $total      = $products->getTotalcategoryproducts($cat_id);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"products.php".$paginationAddons,$paginationDialm);
+                        $paginationAddons ="?category=".$cat_id;
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"products.php".$paginationAddons,true);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
@@ -145,7 +146,7 @@
                   <div class="card">
                     <div class="card-header card-header-primary">
                       <h4 class="card-title "><?php echo $lang['products'];?></h4>
-                      <p class="card-category"> <?php if($cat_id){ echo $lang['category'].  ' : ' ."<br>"; getcategoryname($cat_id);}?></p>
+                      <p class="card-category"> <?php  if($cat_id){ echo $lang['category'].  ' : '.getcategoryname($cat_id);}?></p>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">

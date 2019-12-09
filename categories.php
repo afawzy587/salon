@@ -150,7 +150,8 @@
                                                     <td>".$u['category_serial']."</td>
                                                     <td>".$u['category_name']."</td>";
                                                     status("product_categories","category_serial","category_status",$u['category_serial'],$u['category_status']);
-                                                echo"<td id='item_".$u['category_serial']."'class='td-actions text-right'>";
+                                                echo"<td id='item_".$u['category_serial']."'class='td-actions text-right'>
+                                                    <a title='".$lang['products']."' href='products.php?category=".$u['category_serial']."' ><i class=\"material-icons\">shop</i></a>";
                                                     if($group['categories_edit'] == 1)
                                                     {
                                                         echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>

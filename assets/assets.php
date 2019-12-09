@@ -182,7 +182,7 @@
 		if($catCount == 1)
 		{
 			$_cat = $GLOBALS['db']->fetchitem($cat);
-			return ($_cat['category_name']);
+			return $_cat['category_name'];
 		}
 		else
 		{

@@ -31,7 +31,7 @@ class systemproducts
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query = $GLOBALS['db']->query("SELECT p.*, c.`category_serial`  FROM `".$this->tableName."` p INNER JOIN `product_categories` c ON p.`category_id` = c.`category_serial` WHERE p.`category_id` ='".$cat_id."' ORDER BY s.`product_serial` DESC ".$addon);
+			$query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `category_id` ='".$cat_id."' ORDER BY `product_serial` DESC ".$addon);
 			$queryTotal = $GLOBALS['db']->resultcount();
 			if($queryTotal > 0)
 			{
@@ -44,7 +44,7 @@ class systemproducts
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query 				= $GLOBALS['db']->query("SELECT COUNT(*) AS `total` FROM `".$this->tableName."` p INNER JOIN `product_categories` c ON p.`category_id` = c.`category_serial` WHERE p.`category_id` ='".$cat_id."' ORDER BY s.`product_serial` ");
+			$query 				= $GLOBALS['db']->query("SELECT COUNT(*) AS `total` FROM `".$this->tableName."` WHERE `category_id` ='".$cat_id."' ORDER BY `product_serial` ");
 			$queryTotal 		= $GLOBALS['db']->fetchrow();
 			$total 				= $queryTotal['total'];
 			return ($total);

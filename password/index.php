@@ -73,7 +73,8 @@ ob_start("ob_gzhandler");
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -281,6 +282,7 @@ ob_start("ob_gzhandler");
         </aside>
         <aside class="right  col-sm-12 col-md-6">
             <div class="wrapper">
+                <div class="form-group">
 					<?php if ($success){
 							echo '<div class="alert alert-success">'.$success.'</div>';
 						}else{
@@ -290,22 +292,19 @@ ob_start("ob_gzhandler");
 							}
 						}
 					?>
+                </div>
                 <h1><?php echo $lang['recovery_PASS'];?></h1>
                 <form action="./index.php?data=<?php echo $data;?>"  method="post" enctype="multipart/form-data">
-                    <row>
                     <div class="form-group">
                         <label><?php echo $lang['NEW_PASS'];?></label>
                         <input class="form-control rounded" name="pass" type="password" placeholder="<?php echo $lang['NEW_PASS'];?>">
                         <i class="ti-user"></i>
                     </div>
-                        </row>
-                    <row>
                     <div class="form-group">
                         <label class="label2"><?php echo $lang['NEW_PASS2'];?></label>
                         <input class="form-control rounded" name="pass2" type="password" placeholder="<?php echo $lang['NEW_PASS2'];?>">
                         <i class="ti-user"></i>
                     </div>
-                </row>
                     <button type="submit" class="btn_1 rounded full-width add_top_30"><?php echo $lang['SEND'];?></button>
                 </form>
 

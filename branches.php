@@ -167,16 +167,9 @@
                                                     <td>
                                                         <a title='".$lang['branche_services']."' href='services.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">style</i></a>
                                                         <a class='success' title='".$lang['branche_add_service']."' href='branche_services.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">library_add</i></a>
-                                                    </td>
-                                                    <td>
-                                                        <span id='salon_branches|branch_serial|branch_status|".$u['branch_serial']."|".$u['branch_status']."'>";
-                                                        if($u['branch_status'] == 0){
-                                                            echo '<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$lang['activtion'].'">'.$lang['deactive'].'</a>';
-                                                        }else{
-                                                            echo '<a class="btn btn-success btn-sm status_active" style="color:white;border-radius:12px;" id="user_groups|group_serial|group_status|'.$u['group_serial'].'|'.$u['group_status'].'"  title="'.$lang['deactivtion'].'">'.$lang['active'].'</a>';
-                                                        }
-                                                        echo"</span>
-                                                    </td>
+                                                    </td>";
+                                                    status("salon_branches","branch_serial","branch_status",$u['branch_serial'],$u['branch_status']);
+                                                    echo"
                                                     <td id='item_".$u['branch_serial']."'class='td-actions text-right'>";
                                                     if($group['branches_edit'] == 1)
                                                     {

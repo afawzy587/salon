@@ -335,8 +335,8 @@
                               <label class="bmd-label-floating"><?php echo $lang['status'];?></label>
                               <select class="browser-default custom-select" name="status">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-									<option value="0" <?php if($_branch[status] == 0){echo 'selected';}?>><?php echo $lang['deactive'];?></option>
-								  <option value="1"<?php if($_branch[status] == 1){echo 'selected';}?>><?php echo $lang['active'];?></option>
+									<option value="0"<?php if($_branch){if($_branch['status'] == 0){echo 'selected';}}else{if($u['status'] == 0){echo 'selected';}}?>><?php echo $lang['deactive'];?></option>
+								  <option value="1"<?php if($_branch){if($_branch['status'] == 1){echo 'selected';}}else{if($u['status'] == 1){echo 'selected';}}?>><?php echo $lang['active'];?></option>
 								</select>
                             </div>
                           </div>

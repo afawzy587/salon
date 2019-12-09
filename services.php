@@ -49,7 +49,8 @@
                         $page;
                         $pager      = new pager();
                         $page 		= intval($_GET[page]);
-                        $pager->doAnalysisPager("page",$page,$basicLimit,$services->getTotalbranchservices($branch_id),"services.php".$paginationAddons,$paginationDialm);
+                        $paginationAddons ="?branch=".$branch_id;
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$services->getTotalbranchservices($branch_id),"services.php".$paginationAddons,true);
                         $thispage = $pager->getPage();
                         $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
                         $pager =$pager->getAnalysis();
