@@ -34,9 +34,7 @@
         }elseif($_POST['mode'] == "recovery_pass"){
             
             $api->user_recovery_pass();
-        }
-
-        if($api->authenticat() == 'client')
+        }elseif($api->authenticat() == 'client')
         {
             if($_POST['mode'] == "push")
             {
@@ -50,11 +48,10 @@
                 $api->client_set_service_order();
             }elseif($_POST['mode'] == "history"){
                 $api->client_get_history();
+            }elseif($_POST['mode'] == "product_order"){
+                $api->client_get_product_order();
             }
         }
-
-
-
 	}elseif($_GET){
         
         if($_GET['mode'] == 'salon_details')

@@ -57,141 +57,141 @@
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['groups'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['groups_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['groups_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['groups_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['groups_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['groups'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['groups_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['groups_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['groups_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['groups_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['users'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['users_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['users_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['users_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['users_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['users'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['users_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['users_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['users_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['users_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['branches'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['branches_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['branches_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['branches_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['branches_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['branches'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['branches_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['branches_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['branches_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['branches_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['services'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['services_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['services_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['services_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['services_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['services'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['services_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['services_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['services_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['services_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['staffs'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['staffs_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['staffs_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['staffs_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['staffs_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['staffs'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['staffs_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['staffs_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['staffs_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['staffs_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['categories'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['categories_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['categories_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['categories_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['categories_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['categories'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['categories_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['categories_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['categories_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['categories_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['products'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['products_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['products_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['products_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['products_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['products'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['products_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['products_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['products_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['products_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['orders'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['orders_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['orders_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['orders_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['orders_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['orders'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['orders_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['orders_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['orders_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['orders_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['service_orders'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['service_order_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['service_order_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['service_order_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['service_order_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['service_orders'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['service_order_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['service_order_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['service_order_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['EDIT_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['EDIT_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['service_order_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['gallery'];?> : </strong></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['gallery_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['gallery_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
-                                    <span style="width:20%;display:inline-block;"><?php if ($_group['gallery_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['gallery'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['gallery_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['gallery_add'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['ADD_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['ADD_CONTROLLER'].'</i>';}?></span>
+                                    <span class="view_span"><?php if ($_group['gallery_delete'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['DELETE_CONTROLLER'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['DELETE_CONTROLLER'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['best_sellers'];?> : </strong></span>
-                                    <span style="width:80%;display:inline-block;"><?php if ($_group['best_sellers_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['best_sellers'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['best_sellers_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['rates'];?> : </strong></span>
-                                    <span style="width:80%;display:inline-block;"><?php if ($_group['rates_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['rates'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['rates_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['SETTING_MANGMENT'];?> : </strong></span>
-                                    <span style="width:80%;display:inline-block;"><?php if ($_group['salons_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['SETTING_MANGMENT'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['salons_edit'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['SHOW_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['SHOW_VIEW'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
 				                <div class="alert">
-                                    <span style="width:10%;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['logs'];?> : </strong></span>
-                                    <span style="width:80%;display:inline-block;"><?php if ($_group['logs_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['LOGS_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['LOGS_VIEW'].'</i>';}?></span>
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong> <?php echo $lang['logs'];?> : </strong></span>
+                                    <span class="view_span"><?php if ($_group['logs_view'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['LOGS_VIEW'].'</i>';}else{echo '<i class="fa fa-check" style="font-size:18px" dir="ltr" >'.$lang['LOGS_VIEW'].'</i>';}?></span>
                                 </div>
                             </div>
                         </div>

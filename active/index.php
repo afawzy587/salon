@@ -264,17 +264,15 @@ ob_start("ob_gzhandler");
         </aside>
         <aside class="right  col-sm-12 col-md-6">
             <div class="wrapper">
-                <h1><?php echo $lang['Salon_verified_email'];?></h1>
+
                 <?php if($type == "success")
                 {
-                    echo '<div class="alert alert-success">
-                                     <strong>'.$message.'</strong>
-                                </div>';
+                    echo '<div class="alert alert-success"><h1>'.$message.'</h1></div>';
+
                 }elseif($type == "error")
                 {
-                    echo '<div class="alert alert-danger">
-                                <strong>'.$message.'</strong>
-                              </div>';
+                        echo '<div class="alert alert-danger"><h1>'.$message.'</h1></div>';
+
                 }?>
             </div>
 

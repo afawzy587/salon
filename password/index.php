@@ -23,7 +23,7 @@ ob_start("ob_gzhandler");
                 {
                     $userCredintials    = $GLOBALS['db']->fetchitem($userQuery);
                     if($_POST){
-                        $pass           = sanitize($_POST["pass"]);
+                         $pass           = sanitize($_POST["pass"]);
                         $pass2          = sanitize($_POST["pass2"]);
                         if($pass == "")
                         {
@@ -43,7 +43,8 @@ ob_start("ob_gzhandler");
                                         `password`='".$password."'
                                         WHERE `user_serial`='".$userCredintials['user_serial']."'
                                     ");
-                                     $success = $lang['password_back'];
+                                    header("Location:./active.php");
+
                                 }else{
                                     $error = $lang['NOT_CONFIRM_PASSWORD'];
                                 }
@@ -73,16 +74,17 @@ ob_start("ob_gzhandler");
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="../assets/js/jquery.js"></script>
 
-    <title>Reset your password</title>
+    <title><?php echo $lang['recovery_PASS'];?></title>
     <style>
         aside.right {
             background: url(mainbg2.png) center no-repeat;
@@ -148,6 +150,7 @@ ob_start("ob_gzhandler");
             background: #22D768;
             color: #fff;
             font-weight: 600;
+            border: none;
         }
 
         #forgetpw {
@@ -282,36 +285,44 @@ ob_start("ob_gzhandler");
         </aside>
         <aside class="right  col-sm-12 col-md-6">
             <div class="wrapper">
-                <div class="form-group">
-					<?php if ($success){
-							echo '<div class="alert alert-success">'.$success.'</div>';
-						}else{
-							if($error)
-							{
-								echo'<div class="alert alert-danger">'.$error.'</div>';
-							}
-						}
-					?>
-                </div>
-                <h1><?php echo $lang['recovery_PASS'];?></h1>
-                <form action="./index.php?data=<?php echo $data;?>"  method="post" enctype="multipart/form-data">
+                <?php if($error){echo '<h1>'.$error.'</h1>';}else
+                {
+                echo'<h1>'.$lang['recovery_PASS'].'</h1>
+                <form action="./index.php?data='.$data.'"  method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label><?php echo $lang['NEW_PASS'];?></label>
-                        <input class="form-control rounded" name="pass" type="password" placeholder="<?php echo $lang['NEW_PASS'];?>">
+                        <label>'.$lang['NEW_PASS'].'</label>
+                        <input class="form-control rounded" name="pass" id="password" minlength="8" type="password" oninvalid="setCustomValidity(\'يجب أن تتألف كلمات المرور من 8 أحرف أو أكُثر\')"  placeholder="'.$lang['NEW_PASS'].'" required>
                         <i class="ti-user"></i>
                     </div>
                     <div class="form-group">
-                        <label class="label2"><?php echo $lang['NEW_PASS2'];?></label>
-                        <input class="form-control rounded" name="pass2" type="password" placeholder="<?php echo $lang['NEW_PASS2'];?>">
-                        <i class="ti-user"></i>
+                        <label class="label2">'.$lang['NEW_PASS2'].'</label>
+                        <input class="form-control rounded" name="pass2" minlength="8" type="password" id="confirm_password" onchange="validatePassword();" placeholder="'.$lang['NEW_PASS2'].'" required><span id="divCheckPasswordMatch"></span>
+                        <i class="ti-user" ></i>
                     </div>
-                    <button type="submit" class="btn_1 rounded full-width add_top_30"><?php echo $lang['SEND'];?></button>
-                </form>
+                    <button type="submit" class="btn_1 rounded full-width add_top_30">'. $lang['SEND'].'</button>
+                </form>';
+
+                }?>
 
             </div>
 
         </aside>
     </div>
+    <script>
+        function validatePassword() {
+            var password = $("#password").val();
+            var confirmPassword = $("#confirm_password").val();
+            if(password != confirmPassword)
+            {
+                $("span#divCheckPasswordMatch").html("!كلمة المرور غير متطابقة");
+            }else{
+                $("span#divCheckPasswordMatch").html("كلمة المرور متطابقة");
+            }
+        }
+        $(document).ready(function () {
+           $("#confirm_password").keyup(validatePassword);
+        })
+    </script>
 </body>
 
 </html>

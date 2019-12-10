@@ -56,25 +56,25 @@
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['owner'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php  echo getusername($branch['manager_id']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['owner'];?> </strong></span>
+								<span class="view_span"><?php  echo getusername($branch['manager_id']);?></span>
 							  </div> 
 							</div> 
                        </div> 
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['ADDRESS'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo $branch['address'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['ADDRESS'];?> :</strong></span>
+								<span class="view_span"><?php echo $branch['address'];?></span>
 							  </div> 
 							</div> 
                        </div>
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['image'];?> : </strong></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['image'];?> : </strong></span>
                                    <a href="<?php echo $path.$branch['image'];?>" target="_blank">
-                                        <span style="width:80%;display:inline-block;">
+                                        <span class="view_span">
                                            <img src="<?php echo $path.$branch['image'];?>" class="rounded"  width="100" height="100">
                                         </span>
                                     </a>
@@ -86,8 +86,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['day_work'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;"><?php 
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['day_work'];?>  : </strong></span>
+                                    <span class="view_span"><?php
                                         if($branch['SAT'] == 0){
                                             echo '<i class="fa fa-close" style="font-size:18px;color:red;margin:10px;" dir="ltr">'.$lang['SAT'].'</i>';
                                         }else{
@@ -131,22 +131,22 @@
                          <div class="row">
                             <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['start_time'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php echo $branch['branch_from'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['start_time'];?> :</strong></span>
+								<span class="view_span"><?php echo $branch['branch_from'];?></span>
 							  </div> 
 							</div> 
                             <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['end_time'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php echo $branch['branch_to'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['end_time'];?> :</strong></span>
+								<span class="view_span"><?php echo $branch['branch_to'];?></span>
 							  </div> 
 							</div>  
                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;"><?php if($branch['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                                    <span class="view_span"><?php if($branch['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
                                         echo '<i class="fa fa-check"style="font-size:18px"  dir="ltr">'.$lang['active'].'</i>';}?></span>
                                 </div>
                             </div>

@@ -287,9 +287,9 @@
                               <label class="bmd-label-floating"><?php echo $lang['USER_TYPE'];?></label>
                               <select class="browser-default custom-select" name="type">
 								  <option disabled  selected><?php echo $lang['choose'];?></option>
-									<option value="0" <?php if($_user){if($_user['type'] == 'user'){echo 'selected';}}else{if($u['type'] == 'user'){echo 'selected';}}?>>
+									<option value="user" <?php if($_user){if($_user['type'] == 'user'){echo 'selected';}}else{if($u['type'] == 'user'){echo 'selected';}}?>>
                                         <?php echo $lang['DAS_user'];?></option>
-								  <option value="1" <?php if($_user){if($_user['type'] == 'client'){echo 'selected';}}else{if($u['type'] == 'client'){echo 'selected';}}?>><?php echo $lang['APP_CLIENT'];?></option>
+								  <option value="client" <?php if($_user){if($_user['type'] == 'client'){echo 'selected';}}else{if($u['type'] == 'client'){echo 'selected';}}?>><?php echo $lang['APP_CLIENT'];?></option>
 								</select>
                             </div>
                           </div>

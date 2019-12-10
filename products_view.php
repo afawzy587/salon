@@ -55,31 +55,31 @@
                         <div class="row">
                             <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['price'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php echo $product['price'] ." \n ".$lang['Currancy'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['price'];?> :</strong></span>
+								<span class="view_span"><?php echo $product['price'] ." \n ".$lang['Currancy'];?></span>
 							  </div> 
 							</div> 
                             <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:25%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['discount'];?> :</strong></span>
-								<span style="width:70%;display:inline-block;"><?php if($product['discount'] !=0){echo $product['discount'] ."\n".$lang['Currancy']. "<br>" . $lang['FROM'] . " : " . _date_format($product['from']) ."<br>". $lang['TO'] . " : " . _date_format($product['to']) ;}else{ echo "ـــــــــ" ;} ?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['discount'];?> :</strong></span>
+								<span class="view_span"><?php if($product['discount'] !=0){echo $product['discount'] ."\n".$lang['Currancy']. "<br>" . $lang['FROM'] . " : " . _date_format($product['from']) ."<br>". $lang['TO'] . " : " . _date_format($product['to']) ;}else{ echo "ـــــــــ" ;} ?></span>
 							  </div> 
 							</div>
                        </div> 
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['product_description'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo br2nl($product['description']) ;?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['product_description'];?> :</strong></span>
+								<span class="view_span"><?php echo br2nl($product['description']) ;?></span>
 							  </div> 
 							</div> 
                        </div> 
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['image'];?> : </strong></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['image'];?> : </strong></span>
                                    <a href="<?php echo $path.$product['image'];?>" target="_blank">
-                                        <span style="width:80%;display:inline-block;">
+                                        <span class="view_span">
                                            <img src="<?php echo $path.$product['image'];?>" class="rounded"  width="100" height="100">
                                         </span>
                                     </a>
@@ -90,8 +90,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;"><?php if($product['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                                    <span class="view_span"><?php if($product['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
                                         echo '<i class="fa fa-check"style="font-size:18px"  dir="ltr">'.$lang['active'].'</i>';}?></span>
                                 </div>
                             </div>

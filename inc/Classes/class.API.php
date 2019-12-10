@@ -17,12 +17,14 @@ class API
 			"pagination"				=> 20,
 			"salt"					    => "wZy",
 			"unknown"					=> "unknown",
-			"img-default-avater"        => "uploads/defaults/avater.png",
-			"product-default-image"     => "uploads/defaults/product.png",
-			"service-default-image"     => "uploads/defaults/service.png",
-			"salon-default-image"       => "uploads/defaults/salon.png",
-			"gallery-default-image"     => "uploads/defaults/gallery.png",
-			"branch-default-image"      => "uploads/defaults/branch.png"
+			"img-default-avater"        => "defaults/avater.png",
+			"product-default-image"     => "defaults/product.png",
+			"service-default-image"     => "defaults/service.png",
+			"salon-default-image"       => "defaults/salon.png",
+			"gallery-default-image"     => "defaults/gallery.png",
+			"img-default-sevice"        => "defaults/service.jpg",
+			"img-default-order"         => "defaults/order.svg",
+			"branch-default-image"      => "defaults/branch.png"
 		);
 		$this->settings = $settings;
 		return ($settings[$attribute]);
@@ -96,7 +98,40 @@ class API
 		}
 		return ($token);
 	}
-	
+	private function arabicDate($_date , $params = "")
+	{
+		global $arabic;
+		if(!is_object($arabic))
+		{
+			include_once('Arabic.php');
+			$arabic = new I18N_Arabic('Date');
+		}
+
+		if($params == "")
+		{
+			$params = 'l dS F';
+		}
+
+		$arabic->setMode(3);
+        $correction = $arabic->dateCorrection($_date);
+		$date = $arabic->date($params, $_date,$correction);
+
+		return ($date);
+	}
+    private function dateWithLang($mode , $date)
+	{
+		$lang = sanitize($_POST['lang']);
+        $time = strtotime($date);
+		if($lang == "en")
+		{
+			$fullTime = date($mode,$time);
+		}else
+		{
+			$fullTime = $this->arabicDate($time , $mode);
+
+		}
+		return $fullTime;
+	}
 
 	private function isValidDate($date, $format= 'Y-m-d')
 	{
@@ -389,46 +424,48 @@ class API
                                             }else
                                             {
                                                 $verifiedcode 	= $this->generateKey(5);
-                                                $GLOBALS['db']->query
-                                                ("
-                                                    INSERT INTO `users`
-                                                    (
-                                                         `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
-                                                    ) VALUES
-                                                    (
-                                                        '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
-                                                    )
-                                                ");
-                                                $pid = $GLOBALS['db']->fetchLastInsertId();
-                                                if($pid)
+                                                include_once("send_email.php");
+                                                $send    = new sendmail();
+
+                                                $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+
+                                                $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                                $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                                $done = $send->email($_mail,$_link,$subject);
+
+                                                if($done == 1)
                                                 {
-                                                    include_once("send_email.php");
-
-                                                    $send    = new sendmail();
-
-                                                    $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-
-                                                    $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-
-                                                    $subject = $GLOBALS['lang']['Salon_verified_email'];
-
-                                                    $done = $send->email($_mail,$_link,$subject);
-
-                                                    if($done == 1)
+                                                    $GLOBALS['db']->query
+                                                    ("
+                                                        INSERT INTO `users`
+                                                        (
+                                                             `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                        ) VALUES
+                                                        (
+                                                            '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                        )
+                                                    ");
+                                                    $pid = $GLOBALS['db']->fetchLastInsertId();
+                                                    if($pid)
                                                     {
-                                                        $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+
+                                                            $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                        $this->addLog(1,
+                                                                array(
+                                                                    "type" 		=> 	"client",
+                                                                    "module" 	=> 	"membership",
+                                                                    "mode" 		=> 	"register_normal",
+                                                                    "id" 		=>	$pid,
+                                                                ),"patient",$pid,1
+                                                            );
+                                                    }else
+                                                    {
+                                                        $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                                     }
-                                                    $this->addLog(1,
-                                                            array(
-                                                                "type" 		=> 	"client",
-                                                                "module" 	=> 	"membership",
-                                                                "mode" 		=> 	"register_normal",
-                                                                "id" 		=>	$pid,
-                                                            ),"patient",$pid,1
-                                                        );
-                                                }else
-                                                {
-                                                    $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
+                                                }else{
+                                                    $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
                                                 }
                                            }
                                       }
@@ -462,55 +499,57 @@ class API
                                             $this->terminate('error',$GLOBALS['lang']['FACEBOOK_ID_USED'],400);
                                         }else
                                         {
-                                            $verifiedcode 	= $this->generateKey(5);
-                                            $GLOBALS['db']->query
-                                            ("
-                                                INSERT INTO `users`
-                                                (
-                                                     `user_name`, `email`, `face_id`, `face_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
-                                                ) VALUES
-                                                (
-                                                    '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
-                                                )
-                                            ");
+                                            include_once("send_email.php");
+                                            $send    = new sendmail();
 
-                                            $pid = $GLOBALS['db']->fetchLastInsertId();
+                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
 
-                                            if($pid)
+                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                            $done = $send->email($_mail,$_link,$subject);
+
+                                            if($done == 1)
                                             {
-                                                include_once("send_email.php");
+                                                $verifiedcode 	= $this->generateKey(5);
+                                                $GLOBALS['db']->query
+                                                ("
+                                                    INSERT INTO `users`
+                                                    (
+                                                         `user_name`, `email`, `face_id`, `face_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                    ) VALUES
+                                                    (
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                    )
+                                                ");
 
-                                                $send    = new sendmail();
+                                                $pid = $GLOBALS['db']->fetchLastInsertId();
 
-                                                $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-
-                                                $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-
-                                                $subject = $GLOBALS['lang']['Salon_verified_email'];
-
-                                                $done = $send->email($_mail,$_link,$subject);
-
-                                                if($done == 1)
+                                                if($pid)
                                                 {
-                                                    $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+
+                                                        $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+
+                                                    $this->addLog(1,
+                                                            array(
+                                                                "type" 		=> 	"client",
+                                                                "module" 	=> 	"membership",
+                                                                "mode" 		=> 	"register_normal",
+                                                                "id" 		=>	$pid,
+                                                            ),"patient",$pid,1
+                                                        );
+                                                }else
+                                                {
+                                                    $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                                 }
-                                                $this->addLog(1,
-                                                        array(
-                                                            "type" 		=> 	"client",
-                                                            "module" 	=> 	"membership",
-                                                            "mode" 		=> 	"register_normal",
-                                                            "id" 		=>	$pid,
-                                                        ),"patient",$pid,1
-                                                    );
-                                            }else
-                                            {
-                                                $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
+                                            }else{
+                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
                                             }
                                        }
                                    }
                                }
                             }
-
                         }elseif($_Type == 'google'){
                             if(sanitize($_POST['google_id']) == "" )
                             {
@@ -527,6 +566,7 @@ class API
                                    if(sanitize($_POST['google_token']) == "" )
                                     {
                                         $this->terminate('error',$GLOBALS['lang']['INSERT_GOOGLE_TOKEN'],400);
+
                                     }else{
                                         $fb_id     =  sanitize($_POST['google_id']);
                                         $fb_token  =  sanitize($_POST['google_token']);
@@ -538,52 +578,54 @@ class API
                                         }else
                                         {
                                             $verifiedcode 	= $this->generateKey(5);
-                                            $GLOBALS['db']->query
-                                            ("
-                                                INSERT INTO `users`
-                                                (
-                                                     `user_name`, `email`, `google_id`, `google_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
-                                                ) VALUES
-                                                (
-                                                    '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
-                                                )
-                                            ");
+                                            include_once("send_email.php");
+                                            $send    = new sendmail();
 
-                                            $pid = $GLOBALS['db']->fetchLastInsertId();
+                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
 
-                                            if($pid)
+                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                            $done = $send->email($_mail,$_link,$subject);
+
+                                            if($done == 1)
                                             {
-                                                include_once("send_email.php");
+                                                $GLOBALS['db']->query
+                                                ("
+                                                    INSERT INTO `users`
+                                                    (
+                                                         `user_name`, `email`, `google_id`, `google_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
+                                                    ) VALUES
+                                                    (
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                    )
+                                                ");
 
-                                                $send    = new sendmail();
+                                                $pid = $GLOBALS['db']->fetchLastInsertId();
 
-                                                $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-
-                                                $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-
-                                                $subject = $GLOBALS['lang']['Salon_verified_email'];
-
-                                                $done = $send->email($_mail,$_link,$subject);
-
-                                                if($done == 1)
+                                                if($pid)
                                                 {
+
                                                     $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                    $this->addLog(1,
+                                                            array(
+                                                                "type" 		=> 	"client",
+                                                                "module" 	=> 	"membership",
+                                                                "mode" 		=> 	"register_normal",
+                                                                "id" 		=>	$pid,
+                                                            ),"patient",$pid,1
+                                                        );
+                                                }else
+                                                {
+                                                    $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                                 }
-                                                $this->addLog(1,
-                                                        array(
-                                                            "type" 		=> 	"client",
-                                                            "module" 	=> 	"membership",
-                                                            "mode" 		=> 	"register_normal",
-                                                            "id" 		=>	$pid,
-                                                        ),"patient",$pid,1
-                                                    );
-                                            }else
-                                            {
-                                                $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
+                                            }else{
+                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
                                             }
                                        }
                                    }
-                               }
+                                }
                             }
 
                         }
@@ -1082,14 +1124,6 @@ class API
 
                             $expired_date   = date('Y-m-d H:i:s', strtotime('+1 day', time()));
 
-                            $GLOBALS['db']->query(
-                                "UPDATE `users` SET 
-                                `recovery_code`    ='".$recovery_code."',
-                                `recovery_expired` ='".$expired_date."'
-                                WHERE `user_serial`='".$userCredintials['user_serial']."'
-                            ");
-
-
                             include_once("send_email.php");
                             $send = new sendmail();
 
@@ -1100,10 +1134,17 @@ class API
                             $subject = $GLOBALS['lang']['Salon_RECOVERY_PASS'];
 
                             $done = $send->email($_mail,$_link,$subject);
-
                             if($done == 1)
                             {
+                                $GLOBALS['db']->query(
+                                    "UPDATE `users` SET
+                                    `recovery_code`    ='".$recovery_code."',
+                                    `recovery_expired` ='".$expired_date."'
+                                    WHERE `user_serial`='".$userCredintials['user_serial']."'
+                                ");
                                 $this->terminate('success',$GLOBALS['lang']['SEND_RECOVERY_PASS'],100);
+                            }else{
+                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
                             }
 
                             $this->addLog(8,
@@ -1926,11 +1967,12 @@ class API
                     $_histories  = [];
                     foreach($histories as $hId =>$h)
                     {
-//                        $_histories[$hId]['type']              =         $h['type'];
-//                        $_histories[$hId]['serial']            =         $h['id'];
+                        $_histories[$hId]['type']              =         $h['type'];
+                        $_histories[$hId]['serial']            =         $h['id'];
 //                        $_histories[$hId]['order_type']        =         $h['order_type'];
-                        $_histories[$hId]['user']              =         $userCredintials['user_name'];
-                        $_histories[$hId]['date']              =         $h['date'];
+//                        $_histories[$hId]['user']              =         $userCredintials['user_name'];
+//                        "M j,Y \a\\t h:i A"
+                        $_histories[$hId]['date']              =         $this->dateWithLang("l dS F Y ",$h['date']) ." ".$this->dateWithLang("h:i A",$h['date']);
 //                        $_histories[$hId]['status']            =         $h['status'];
                         if($h['type']=='service_order')
                         {
@@ -1948,6 +1990,7 @@ class API
                                 $_sevices[$sid]                          =  $s['service_name'];
                                 $total  += $s['cost'];
                             }
+                            $_histories[$hId]['image']            =         $this->getDefaults("img_url").$this->getDefaults("img-default-sevice");
                             $_histories[$hId]['total']            =         $total;
                             $_histories[$hId]['item']             =         implode(' و ' ,$_sevices);
 
@@ -1965,6 +2008,7 @@ class API
 //                                $_products[$pid]['product_total']         =  ($p['price'] * $p['quantity']);
                                 $p_total  += ($p['price'] * $p['quantity']);
                             }
+                            $_histories[$hId]['image']            =         $this->getDefaults("img_url").$this->getDefaults("img-default-order");
                             $_histories[$hId]['total']            =         $p_total;
                             $_histories[$hId]['item']             =         implode(' و ' ,$_products);
                         }
@@ -1992,6 +2036,88 @@ class API
 
             }else{
                 $this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
+            }
+        }else{
+            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+        }
+
+    }
+//    public function client_get_service_order()
+//    {
+//        $tokenUserId  = $this->testToken();
+//        if($tokenUserId != 0)
+//        {
+//            $id         =   intval($_POST['id']);
+//            if($id != 0)
+//            {
+//                $sevicequery   = $GLOBALS['db']->query("SELECT s.`service_order_serial`,s.`service_order_type` , s.`date` , s.`service_order_status` ,'service_order'  FROM `service_order` s WHERE s.`user_id` = '".$tokenUserId."'");
+//                $seviceTotal   = $GLOBALS['db']->resultcount();
+//                if($seviceTotal == 1)
+//                {
+//
+//
+//                }else{
+//                    $this->terminate('success',$_sevices,100);
+//                }
+//
+//
+//            }else{
+//                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_ID'],400);
+//            }
+//        }else{
+//            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+//        }
+//
+//    }
+
+    public function client_get_product_order()
+    {
+        $tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+            $id         =   intval($_POST['id']);
+            if($id != 0)
+            {
+                $productquery   = $GLOBALS['db']->query("SELECT `order_serial`, `user_id`, `order_type`, `order_date`, `order_status` FROM `orders` WHERE `order_serial` = '".$id."' LIMIT 1");
+                $productTotal   = $GLOBALS['db']->resultcount();
+                $order 	     	= $GLOBALS['db']->fetchitem($productquery);
+                if($productTotal == 1)
+                {
+
+                    $_order ['order_type']   = ($order["order_type"] == "home") ? $GLOBALS['lang']['HOME_VISIT'] : $GLOBALS['lang']['FROM_BRANCH'] ;
+                    $_order ['date']         = $this->dateWithLang("l dS F Y ",$order["order_date"]) ." ".$this->dateWithLang("h:i A",$order["order_date"]); ;
+                    if($order["order_type"] == "0")
+                    {
+                        $_order ['order_status'] = $GLOBALS['lang']['admin_cancel'];
+                    }elseif($order["order_type"] == "1"){
+                        $_order ['order_status'] = $GLOBALS['lang']['NOT_DELEVERD'];
+                    }elseif($order["order_type"] == "2"){
+                        $_order ['order_status'] = $GLOBALS['lang']['DELEVERD'];
+                    }
+                    $productquery   = $GLOBALS['db']->query("SELECT  o.`quantity`, o.`price` , p.`product_name`, p.`product_photo` FROM `order_cart` o INNER JOIN `products` p ON p.`product_serial` = o.`product_id` WHERE o.`order_id` = '".$order['order_serial']."' ");
+                    $productTotal   = $GLOBALS['db']->resultcount();
+                    $products       = $GLOBALS['db']->fetchlist();
+                    $_products      = [];
+                    foreach($products as $pid => $p)
+                    {
+                        $_products[$pid]['product_name']          =  $p['product_name'];
+                        $_products[$pid]['image']                 =  ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];
+                        $_products[$pid]['quantity']              =  intval($p['quantity']);
+                        $_products[$pid]['price']                 =  intval($p['price']);
+                        $_products[$pid]['product_total']         =  intval($p['price'] * $p['quantity']);
+                        $p_total  += ($p['price'] * $p['quantity']);
+                    }
+                    $_order ['total']     = $p_total;
+                    $_order ['products']  = $_products;
+                    $this->terminate('success',$_order,200);
+
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['ORDER_ID_NOT_FOUND'],400);
+                }
+
+
+            }else{
+                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_ID'],400);
             }
         }else{
             $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);

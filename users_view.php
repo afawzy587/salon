@@ -62,34 +62,39 @@
                         <div class="row">
                             <div class="col-md-7">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['phone'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo $user['phone'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['phone'];?> :</strong></span>
+								<span class="view_span"><?php echo $user['phone'];?></span>
 							  </div> 
 							</div> 
                             <div class="col-md-5">
                               <div class="alert">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['ADDRESS'];?> : </strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo $user['address'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['ADDRESS'];?> : </strong></span>
+								<span class="view_span"><?php echo $user['address'];?></span>
 							 </div>
                            </div>
                        </div> 
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['email'];?> : </strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo $user['email'];?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['email'];?> : </strong></span>
+								<span class="view_span"><?php echo $user['email'];?></span>
 							  </div> 
 							</div> 
                             <div class="col-md-12">
                               <div class="alert">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['last_login'];?> : </strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo _date_format($user['last_login']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['last_login'];?> : </strong></span>
+								<span class="view_span"><?php echo _date_format($user['last_login']);?></span>
 							 </div>
                            </div>
                        </div>
                         <div class="alert ">
-                            <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                            <span style="width:75%;display:inline-block;"><?php if($user['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
+                            <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['USER_TYPE'];?>  : </strong></span>
+                            <span class="view_span"><?php if($user['type'] == 'user'){echo $lang['DAS_user'];}elseif($user['type'] == 'client'){
+                                echo $lang['APP_CLIENT'];}?></span>
+                        </div>
+                        <div class="alert ">
+                            <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                            <span class="view_span"><?php if($user['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
                                 echo '<i class="fa fa-check"style="font-size:18px"  dir="ltr">'.$lang['active'].'</i>';}?></span>
                         </div>
                     </div>

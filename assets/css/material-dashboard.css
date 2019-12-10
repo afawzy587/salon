@@ -13494,7 +13494,7 @@ fieldset[disabled] .form-group .form-control {
 }
 
 .alert span {
-  display: block;
+  display: inline-block;
   max-width: 89%;
 }
 
@@ -18836,6 +18836,11 @@ Copyright (c) 2015 Daniel Eden
   .sidebar .navbar-form {
     display: none !important;
   }
+}
+.view_span{
+    width:auto;
+    display:inline-block;
+    margin:0 30px;
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */

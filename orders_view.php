@@ -51,16 +51,16 @@
                       <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['user'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo getusername($orders['user_id']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['user'];?> :</strong></span>
+								<span class="view_span"><?php echo getusername($orders['user_id']);?></span>
 							  </div>
 							</div>
                        </div>
                       <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['order_type'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;">
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['order_type'];?> :</strong></span>
+								<span class="view_span">
                                     <?php
                                     if($orders['order_type'] == 'home')
                                     { echo $lang['from_home'].'<i class="material-icons">motorcycle</i>';
@@ -73,8 +73,8 @@
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['date'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo _date_format($orders['order_date']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['date'];?> :</strong></span>
+								<span class="view_span"><?php echo _date_format($orders['order_date']);?></span>
 							  </div>
 							</div>
                        </div>
@@ -131,8 +131,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;">
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                                    <span class="view_span">
                                         <?php if($orders['status'] == 0)
                                             {
                                                 echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['admin_cancel'].'</i>';

@@ -50,22 +50,22 @@
                       <div class="row">
                             <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['user'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo getusername($service_order['user_id']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['user'];?> :</strong></span>
+								<span class="view_span"><?php echo getusername($service_order['user_id']);?></span>
 							  </div>
 							</div>
                           <div class="col-md-6">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['branch'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo getbranchname($service_order['branch_id']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['branch'];?> :</strong></span>
+								<span class="view_span"><?php echo getbranchname($service_order['branch_id']);?></span>
 							  </div>
 							</div>
                        </div>
                       <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['order_type'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;">
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['order_type'];?> :</strong></span>
+								<span class="view_span">
                                     <?php
                                     if($service_order['order_type'] == 'home')
                                     { echo $lang['from_home'].'<i class="material-icons">motorcycle</i>';
@@ -79,8 +79,8 @@
                         <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['date'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo _date_format($service_order['date']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['date'];?> :</strong></span>
+								<span class="view_span"><?php echo _date_format($service_order['date']);?></span>
 							  </div>
 							</div>
                        </div>
@@ -92,6 +92,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                <div class="table-responsive">
                                  <table class="table table-bordered table-sm">
                                     <thead>
                                       <tr>
@@ -134,6 +135,7 @@
                                         </tr>
                                     </tbody>
                                   </table>
+                                </div>
                             </div>
                         </div>
                          <br/>
@@ -141,8 +143,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;">
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                                    <span class="view_span">
                                         <?php if($service_order['status'] == 0)
                                             {
                                                 echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['admin_cancel'].'</i>';

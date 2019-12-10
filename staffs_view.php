@@ -60,8 +60,8 @@
                       <div class="row">
                             <div class="col-md-12">
                               <div class="alert ">
-								<span style="width:15%;display:inline-block;vertical-align:top;"><strong><?php echo $lang['branch'];?> :</strong></span>
-								<span style="width:80%;display:inline-block;"><?php echo getbranchname($staff['branch_id']);?></span>
+								<span style="width:auto;display:inline-block;vertical-align:top;"><strong><?php echo $lang['branch'];?> :</strong></span>
+								<span class="view_span"><?php echo getbranchname($staff['branch_id']);?></span>
 							  </div> 
 							</div> 
                        </div>
@@ -73,6 +73,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                <div class="table-responsive">
                                  <table class="table table-bordered table-sm">
                                     <thead>
                                       <tr>
@@ -184,6 +185,7 @@
                                      
                                     </tbody>
                                   </table>
+                                </div>
                             </div>
                         </div>
                          <br/>  
@@ -191,8 +193,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="alert ">
-                                    <span style="width:20%;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
-                                    <span style="width:75%;display:inline-block;"><?php if($staff['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
+                                    <span style="width:auto;display:inline-block;vertical-align:top;"><strong>  <?php echo $lang['status'];?>  : </strong></span>
+                                    <span class="view_span"><?php if($staff['status'] == 0){echo '<i class="fa fa-close" style="font-size:18px;color:red" dir="ltr">'.$lang['deactive'].'</i>';}else{
                                         echo '<i class="fa fa-check"style="font-size:18px"  dir="ltr">'.$lang['active'].'</i>';}?></span>
                                 </div>
                             </div>

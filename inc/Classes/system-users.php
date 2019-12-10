@@ -107,7 +107,7 @@ class systemUsers
 		}
 		$GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `".$this->tableName."`
 		(`user_serial`, `user_name`, `email`, `user_address`, `password`, `phone`, `type`, `user_photo`, `group_id`,`user_status`,`verified`)
-		VALUES ( NULL ,  '".$Users['name']."' ,'".$Users['email']."' , '".$Users['address']."' ,'".$Users['password']."' ,'".$Users['phone']."' ,''".$Users['type']."' ,'".$Users['image']."' ,'".$Users['group']."','".$Users['status']."',1) ");
+		VALUES ( NULL ,  '".$Users['name']."' ,'".$Users['email']."' , '".$Users['address']."' ,'".$Users['password']."' ,'".$Users['phone']."' ,'".$Users['type']."' ,'".$Users['image']."' ,'".$Users['group']."','".$Users['status']."',1) ");
 		return 1;
 	}
 

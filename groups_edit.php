@@ -153,345 +153,347 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                 <table class="table table-bordered table-sm">
-                                    <thead>
-                                      <tr>
-                                        <th><?php echo $lang['PAGE'];?></th>
-                                        <th><?php echo $lang['SHOW_VIEW'];?></th>
-                                        <th><?php echo $lang['ADD_CONTROLLER'];?></th>
-                                        <th><?php echo $lang['DELETE_CONTROLLER'];?></th>
-                                        <th><?php echo $lang['EDIT_CONTROLLER'];?></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                            <h4><?php echo $lang['groups'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="groups_view" value="1" id="groups_view"
-                                                       <?php if($_group){if($_group['groups_view'] == 1){echo 'checked';}}else{if($u['groups_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="groups_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="groups_add" value="1" id="groups_add"
-                                                       <?php if($_group){if($_group['groups_add'] == 1){echo 'checked';}}else{if($u['groups_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="groups_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="groups_delete" value="1" id="groups_delete"
-                                                       <?php if($_group){if($_group['groups_delete'] == 1){echo 'checked';}}else{if($u['groups_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="groups_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="groups_edit" value="1" id="groups_edit"
-                                                       <?php if($_group){if($_group['groups_edit'] == 1){echo 'checked';}}else{if($u['groups_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="groups_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                     <tr>
-                                        <td>
-                                            <h4><?php echo $lang['users'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="users_view" value="1" id="users_view"
-                                                       <?php if($_group){if($_group['users_view'] == 1){echo 'checked';}}else{if($u['users_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="users_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="users_add" value="1" id="users_add"
-                                                       <?php if($_group){if($_group['users_add'] == 1){echo 'checked';}}else{if($u['users_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="users_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="users_delete" value="1" id="users_delete"
-                                                       <?php if($_group){if($_group['users_delete'] == 1){echo 'checked';}}else{if($u['users_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="users_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="users_edit" value="1" id="users_edit"
-                                                       <?php if($_group){if($_group['users_edit'] == 1){echo 'checked';}}else{if($u['users_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="users_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                    <tr>
-                                        <td>
-                                            <h4><?php echo $lang['branches'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="branches_view" value="1" id="branches_view"
-                                                       <?php if($_group){if($_group['branches_view'] == 1){echo 'checked';}}else{if($u['branches_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="branches_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="branches_add" value="1" id="branches_add"
-                                                       <?php if($_group){if($_group['branches_add'] == 1){echo 'checked';}}else{if($u['branches_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="branches_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="branches_delete" value="1" id="branches_delete"
-                                                       <?php if($_group){if($_group['branches_delete'] == 1){echo 'checked';}}else{if($u['branches_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="branches_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="branches_edit" value="1" id="branches_edit"
-                                                       <?php if($_group){if($_group['branches_edit'] == 1){echo 'checked';}}else{if($u['branches_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="branches_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                    <tr>
-                                        <td>
-                                            <h4><?php echo $lang['services'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="services_view" value="1" id="services_view"
-                                                       <?php if($_group){if($_group['services_view'] == 1){echo 'checked';}}else{if($u['services_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="services_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="services_add" value="1" id="services_add"
-                                                       <?php if($_group){if($_group['services_add'] == 1){echo 'checked';}}else{if($u['services_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="services_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="services_delete" value="1" id="services_delete"
-                                                       <?php if($_group){if($_group['services_delete'] == 1){echo 'checked';}}else{if($u['services_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="services_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="services_edit" value="1" id="services_edit"
-                                                       <?php if($_group){if($_group['services_edit'] == 1){echo 'checked';}}else{if($u['services_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="services_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                    <tr>
-                                        <td>
-                                            <h4><?php echo $lang['staffs'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="staffs_view" value="1" id="staffs_view"
-                                                       <?php if($_group){if($_group['staffs_view'] == 1){echo 'checked';}}else{if($u['staffs_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="staffs_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="staffs_add" value="1" id="staffs_add"
-                                                       <?php if($_group){if($_group['staffs_add'] == 1){echo 'checked';}}else{if($u['staffs_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="staffs_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="staffs_delete" value="1" id="staffs_delete"
-                                                       <?php if($_group){if($_group['staffs_delete'] == 1){echo 'checked';}}else{if($u['staffs_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="staffs_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="staffs_edit" value="1" id="staffs_edit"
-                                                       <?php if($_group){if($_group['staffs_edit'] == 1){echo 'checked';}}else{if($u['staffs_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="staffs_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                     <tr>
-                                        <td>
-                                            <h4><?php echo $lang['categories'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="categories_view" value="1" id="categories_view"
-                                                       <?php if($_group){if($_group['categories_view'] == 1){echo 'checked';}}else{if($u['categories_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="categories_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="categories_add" value="1" id="categories_add"
-                                                       <?php if($_group){if($_group['categories_add'] == 1){echo 'checked';}}else{if($u['categories_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="categories_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="categories_delete" value="1" id="categories_delete"
-                                                       <?php if($_group){if($_group['categories_delete'] == 1){echo 'checked';}}else{if($u['categories_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="categories_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="categories_edit" value="1" id="categories_edit"
-                                                       <?php if($_group){if($_group['categories_edit'] == 1){echo 'checked';}}else{if($u['categories_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="categories_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                    <tr>
-                                        <td>
-                                            <h4><?php echo $lang['products'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="products_view" value="1" id="products_view"
-                                                       <?php if($_group){if($_group['products_view'] == 1){echo 'checked';}}else{if($u['products_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="products_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="products_add" value="1" id="products_add"
-                                                       <?php if($_group){if($_group['products_add'] == 1){echo 'checked';}}else{if($u['products_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="products_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="products_delete" value="1" id="products_delete"
-                                                       <?php if($_group){if($_group['products_delete'] == 1){echo 'checked';}}else{if($u['products_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="products_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="products_edit" value="1" id="products_edit"
-                                                       <?php if($_group){if($_group['products_edit'] == 1){echo 'checked';}}else{if($u['products_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="products_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                    <tr>
-                                        <td>
-                                            <h4><?php echo $lang['orders'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_view" value="1" id="orders_view"
-                                                       <?php if($_group){if($_group['orders_view'] == 1){echo 'checked';}}else{if($u['orders_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="orders_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_add" value="1" id="orders_add"
-                                                       <?php if($_group){if($_group['orders_add'] == 1){echo 'checked';}}else{if($u['orders_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="orders_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_delete" value="1" id="orders_delete"
-                                                       <?php if($_group){if($_group['orders_delete'] == 1){echo 'checked';}}else{if($u['orders_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="orders_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="orders_edit" value="1" id="orders_edit"
-                                                       <?php if($_group){if($_group['orders_edit'] == 1){echo 'checked';}}else{if($u['orders_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="orders_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                     <tr>
-                                        <td>
-                                            <h4><?php echo $lang['service_orders'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="service_order_view" value="1" id="service_order_view"
-                                                       <?php if($_group){if($_group['service_order_view'] == 1){echo 'checked';}}else{if($u['service_order_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="service_order_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="service_order_add" value="1" id="service_order_add"
-                                                       <?php if($_group){if($_group['service_order_add'] == 1){echo 'checked';}}else{if($u['service_order_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="service_order_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="service_order_delete" value="1" id="service_order_delete"
-                                                       <?php if($_group){if($_group['service_order_delete'] == 1){echo 'checked';}}else{if($u['service_order_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="service_order_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="service_order_edit" value="1" id="service_order_edit"
-                                                       <?php if($_group){if($_group['service_order_edit'] == 1){echo 'checked';}}else{if($u['service_order_edit'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="service_order_edit"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                      </tr>
-                                     <tr>
-                                        <td>
-                                            <h4><?php echo $lang['gallery'];?></h4>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="gallery_view" value="1" id="gallery_view"
-                                                       <?php if($_group){if($_group['gallery_view'] == 1){echo 'checked';}}else{if($u['gallery_view'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="gallery_view"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="gallery_add" value="1" id="gallery_add"
-                                                       <?php if($_group){if($_group['gallery_add'] == 1){echo 'checked';}}else{if($u['gallery_add'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="gallery_add"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="custom-control custom-checkbox col-md-3">
-                                                <input type="checkbox" class="checkhour custom-control-input" name="gallery_delete" value="1" id="gallery_delete"
-                                                       <?php if($_group){if($_group['gallery_delete'] == 1){echo 'checked';}}else{if($u['gallery_delete'] == 1){echo 'checked';}}?>/>
-                                                 <label class="custom-control-label" for="gallery_delete"><b><?php echo $lang['active'];?></b></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        </td>
-                                      </tr>
+                                    <div class="table-responsive">
+                                     <table class="table table-bordered table-sm">
+                                        <thead>
+                                          <tr>
+                                            <th><?php echo $lang['PAGE'];?></th>
+                                            <th><?php echo $lang['SHOW_VIEW'];?></th>
+                                            <th><?php echo $lang['ADD_CONTROLLER'];?></th>
+                                            <th><?php echo $lang['DELETE_CONTROLLER'];?></th>
+                                            <th><?php echo $lang['EDIT_CONTROLLER'];?></th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td>
+                                                <h4><?php echo $lang['groups'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="groups_view" value="1" id="groups_view"
+                                                           <?php if($_group){if($_group['groups_view'] == 1){echo 'checked';}}else{if($u['groups_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="groups_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="groups_add" value="1" id="groups_add"
+                                                           <?php if($_group){if($_group['groups_add'] == 1){echo 'checked';}}else{if($u['groups_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="groups_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="groups_delete" value="1" id="groups_delete"
+                                                           <?php if($_group){if($_group['groups_delete'] == 1){echo 'checked';}}else{if($u['groups_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="groups_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="groups_edit" value="1" id="groups_edit"
+                                                           <?php if($_group){if($_group['groups_edit'] == 1){echo 'checked';}}else{if($u['groups_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="groups_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                         <tr>
+                                            <td>
+                                                <h4><?php echo $lang['users'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="users_view" value="1" id="users_view"
+                                                           <?php if($_group){if($_group['users_view'] == 1){echo 'checked';}}else{if($u['users_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="users_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="users_add" value="1" id="users_add"
+                                                           <?php if($_group){if($_group['users_add'] == 1){echo 'checked';}}else{if($u['users_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="users_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="users_delete" value="1" id="users_delete"
+                                                           <?php if($_group){if($_group['users_delete'] == 1){echo 'checked';}}else{if($u['users_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="users_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="users_edit" value="1" id="users_edit"
+                                                           <?php if($_group){if($_group['users_edit'] == 1){echo 'checked';}}else{if($u['users_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="users_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                        <tr>
+                                            <td>
+                                                <h4><?php echo $lang['branches'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="branches_view" value="1" id="branches_view"
+                                                           <?php if($_group){if($_group['branches_view'] == 1){echo 'checked';}}else{if($u['branches_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="branches_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="branches_add" value="1" id="branches_add"
+                                                           <?php if($_group){if($_group['branches_add'] == 1){echo 'checked';}}else{if($u['branches_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="branches_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="branches_delete" value="1" id="branches_delete"
+                                                           <?php if($_group){if($_group['branches_delete'] == 1){echo 'checked';}}else{if($u['branches_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="branches_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="branches_edit" value="1" id="branches_edit"
+                                                           <?php if($_group){if($_group['branches_edit'] == 1){echo 'checked';}}else{if($u['branches_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="branches_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                        <tr>
+                                            <td>
+                                                <h4><?php echo $lang['services'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="services_view" value="1" id="services_view"
+                                                           <?php if($_group){if($_group['services_view'] == 1){echo 'checked';}}else{if($u['services_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="services_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="services_add" value="1" id="services_add"
+                                                           <?php if($_group){if($_group['services_add'] == 1){echo 'checked';}}else{if($u['services_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="services_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="services_delete" value="1" id="services_delete"
+                                                           <?php if($_group){if($_group['services_delete'] == 1){echo 'checked';}}else{if($u['services_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="services_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="services_edit" value="1" id="services_edit"
+                                                           <?php if($_group){if($_group['services_edit'] == 1){echo 'checked';}}else{if($u['services_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="services_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                        <tr>
+                                            <td>
+                                                <h4><?php echo $lang['staffs'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="staffs_view" value="1" id="staffs_view"
+                                                           <?php if($_group){if($_group['staffs_view'] == 1){echo 'checked';}}else{if($u['staffs_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="staffs_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="staffs_add" value="1" id="staffs_add"
+                                                           <?php if($_group){if($_group['staffs_add'] == 1){echo 'checked';}}else{if($u['staffs_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="staffs_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="staffs_delete" value="1" id="staffs_delete"
+                                                           <?php if($_group){if($_group['staffs_delete'] == 1){echo 'checked';}}else{if($u['staffs_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="staffs_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="staffs_edit" value="1" id="staffs_edit"
+                                                           <?php if($_group){if($_group['staffs_edit'] == 1){echo 'checked';}}else{if($u['staffs_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="staffs_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                         <tr>
+                                            <td>
+                                                <h4><?php echo $lang['categories'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="categories_view" value="1" id="categories_view"
+                                                           <?php if($_group){if($_group['categories_view'] == 1){echo 'checked';}}else{if($u['categories_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="categories_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="categories_add" value="1" id="categories_add"
+                                                           <?php if($_group){if($_group['categories_add'] == 1){echo 'checked';}}else{if($u['categories_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="categories_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="categories_delete" value="1" id="categories_delete"
+                                                           <?php if($_group){if($_group['categories_delete'] == 1){echo 'checked';}}else{if($u['categories_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="categories_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="categories_edit" value="1" id="categories_edit"
+                                                           <?php if($_group){if($_group['categories_edit'] == 1){echo 'checked';}}else{if($u['categories_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="categories_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                        <tr>
+                                            <td>
+                                                <h4><?php echo $lang['products'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="products_view" value="1" id="products_view"
+                                                           <?php if($_group){if($_group['products_view'] == 1){echo 'checked';}}else{if($u['products_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="products_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="products_add" value="1" id="products_add"
+                                                           <?php if($_group){if($_group['products_add'] == 1){echo 'checked';}}else{if($u['products_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="products_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="products_delete" value="1" id="products_delete"
+                                                           <?php if($_group){if($_group['products_delete'] == 1){echo 'checked';}}else{if($u['products_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="products_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="products_edit" value="1" id="products_edit"
+                                                           <?php if($_group){if($_group['products_edit'] == 1){echo 'checked';}}else{if($u['products_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="products_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                        <tr>
+                                            <td>
+                                                <h4><?php echo $lang['orders'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="orders_view" value="1" id="orders_view"
+                                                           <?php if($_group){if($_group['orders_view'] == 1){echo 'checked';}}else{if($u['orders_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="orders_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="orders_add" value="1" id="orders_add"
+                                                           <?php if($_group){if($_group['orders_add'] == 1){echo 'checked';}}else{if($u['orders_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="orders_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="orders_delete" value="1" id="orders_delete"
+                                                           <?php if($_group){if($_group['orders_delete'] == 1){echo 'checked';}}else{if($u['orders_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="orders_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="orders_edit" value="1" id="orders_edit"
+                                                           <?php if($_group){if($_group['orders_edit'] == 1){echo 'checked';}}else{if($u['orders_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="orders_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                         <tr>
+                                            <td>
+                                                <h4><?php echo $lang['service_orders'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="service_order_view" value="1" id="service_order_view"
+                                                           <?php if($_group){if($_group['service_order_view'] == 1){echo 'checked';}}else{if($u['service_order_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="service_order_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="service_order_add" value="1" id="service_order_add"
+                                                           <?php if($_group){if($_group['service_order_add'] == 1){echo 'checked';}}else{if($u['service_order_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="service_order_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="service_order_delete" value="1" id="service_order_delete"
+                                                           <?php if($_group){if($_group['service_order_delete'] == 1){echo 'checked';}}else{if($u['service_order_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="service_order_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="service_order_edit" value="1" id="service_order_edit"
+                                                           <?php if($_group){if($_group['service_order_edit'] == 1){echo 'checked';}}else{if($u['service_order_edit'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="service_order_edit"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                          </tr>
+                                         <tr>
+                                            <td>
+                                                <h4><?php echo $lang['gallery'];?></h4>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="gallery_view" value="1" id="gallery_view"
+                                                           <?php if($_group){if($_group['gallery_view'] == 1){echo 'checked';}}else{if($u['gallery_view'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="gallery_view"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="gallery_add" value="1" id="gallery_add"
+                                                           <?php if($_group){if($_group['gallery_add'] == 1){echo 'checked';}}else{if($u['gallery_add'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="gallery_add"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="custom-control custom-checkbox col-md-3">
+                                                    <input type="checkbox" class="checkhour custom-control-input" name="gallery_delete" value="1" id="gallery_delete"
+                                                           <?php if($_group){if($_group['gallery_delete'] == 1){echo 'checked';}}else{if($u['gallery_delete'] == 1){echo 'checked';}}?>/>
+                                                     <label class="custom-control-label" for="gallery_delete"><b><?php echo $lang['active'];?></b></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                            </td>
+                                          </tr>
 
-                                    </tbody>
-                                  </table>
+                                        </tbody>
+                                      </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
