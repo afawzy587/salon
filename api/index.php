@@ -18,14 +18,14 @@
         }elseif($_POST['mode'] == "login")
         {
             $api->checkCredintials();
-        }elseif($_GET['mode'] == "logout")
+        }elseif($_POST['mode'] == "logout")
         {
             $api->user_doLogOut();
         }elseif($_POST['mode'] == "avater")
         {
             $api->user_setAvater();
             
-        }elseif($_GET['mode'] == "profile"){
+        }elseif($_POST['mode'] == "profile"){
             $api->user_getCredintials();
             
         }elseif($_POST['mode'] == "edit_profile"){
@@ -50,8 +50,14 @@
                 $api->client_get_history();
             }elseif($_POST['mode'] == "product_order"){
                 $api->client_get_product_order();
+            }elseif($_POST['mode'] == "service_order"){
+                $api->client_get_service_order();
+            }else{
+                $api->terminate('error','unknown CLIENT parameters',404);
             }
-        }
+        }else{
+                $api->terminate('error','unknown POST parameters',404);
+            }
 	}elseif($_GET){
         
         if($_GET['mode'] == 'salon_details')
@@ -73,7 +79,9 @@
             $api->client_get_branch_staff();
         }elseif($_GET['mode'] == 'active'){
             $api->user_activemail();
-        }
+        }else{
+		  $api->terminate('error','unknown GET parameters',404);
+	   }
         
     }else{
 		$api->terminate('error','unknown POST parameters',404);

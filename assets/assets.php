@@ -161,12 +161,12 @@
     function getbranchname($_Id)
 	{
 
-		$branch = $GLOBALS['db']->query(" SELECT b.`branch_name` FROM `salon_branches` b WHERE b.`branch_serial` = '".$_Id."' LIMIT 1");
+		$branch = $GLOBALS['db']->query(" SELECT `branch_name` FROM `salon_branches`  WHERE `branch_serial` = '".$_Id."' LIMIT 1");
 		$branchCount = $GLOBALS['db']->resultcount();
 		if($branchCount == 1)
 		{
 			$_branch = $GLOBALS['db']->fetchitem($branch);
-			return $_branch['branch_name'];
+			return($_branch['branch_name']);
 		}
 		else
 		{

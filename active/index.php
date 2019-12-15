@@ -17,34 +17,41 @@ ob_start("ob_gzhandler");
             }else{
                 $salt  = "wZy";
                 $_data = str_replace($salt,"",$data);
-
-                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `verified_code` = '".$_data."'  LIMIT 1");
-                $usersCount = $GLOBALS['db']->resultcount();
-                if($usersCount == 1)
+                if($_data != "")
                 {
-                    $userCredintials    = $GLOBALS['db']->fetchitem($userQuery);
+                    $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `verified_code` = '".$_data."'  LIMIT 1");
+                    $usersCount = $GLOBALS['db']->resultcount();
+                    if($usersCount == 1)
+                    {
+                        $userCredintials    = $GLOBALS['db']->fetchitem($userQuery);
 
-                    $GLOBALS['db']->query(
-                        "UPDATE `users` SET
-                        `verified_code`='0',
-                        `verified`='1'
-                        WHERE `user_serial`='".$userCredintials['user_serial']."'
-                    ");
-                     $message = $lang['email_activated'];
-                     $type    = "success";
-                    $logs->addLog(7,
-                        array(
-                            "type" 		=> 	"client",
-                            "module" 	=> 	"active",
-                            "mode" 		=> 	"get",
-                            "id" 		=>	$userCredintials['user_serial'],
-                        ),"client",$userCredintials['user_serial'],1
-                    );
+                        $GLOBALS['db']->query(
+                            "UPDATE `users` SET
+                            `verified_code`='0',
+                            `verified`='1'
+                            WHERE `user_serial`='".$userCredintials['user_serial']."'
+                        ");
+                         $message = $lang['email_activated'];
+                         $type    = "success";
+                        $logs->addLog(7,
+                            array(
+                                "type" 		=> 	"client",
+                                "module" 	=> 	"active",
+                                "mode" 		=> 	"get",
+                                "id" 		=>	$userCredintials['user_serial'],
+                            ),"client",$userCredintials['user_serial'],1
+                        );
+                    }else
+                    {
+                         $message = $lang['INVALID_LINK'];
+                         $type    = "error";
+                    }
                 }else
-                {
-                     $message = $lang['INVALID_LINK'];
-                     $type    = "error";
-                }
+                    {
+                         $message = $lang['INVALID_LINK'];
+                         $type    = "error";
+                    }
+
             }
 
         }else
@@ -64,7 +71,7 @@ ob_start("ob_gzhandler");
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Reset your password</title>
+    <title><?php echo $lang['ACTIVE_EMAIL'];?></title>
     <style>
         aside.right {
             background: url(mainbg2.png) center no-repeat;

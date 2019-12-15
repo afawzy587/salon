@@ -22,25 +22,40 @@
                 if($group['staffs_view'] == 0){
                     header("Location:./permission.php");
                 }else{
-                    include("./inc/Classes/pager.class.php");
-                    $page;
-                    $pager      = new pager();
-                    $page 		= intval($_GET[page]);
-                    $total      = $staff->getTotalstaff();
-                    $pager->doAnalysisPager("page",$page,$basicLimit,$total,"staff.php".$paginationAddons,$paginationDialm);
-                    $thispage = $pager->getPage();
-                    $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
-                    $pager =$pager->getAnalysis();
-                    $staff = $staff->getsitestaff($limitmequry);
-                    $logs->addLog(102,
-                            array(
-                                "type" 		        => 	"admin",
-                                "module" 	        => 	"staff",
-                                "mode" 		        => 	"list",
-                                "total" 		    => 	$total,
-                                "id" 	        	=>	$login->getUserId(),
-                            ),"admin",$login->getUserId(),1
-                        );
+                    $branch_id = intval($_GET['branch']);
+                    if($branch_id == 0)
+                    {
+                        include("./inc/Classes/pager.class.php");
+                        $page;
+                        $pager      = new pager();
+                        $page 		= intval($_GET[page]);
+                        $total      = $staff->getTotalstaff();
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$total,"staff.php".$paginationAddons,$paginationDialm);
+                        $thispage = $pager->getPage();
+                        $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
+                        $pager =$pager->getAnalysis();
+                        $staff = $staff->getsitestaff($limitmequry);
+                        $logs->addLog(102,
+                                array(
+                                    "type" 		        => 	"admin",
+                                    "module" 	        => 	"staff",
+                                    "mode" 		        => 	"list",
+                                    "total" 		    => 	$total,
+                                    "id" 	        	=>	$login->getUserId(),
+                                ),"admin",$login->getUserId(),1
+                            );
+                    }else{
+                        include("./inc/Classes/pager.class.php");
+                        $page;
+                        $pager      = new pager();
+                        $page 		= intval($_GET[page]);
+                        $paginationAddons ="?branch=".$branch_id;
+                        $pager->doAnalysisPager("page",$page,$basicLimit,$staff->getTotalbranchstaff($branch_id),"staff.php".$paginationAddons,true);
+                        $thispage = $pager->getPage();
+                        $limitmequry = " LIMIT ".($thispage-1) * $basicLimit .",". $basicLimit;
+                        $pager =$pager->getAnalysis();
+                        $staff = $staff->getsitestaff($limitmequry,$branch_id);
+                    }
                     if($_GET['message']== "update")
                     {
                       $message = $lang['edit_staff_success'];
@@ -120,7 +135,7 @@
                   <div class="card">
                     <div class="card-header card-header-primary">
                       <h4 class="card-title "><?php echo $lang['staffs'];?></h4>
-                      <p class="card-category"><?php echo $lang['staffs_mangment'];?></p>
+                      <p class="card-category"> <?php if($branch_id){ echo $lang['branch'].  ' : ' .getbranchname($branch_id);}?></p><p class="card-category"><?php echo $lang['staffs_mangment'];?></p>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">

@@ -19,6 +19,8 @@ $(document).ready(function(){
     $('a.status_active').click(function(e){
         e.preventDefault();
 		data   = $(this).parent('span').attr('id');
+              var result = data.split('|');
+              var id     =    result[3] ;
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
@@ -29,6 +31,8 @@ $(document).ready(function(){
 				success : function(data) {
 				if(data == 1190)
 				{
+//                    (speed,opacity,easing,callback)
+//                    $("#tr_" + id).find("td").eq(2).html("your new value here");
 					setTimeout(location.reload(), 1000);
 
 				}else if(data == 111)

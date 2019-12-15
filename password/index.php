@@ -24,7 +24,7 @@ ob_start("ob_gzhandler");
                     $userCredintials    = $GLOBALS['db']->fetchitem($userQuery);
                     if($_POST){
                          $pass           = sanitize($_POST["pass"]);
-                        $pass2          = sanitize($_POST["pass2"]);
+                        $pass2           = sanitize($_POST["pass2"]);
                         if($pass == "")
                         {
                             $error = $lang['INSERT_PASSWORD'];
@@ -36,15 +36,14 @@ ob_start("ob_gzhandler");
                                 if($pass == $pass2)
                                 {
                                     $password = crypt($pass,$salt);
-                                    $GLOBALS['db']->query(
+                                    $update = $GLOBALS['db']->query(
                                         "UPDATE `users` SET
                                         `recovery_code`='',
                                         `recovery_expired`='',
                                         `password`='".$password."'
                                         WHERE `user_serial`='".$userCredintials['user_serial']."'
                                     ");
-                                    header("Location:./active.php");
-
+                                         header("Location:./active.php");
                                 }else{
                                     $error = $lang['NOT_CONFIRM_PASSWORD'];
                                 }

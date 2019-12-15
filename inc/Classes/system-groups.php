@@ -107,7 +107,6 @@ class systemgroups
 
 	function setgroupsInformation($groups)
 	{
-
 		$GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
           `group_name`		           	 =	        '".$groups['name']."',
           `users_view`                   =          '".$groups['users_view']."',
@@ -152,7 +151,7 @@ class systemgroups
           `best_sellers_view`            =          '".$groups['best_sellers_view']."',
           `salons_edit`                  =          '".$groups['salons_edit']."',
           `rates_view`                   =          '".$groups['rates_view']."',
-          `status`		                 =	        '".$groups['status']."'
+          `group_status`		         =	        '".$groups['status']."'
           WHERE `group_serial`    	     = 	        '".$groups['id']."' LIMIT 1 ");
 		return 1;
 	}

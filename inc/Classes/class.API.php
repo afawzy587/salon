@@ -17,11 +17,11 @@ class API
 			"pagination"				=> 20,
 			"salt"					    => "wZy",
 			"unknown"					=> "unknown",
-			"img-default-avater"        => "defaults/avater.png",
+			"img-default-avater"        => "defaults/avater.jpg",
 			"product-default-image"     => "defaults/product.png",
-			"service-default-image"     => "defaults/service.png",
+			"service-default-image"     => "defaults/no_service.jpg",
 			"salon-default-image"       => "defaults/salon.png",
-			"gallery-default-image"     => "defaults/gallery.png",
+			"gallery-default-image"     => "defaults/no_service.jpg",
 			"img-default-sevice"        => "defaults/service.jpg",
 			"img-default-order"         => "defaults/order.svg",
 			"branch-default-image"      => "defaults/branch.png"
@@ -118,10 +118,10 @@ class API
 
 		return ($date);
 	}
-    private function dateWithLang($mode , $date)
+    private function dateWithLang($mode , $time)
 	{
 		$lang = sanitize($_POST['lang']);
-        $time = strtotime($date);
+//        $time = strtotime($date);
 		if($lang == "en")
 		{
 			$fullTime = date($mode,$time);
@@ -243,7 +243,7 @@ class API
 //							print_r($logData);
 							
 							$params = array_keys ($logData);
-							print_r($params);
+//							print_r($params);
 							
 							
 							$GLOBALS['db']->query( "INSERT LOW_PRIORITY INTO `log_type` (`id` , `type` ,`module` ,`mode` ,`params`) VALUES 
@@ -280,11 +280,11 @@ class API
 				"email"				    =>		$credintials["email"],
 				"user_address"			=>		$credintials["user_address"],		
 				"phone"			        =>		$credintials["phone"],
-				"group_id"				=>		intval($credintials["group_id"]),
-				"verified"	            =>		intval($credintials["verified"]),		
-				"image"			        =>		($credintials["user_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("img-default-image") : $this->getDefaults("img_url").$credintials["user_photo"],	
-				"user_status"			=>		intval($credintials["user_status"]),		
-				"last_login"			=>		$credintials["last_login"],		
+//				"group_id"				=>		intval($credintials["group_id"]),
+//				"verified"	            =>		intval($credintials["verified"]),
+				"image"			        =>		($credintials["user_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("img-default-avater") : $this->getDefaults("img_url").$credintials["user_photo"],
+//				"user_status"			=>		intval($credintials["user_status"]),
+//				"last_login"			=>		$credintials["last_login"],
 			);
 		
 		if($token != "")
@@ -335,67 +335,6 @@ class API
                         $this->terminate('error',$GLOBALS['lang']['INCORRECT_EMAIL'],400);
                     }else{
 
-                        if($_FILES)
-                        {
-                            if(!empty($_FILES['image']['error']))
-                            {
-                                switch($_FILES['image']['error'])
-                                {
-                                    case '1':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                        break;
-                                    case '2':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                        break;
-                                    case '3':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
-                                        break;
-                                    case '4':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
-                                        break;
-                                    case '6':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
-                                        break;
-                                    case '7':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
-                                        break;
-                                    case '8':
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
-                                        break;
-                                    case '999':
-                                    default:
-                                        $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
-                                }
-                            }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
-                            {
-                                $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
-                            }else
-                            {
-
-                                include_once("upload.class.php");
-                                $allow_ext = array("jpg","jpeg","gif","png");
-                                $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
-                                $files[name] 	= addslashes($_FILES["image"]["name"]);
-                                $files[type] 	= $_FILES["image"]['type'];
-                                $files[size] 	= $_FILES["image"]['size']/1024;
-                                $files[tmp] 	= $_FILES["image"]['tmp_name'];
-                                $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
-
-
-                                $upfile	= $upload->Upload_File($files);
-
-                                if($upfile)
-                                {
-                                    $imgUrl =  $upfile[newname];
-
-                                }else
-                                {
-                                   $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],400);
-                                }
-
-                                @unlink($_FILES['image']);
-                            }
-                        }
 
                         if($_Type == 'normal')
                         {
@@ -423,6 +362,68 @@ class API
                                                 $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
                                             }else
                                             {
+                                                if($_FILES)
+                                                {
+                                                    if(!empty($_FILES['image']['error']))
+                                                    {
+                                                        switch($_FILES['image']['error'])
+                                                        {
+                                                            case '1':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                                                break;
+                                                            case '2':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                                                break;
+                                                            case '3':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
+                                                                break;
+                                                            case '4':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
+                                                                break;
+                                                            case '6':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
+                                                                break;
+                                                            case '7':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
+                                                                break;
+                                                            case '8':
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
+                                                                break;
+                                                            case '999':
+                                                            default:
+                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
+                                                        }
+                                                    }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
+                                                    {
+                                                        $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
+                                                    }else
+                                                    {
+
+                                                        include_once("upload.class.php");
+                                                        $allow_ext = array("jpg","jpeg","gif","png");
+                                                        $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
+                                                        $files[name] 	= addslashes($_FILES["image"]["name"]);
+                                                        $files[type] 	= $_FILES["image"]['type'];
+                                                        $files[size] 	= $_FILES["image"]['size']/1024;
+                                                        $files[tmp] 	= $_FILES["image"]['tmp_name'];
+                                                        $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
+
+
+                                                        $upfile	= $upload->Upload_File($files);
+
+                                                        if($upfile)
+                                                        {
+                                                            $imgUrl =  $upfile[newname];
+
+                                                        }else
+                                                        {
+                                                           $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],400);
+                                                        }
+
+                                                        @unlink($_FILES['image']);
+                                                    }
+                                                }
+
                                                 $verifiedcode 	= $this->generateKey(5);
                                                 include_once("send_email.php");
                                                 $send    = new sendmail();
@@ -451,7 +452,7 @@ class API
                                                     if($pid)
                                                     {
 
-                                                            $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                        $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
                                                         $this->addLog(1,
                                                                 array(
                                                                     "type" 		=> 	"client",
@@ -499,20 +500,21 @@ class API
                                             $this->terminate('error',$GLOBALS['lang']['FACEBOOK_ID_USED'],400);
                                         }else
                                         {
-                                            include_once("send_email.php");
-                                            $send    = new sendmail();
+//                                            $verifiedcode 	= $this->generateKey(5);
+//                                            include_once("send_email.php");
+//                                            $send    = new sendmail();
+//
+//                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+//
+//                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+//
+//                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
+//
+//                                            $done = $send->email($_mail,$_link,$subject);
+//
+//                                            if($done == 1)
+//                                            {
 
-                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-
-                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-
-                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
-
-                                            $done = $send->email($_mail,$_link,$subject);
-
-                                            if($done == 1)
-                                            {
-                                                $verifiedcode 	= $this->generateKey(5);
                                                 $GLOBALS['db']->query
                                                 ("
                                                     INSERT INTO `users`
@@ -520,7 +522,7 @@ class API
                                                          `user_name`, `email`, `face_id`, `face_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
                                                     ) VALUES
                                                     (
-                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','1', '1'
                                                     )
                                                 ");
 
@@ -529,23 +531,51 @@ class API
                                                 if($pid)
                                                 {
 
-                                                        $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                    $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE  `user_serial` = '".$pid."'  LIMIT 1");
+                                                    $userCount = $GLOBALS['db']->resultcount();
+                                                    if($userCount == 1)
+                                                    {
+                                                        $userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
+                                                        if($userCredintials['user_status'] != 0)
+                                                        {
+                                                            if($userCredintials['type'] == "client")
+                                                            {
+                                                                if($userCredintials['verified'] == 1)
+                                                                {
+                                                                    $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
+                                                                    $this->updateLoginTime($doctorCredintials['id']);
+                                                                    $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+                                                                    $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
+                                                                    $this->addLog(1,
+                                                                        array(
+                                                                            "type" 		=> 	"client",
+                                                                            "module" 	=> 	"membership",
+                                                                            "mode" 		=> 	"register_facebook",
+                                                                            "id" 		=>	$pid,
+                                                                        ),"patient",$pid,1
+                                                                    );
+                                                                    $this->terminate('success',$_doctorCredintials,200);
+                                                                }else{
+                                                                    $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                                                                }
+                                                            }else{
+                                                                $this->terminate('error',$GLOBALS['lang']['NO_ACCESS_TO_LOGIN'],400);
+                                                            }
+                                                        }else{
+                                                            $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
+                                                        }
+                                                    }else{
+                                                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                                                   }
 
-                                                    $this->addLog(1,
-                                                            array(
-                                                                "type" 		=> 	"client",
-                                                                "module" 	=> 	"membership",
-                                                                "mode" 		=> 	"register_normal",
-                                                                "id" 		=>	$pid,
-                                                            ),"patient",$pid,1
-                                                        );
+
                                                 }else
                                                 {
                                                     $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                                 }
-                                            }else{
-                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
-                                            }
+//                                            }else{
+//                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
+//                                            }
                                        }
                                    }
                                }
@@ -577,20 +607,20 @@ class API
                                             $this->terminate('error',$GLOBALS['lang']['GOOGLE_ID_USED'],400);
                                         }else
                                         {
-                                            $verifiedcode 	= $this->generateKey(5);
-                                            include_once("send_email.php");
-                                            $send    = new sendmail();
-
-                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
-
-                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
-
-                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
-
-                                            $done = $send->email($_mail,$_link,$subject);
-
-                                            if($done == 1)
-                                            {
+//                                            $verifiedcode 	= $this->generateKey(5);
+//                                            include_once("send_email.php");
+//                                            $send    = new sendmail();
+//
+//                                            $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$verifiedcode.$this->getDefaults("salt");
+//
+//                                            $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+//
+//                                            $subject = $GLOBALS['lang']['Salon_verified_email'];
+//
+//                                            $done = $send->email($_mail,$_link,$subject);
+//
+//                                            if($done == 1)
+//                                            {
                                                 $GLOBALS['db']->query
                                                 ("
                                                     INSERT INTO `users`
@@ -598,7 +628,7 @@ class API
                                                          `user_name`, `email`, `google_id`, `google_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
                                                     ) VALUES
                                                     (
-                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','1', '1'
                                                     )
                                                 ");
 
@@ -606,13 +636,47 @@ class API
 
                                                 if($pid)
                                                 {
-
-                                                    $this->terminate('success',$GLOBALS['lang']['Registeration_Success'] ,100);
+                                                    $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE  `user_serial` = '".$pid."'  LIMIT 1");
+                                                    $userCount = $GLOBALS['db']->resultcount();
+                                                    if($userCount == 1)
+                                                    {
+                                                        $userCredintials 		= $GLOBALS['db']->fetchitem($userLoginQuery);
+                                                        if($userCredintials['user_status'] != 0)
+                                                        {
+                                                            if($userCredintials['type'] == "client")
+                                                            {
+                                                                if($userCredintials['verified'] == 1)
+                                                                {
+                                                                    $staticKey 				= $this->updateToken("client",$userCredintials['user_serial'],$_udid);
+                                                                    $this->updateLoginTime($doctorCredintials['id']);
+                                                                    $GLOBALS['db']->query("UPDATE `pushs` SET `out` = '1'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+                                                                    $_doctorCredintials 	= $this->buildMembershipCredintials($userCredintials,$staticKey);
+                                                                    $this->addLog(2,
+                                                                        array(
+                                                                            "type" 		=> 	"client",
+                                                                            "module" 	=> 	"login",
+                                                                            "mode" 		=> 	"login",
+                                                                            "id" 		=>	$userCredintials['user_serial'],
+                                                                        ),"client",$userCredintials['user_serial'],1
+                                                                    );
+                                                                    $this->terminate('success',$_doctorCredintials,200);
+                                                                }else{
+                                                                    $this->terminate('error', $GLOBALS['lang']['ACCOUT_NOT_VERIFIED'],400);
+                                                                }
+                                                            }else{
+                                                                $this->terminate('error',$GLOBALS['lang']['NO_ACCESS_TO_LOGIN'],400);
+                                                            }
+                                                        }else{
+                                                            $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
+                                                        }
+                                                    }else{
+                                                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                                                   }
                                                     $this->addLog(1,
                                                             array(
                                                                 "type" 		=> 	"client",
                                                                 "module" 	=> 	"membership",
-                                                                "mode" 		=> 	"register_normal",
+                                                                "mode" 		=> 	"register_google",
                                                                 "id" 		=>	$pid,
                                                             ),"patient",$pid,1
                                                         );
@@ -620,9 +684,9 @@ class API
                                                 {
                                                     $this->terminate('error',$GLOBALS['lang']['ERROR_IN_INSERT'] ,400);
                                                 }
-                                            }else{
-                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
-                                            }
+//                                            }else{
+//                                                $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
+//                                            }
                                        }
                                    }
                                 }
@@ -680,7 +744,7 @@ class API
 		   }
 
         }else{
-            $_fbId 					= sanitize($_POST['face_id']);
+            $_fbId 					= sanitize($_POST['facebook_id']);
             if ( $_fbId != ""  )
             {
                 $userLoginQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE  `face_id` = '".$_fbId."'  LIMIT 1");
@@ -717,8 +781,8 @@ class API
                         $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
                     }
                 }else{
-                    $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
-//                    $this->AddNewuserRegister('facebook');
+//                    $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                    $this->AddNewuserRegister('facebook');
                }
 
             }else
@@ -760,7 +824,8 @@ class API
                             $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
                         }
                     }else{
-                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+//                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
+                        $this->AddNewuserRegister('google');
                    }
 
                 }else{
@@ -774,7 +839,7 @@ class API
 		$tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
         {
-            $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+            $userQuery  = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
             $usersCount = $GLOBALS['db']->resultcount();
             if($usersCount == 1)
             {
@@ -1013,14 +1078,31 @@ class API
                                                 $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
                                             }else
                                             {
-                                                 if( $userCredintials['phone']  != $_phone)
+                                                 if( $userCredintials['email']  != $_mail)
                                                  {
                                                     $code 	        = $this->generateKey(5);
-                                                    $verified_code  = "`verified_code`='".$code."',`verified`='0',"; // send new veried
+                                                    include_once("send_email.php");
+                                                    $send    = new sendmail();
+
+                                                    $link    = $this->getDefaults("url").'/active/index.php?mode=active&data='.$code.$this->getDefaults("salt");
+
+                                                    $_link   ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
+
+                                                    $subject = $GLOBALS['lang']['Salon_verified_email'];
+
+                                                    $done = $send->email($_mail,$_link,$subject);
+
+                                                    if($done == 1)
+                                                    {
+                                                        $verified_code  = "`verified_code`='".$code."',`verified`='0',"; // send new veried
+                                                    }else{
+                                                        $this->terminate('error',$GLOBALS['lang']['connection_filed'],505);
+                                                    }
                                                  }else
                                                  {
                                                      $verified_code  = "";
                                                  }
+
 
                                                     $GLOBALS['db']->query(
                                                         "UPDATE `users` SET 
@@ -1031,10 +1113,8 @@ class API
                                                         WHERE `user_serial`='".$tokenUserId."'
                                                     ");
                                                 
-                                                    $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
-                                                    $_user = $GLOBALS['db']->fetchitem($userQuery);
-                                                    $_userCredintials 	= $this->buildMembershipCredintials($_user,"");
-                                                    $this->terminate('success',$_userCredintials,200);
+                                                if($done == 1)
+                                                {
                                                     $this->addLog(6,
                                                         array(
                                                             "type" 		=> 	"client",
@@ -1043,6 +1123,21 @@ class API
                                                             "id" 		=>	$userCredintials['user_serial'],
                                                         ),"client",$userCredintials['user_serial'],1
                                                     );
+                                                    $this->terminate('success',$GLOBALS['lang']['SEND_ACTIVE_TO_MAIL'],100);
+                                                }else{
+                                                    $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+                                                    $_user = $GLOBALS['db']->fetchitem($userQuery);
+                                                    $_userCredintials 	= $this->buildMembershipCredintials($_user,"");
+                                                    $this->addLog(6,
+                                                        array(
+                                                            "type" 		=> 	"client",
+                                                            "module" 	=> 	"credintials",
+                                                            "mode" 		=> 	"get",
+                                                            "id" 		=>	$userCredintials['user_serial'],
+                                                        ),"client",$userCredintials['user_serial'],1
+                                                    );
+                                                    $this->terminate('success',$_userCredintials,200);
+                                                }
 
                                             }
                                         }
@@ -1550,7 +1645,7 @@ class API
         $type = sanitize($_GET['type']);
         if($type != "")
         {
-            $addquery = "AND `gallery_type` = '".$type."' ";
+            $addquery = "AND `gallery_type` = '".$type."' ORDER BY `gallery_serial` DESC".$queryLimit;
         }else{
             $addquery = "ORDER BY `gallery_serial` DESC".$queryLimit;
         }
@@ -1848,7 +1943,7 @@ class API
                                             $items =[];
                                             foreach($_serivces as $k => $s)
                                             {
-                                                $items[$k]           =  explode("-",$s);
+                                                $items[$k]           =  explode("+",$s);
                                                 $items_serivce[$k]   =  intval($items[$k][0]);
                                                 $items_staff[$k]     =  intval($items[$k][1]);
                                                 $items_date[$k]      =  sanitize($items[$k][2]);
@@ -1897,6 +1992,8 @@ class API
                                                                     }else{
                                                                         $this->terminate('error',$GLOBALS['lang']['PRODUCT_DELETED'].($IP+1),400);
                                                                     }
+                                                                }else{
+                                                                    $this->terminate('error',$GLOBALS['lang']['STAFF_NOT_IN_BRANCH'].($Is+1),400);
                                                                 }
                                                             }
                                                         }
@@ -2042,34 +2139,61 @@ class API
         }
 
     }
-//    public function client_get_service_order()
-//    {
-//        $tokenUserId  = $this->testToken();
-//        if($tokenUserId != 0)
-//        {
-//            $id         =   intval($_POST['id']);
-//            if($id != 0)
-//            {
-//                $sevicequery   = $GLOBALS['db']->query("SELECT s.`service_order_serial`,s.`service_order_type` , s.`date` , s.`service_order_status` ,'service_order'  FROM `service_order` s WHERE s.`user_id` = '".$tokenUserId."'");
-//                $seviceTotal   = $GLOBALS['db']->resultcount();
-//                if($seviceTotal == 1)
-//                {
-//
-//
-//                }else{
-//                    $this->terminate('success',$_sevices,100);
-//                }
-//
-//
-//            }else{
-//                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_ID'],400);
-//            }
-//        }else{
-//            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
-//        }
-//
-//    }
+    public function client_get_service_order()
+    {
+        $tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+            $id         =   intval($_POST['id']);
+            if($id != 0)
+            {
+                $orderquery   = $GLOBALS['db']->query("SELECT `service_order_serial`, `user_id`, `branch_id`, `service_order_type`, `date`, `service_order_status` FROM `service_order` WHERE `service_order_serial` = '".$id."' AND `user_id` = '".$tokenUserId."' LIMIT 1");
+                $orderTotal   = $GLOBALS['db']->resultcount();
+                if($orderTotal == 1)
+                {
+                    $order 	     	= $GLOBALS['db']->fetchitem($orderquery);
+                    $_order ['order_type']   = ($order["service_order_type"] == "home") ? $GLOBALS['lang']['HOME_VISIT'] : $GLOBALS['lang']['FROM_BRANCH'] ;
+//                    $_order ['date']         = $this->dateWithLang("l dS F Y ",$order["date"]) ." ".$this->dateWithLang("h:i A",$order["date"]);
+                    $_order ['date']         = date('d/m/Y',strtotime($order["date"]));
+                    if($order["service_order_status"] == "0")
+                    {
+                        $_order ['order_status'] = $GLOBALS['lang']['admin_cancel'];
+                    }elseif($order["service_order_status"] == "1"){
+                        $_order ['order_status'] = $GLOBALS['lang']['NOT_DELEVERD'];
+                    }elseif($order["service_order_status"] == "2"){
+                        $_order ['order_status'] = $GLOBALS['lang']['DELEVERD'];
+                    }
 
+                    $servicequery   = $GLOBALS['db']->query("SELECT  o.`start_time` , o.`duration` , o.`cost` ,s.`service_name` ,s.`service_photo` ,f.`staff_name`,f.`staff_photo` FROM `service_cart` o INNER JOIN `services` s ON s.`service_serial` = o.`service_id` INNER JOIN `branche_staff` f ON f.`staff_serial` = o.`staff_id` WHERE o.`order_id` = '".$order['service_order_serial']."' ");
+                    $serviceTotal   = $GLOBALS['db']->resultcount();
+                    $serivces       = $GLOBALS['db']->fetchlist();
+                    $_serivces      = [];
+                    foreach($serivces as $sid => $s)
+                    {
+                        $_serivces[$sid]['staff_name']            =  $s['staff_name'];
+                        $_serivces[$sid]['staff_photo']           =  ($s["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$s["staff_photo"];
+                        $_serivces[$sid]['service_name']          =  $s['service_name'];
+                        $_serivces[$sid]['service_photo']         =  ($s["service_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("service-default-image") : $this->getDefaults("img_url").$s["service_photo"];
+                        $_serivces[$sid]['cost']                  =  intval($s['cost']);
+                        $_serivces[$sid]['start']                 =  $this->dateWithLang("h:i A",strtotime($s["start_time"]));
+                        $_serivces[$sid]['end']                   =  $this->dateWithLang("h:i A",strtotime($s["start_time"])+($s["duration"] * 60));
+                        $p_total  += intval($s['cost']);
+                    }
+                    $_order ['total']     = $p_total;
+                    $_order ['products']  = $_serivces;
+                    $this->terminate('success',$_order,200);
+
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['ORDER_ID_NOT_FOUND'],400);
+                }
+            }else{
+                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_ID'],400);
+            }
+        }else{
+            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+        }
+
+    }
     public function client_get_product_order()
     {
         $tokenUserId  = $this->testToken();
@@ -2078,21 +2202,20 @@ class API
             $id         =   intval($_POST['id']);
             if($id != 0)
             {
-                $productquery   = $GLOBALS['db']->query("SELECT `order_serial`, `user_id`, `order_type`, `order_date`, `order_status` FROM `orders` WHERE `order_serial` = '".$id."' LIMIT 1");
+                $productquery   = $GLOBALS['db']->query("SELECT `order_serial`, `user_id`, `order_type`, `order_date`, `order_status` FROM `orders` WHERE `order_serial` = '".$id."' AND `user_id` = '".$tokenUserId."' LIMIT 1");
                 $productTotal   = $GLOBALS['db']->resultcount();
-                $order 	     	= $GLOBALS['db']->fetchitem($productquery);
                 if($productTotal == 1)
                 {
-
+                    $order 	     	= $GLOBALS['db']->fetchitem($productquery);
                     $_order ['order_type']   = ($order["order_type"] == "home") ? $GLOBALS['lang']['HOME_VISIT'] : $GLOBALS['lang']['FROM_BRANCH'] ;
-                    $_order ['date']         = $this->dateWithLang("l dS F Y ",$order["order_date"]) ." ".$this->dateWithLang("h:i A",$order["order_date"]); ;
-                    if($order["order_type"] == "0")
+                    $_order ['date']         = $this->dateWithLang("l dS F Y ",strtotime($order["order_date"])) ." ".$this->dateWithLang("h:i A",strtotime($order["order_date"]));
+                    if($order["order_status"] == "0")
                     {
-                        $_order ['order_status'] = $GLOBALS['lang']['admin_cancel'];
-                    }elseif($order["order_type"] == "1"){
-                        $_order ['order_status'] = $GLOBALS['lang']['NOT_DELEVERD'];
-                    }elseif($order["order_type"] == "2"){
-                        $_order ['order_status'] = $GLOBALS['lang']['DELEVERD'];
+                        $_order ['order_status']   = $GLOBALS['lang']['admin_cancel'];
+                    }elseif($order["order_status"] == "1"){
+                        $_order ['order_status']    = $GLOBALS['lang']['NOT_DELEVERD'];
+                    }elseif($order["order_status"] == "2"){
+                        $_order ['order_status']   = $GLOBALS['lang']['DELEVERD'];
                     }
                     $productquery   = $GLOBALS['db']->query("SELECT  o.`quantity`, o.`price` , p.`product_name`, p.`product_photo` FROM `order_cart` o INNER JOIN `products` p ON p.`product_serial` = o.`product_id` WHERE o.`order_id` = '".$order['order_serial']."' ");
                     $productTotal   = $GLOBALS['db']->resultcount();
@@ -2200,10 +2323,11 @@ class API
             $message  = $data;
             
         }else{
-            $message  = ['massage'=>$data];
+//            $message  = ['massage'=>$data];
+            $message  = null;
         }
         $response=[
-            "title"  => $title == 'success'?"success":"error",
+            "title"  => $title == 'success'?"success":$data,
             "data"   => $message,
             "status" => $status,                                                           // "status" => in_array($status,$this->statuscode())?true :false
         ];

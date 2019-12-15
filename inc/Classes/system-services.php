@@ -31,7 +31,7 @@ class systemservices
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query = $GLOBALS['db']->query("SELECT s.*, b.`branche_serivce_serial`  FROM `".$this->tableName."` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE B.`branch_id` ='".$branch_id."' ORDER BY s.`service_serial` DESC ".$addon);
+			$query = $GLOBALS['db']->query("SELECT s.*, b.`branche_serivce_serial`  FROM `".$this->tableName."` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE b.`branch_id` ='".$branch_id."' ORDER BY s.`service_serial` DESC ".$addon);
 			$queryTotal = $GLOBALS['db']->resultcount();
 			if($queryTotal > 0)
 			{
@@ -44,7 +44,7 @@ class systemservices
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query 				= $GLOBALS['db']->query("SELECT COUNT(*) AS `total` FROM `".$this->tableName."` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE B.`branch_id` ='".$branch_id."' ");
+			$query 				= $GLOBALS['db']->query("SELECT COUNT(*) AS `total` FROM `".$this->tableName."` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE b.`branch_id` ='".$branch_id."' ");
 			$queryTotal 		= $GLOBALS['db']->fetchrow();
 			$total 				= $queryTotal['total'];
 			return ($total);

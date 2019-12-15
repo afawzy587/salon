@@ -3,11 +3,17 @@ class systemstaff
 {
 	var $tableName 	= "branche_staff";
 
-	function getsitestaff($addon = "")
+	function getsitestaff($addon = "",$branch_id=0)
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` ORDER BY `staff_serial` DESC ".$addon);
+            if($branch_id == 0)
+            {
+                $query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` ORDER BY `staff_serial` DESC ".$addon);
+            }else{
+                $query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `branch_id` ='".$branch_id."' ORDER BY `staff_serial` DESC ".$addon);
+            }
+
 			$queryTotal = $GLOBALS['db']->resultcount();
 			if($queryTotal > 0)
 			{
@@ -37,6 +43,17 @@ class systemstaff
 			{
 				return($GLOBALS['db']->fetchlist());
 			}else{return null;}
+		}else{$GLOBALS['login']->doDestroy();return false;}
+	}
+
+    function getTotalbranchstaff($branch_id)
+	{
+		if($GLOBALS['login']->doCheck() == true)
+		{
+			$query 				= $GLOBALS['db']->query("SELECT COUNT(*) AS `total` FROM `".$this->tableName."`  WHERE `branch_id` ='".$branch_id."' ");
+			$queryTotal 		= $GLOBALS['db']->fetchrow();
+			$total 				= $queryTotal['total'];
+			return ($total);
 		}else{$GLOBALS['login']->doDestroy();return false;}
 	}
 

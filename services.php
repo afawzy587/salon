@@ -154,7 +154,7 @@
                   <div class="card">
                     <div class="card-header card-header-primary">
                       <h4 class="card-title "><?php echo $lang['services'];?></h4>
-                      <p class="card-category"> <?php if($branch_id){ echo $lang['branch'].  ' : ' ."<br>"; getbranchname($branch_id);}?></p>
+                      <p class="card-category"> <?php if($branch_id){ echo $lang['branch'].  ' : ' .getbranchname($branch_id);}?></p>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">

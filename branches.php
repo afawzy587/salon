@@ -142,7 +142,7 @@
                               <?php echo $lang['ADDRESS'];?>
                             </th>
                             <th>
-                              <?php echo $lang['services'];?>
+                              <?php echo $lang['pages'];?>
                             </th>
                             <th>
                               <?php echo $lang['status'];?>
@@ -167,6 +167,8 @@
                                                     <td>
                                                         <a title='".$lang['branche_services']."' href='services.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">style</i></a>
                                                         <a class='success' title='".$lang['branche_add_service']."' href='branche_services.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">library_add</i></a>
+                                                        <a title='".$lang['branch_staff']."' href='staffs.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">people</i></a>
+                                                        <a class='success' title='".$lang['branche_add_staff']."' href='staffs_add.php?branch=".$u['branch_serial']."' ><i class=\"material-icons\">library_add</i></a>
                                                     </td>";
                                                     status("salon_branches","branch_serial","branch_status",$u['branch_serial'],$u['branch_status']);
                                                     echo"

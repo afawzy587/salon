@@ -196,7 +196,7 @@
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header card-header-primary">
-                      <h4 class="card-title"><?php echo $lang['add_branch'];?></h4>
+                      <h4 class="card-title"><?php echo $lang['add_staff'];?></h4>
                     <p class="card-category"><?php if($branch_id){ echo  $lang['branch'] . ' : ' .getbranchname($branch_id);}?></p>
                     </div>
                     <div class="card-body">
@@ -387,7 +387,7 @@
                         </div>
                           <br>
                         <div class="clearfix">
-                             <button type="submit" class="btn btn-primary pull-right"><?php echo $lang['add_branch'];?></button>
+                             <button type="submit" class="btn btn-primary pull-right"><?php echo $lang['add_staff'];?></button>
                         </div>
                       </form>
                     </div>
