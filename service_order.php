@@ -131,6 +131,8 @@
           <div class="content">
             <input type="hidden" value="service_order" id="page">
             <input type="hidden" value="<?php echo $lang['order']?>" id="lang_name">
+            <input type="hidden" value="<?php echo $lang['admin_cancel']?>" id="admin_cancel">
+            <input type="hidden" value="<?php echo $lang['finished']?>" id="finished">
             <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_men']?>" id="lang_del">
             <input type="hidden" value="<?php echo $lang['status_order_alarm_massage']?>" id="lang_status">
             <div class="container-fluid">
@@ -191,7 +193,7 @@
                                                     if($u['service_order_type'] == 'home'){ echo $lang['from_home'].'<i class="material-icons">motorcycle</i>'; }else{ echo $lang['from_branch'].'<i class="material-icons">store</i>';}
                                                     echo"</a></td>
                                                     <td>"._date_format($u['date'])."</td>
-                                                    <td>";
+                                                    <td id=td_".$u['service_order_serial'].">";
                                                     if($u['service_order_status'] == 0){
                                                         echo '<a style="color:#f44336;">'.$lang['admin_cancel'].'<i class="material-icons success">remove_shopping_cart</i></a>';
                                                     }elseif($u['service_order_status'] == 1){

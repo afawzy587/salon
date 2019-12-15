@@ -32,11 +32,11 @@ class sendmail
 			//Server settings
 			$mail->SMTPDebug 	= 0;                              // Enable verbose debug output
 			$mail->isSMTP();                                      // Set mailer to use SMTP
-			$mail->Host 		= 'ssl://mail.icouna.com';               // $SMTPInfo['smtp_server'];  				 // Specify main and backup SMTP servers
+			$mail->Host 		= 'ssl://mail.icouna.com';        // $SMTPInfo['smtp_server'];  				 // Specify main and backup SMTP servers
 			$mail->SMTPAuth 	=  true;                          // Enable SMTP authentication
-			$mail->Username 	= 'fawzy@icouna.com';          //$SMTPInfo['smtp_user'];        // SMTP username
-			$mail->Password 	= 'fAwZy587';                     //$SMTPInfo['smtp_pass'];               // SMTP password
-//			$mail->SMTPSecure 	= 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+			$mail->Username 	= 'fawzy@icouna.com';             // $SMTPInfo['smtp_user'];        // SMTP username
+			$mail->Password 	= 'fAwZy587';                     // $SMTPInfo['smtp_pass'];               // SMTP password
+//			$mail->SMTPSecure 	= 'ssl';                          // Enable TLS encryption, `ssl` also accepted
 			$mail->Port 		= 465; //$SMTPInfo['smtp_port'];                                     // TCP port to connect to 26
 			//Recipients
 

@@ -15,12 +15,15 @@ $(document).ready(function(){
     $(document).ready(function(){
     $('input.time').timepicker({});
 });
-
-    $('a.status_active').click(function(e){
-        e.preventDefault();
-		data   = $(this).parent('span').attr('id');
+ $('.table').on('click','a.status_active',function(){
+		data          = $(this).parent('span').attr('id');
+        activtion     = $('#activtion').val();
+        deactivtion   = $('#deactivtion').val();
+        deactive      = $('#deactive').val();
+        active        = $('#active').val();
               var result = data.split('|');
-              var id     =    result[3] ;
+              var id         =    result[3] ;
+              var status     =    result[4] ;
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
@@ -28,14 +31,23 @@ $(document).ready(function(){
 				type  :"POST",
 				url   :"products_js.php?do=status",
 				data  :  "data=" + data,
-				success : function(data) {
-				if(data == 1190)
+				success : function(message) {
+				if(message == 1190)
 				{
-//                    (speed,opacity,easing,callback)
-//                    $("#tr_" + id).find("td").eq(2).html("your new value here");
-					setTimeout(location.reload(), 1000);
+                    if(status == 1)
+                    {
+                        result[4] =  0;
+                        result      = result.join("|");
+                        $("#td_" + id).html("<span id="+result+"><a class='btn btn-danger btn-sm status_active' style='color:white;border-radius:12px;'   title="+activtion+">"+deactive+"</a></span>");
+                    }else if(status == 0)
+                     {
+                        result[4]   =  1;
+                        result      = result.join("|");
+                        $("#td_" + id).html("<span id="+result+"><a class='btn btn-success btn-sm status_active' style='color:white;border-radius:12px;'   title="+deactivtion+">"+active+"</a></span>");
+                     }
 
-				}else if(data == 111)
+
+				}else if(message == 111)
 				{
 					alert("we can't Active default items.");
 				}
@@ -51,9 +63,11 @@ $(document).ready(function(){
     $('a.status_order').click(function(e){
         e.preventDefault();
 		data   = $(this).parent('span').attr('id');
-                                    console.log(data);
-
-
+        admin_cancel   = $('#admin_cancel').val();
+        finished       = $('#finished').val();
+        var result     = data.split('|');
+        var id         =    result[3] ;
+        var status     =    result[4] ;
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
@@ -62,10 +76,17 @@ $(document).ready(function(){
 				url   :"products_js.php?do=status_order",
 				data  :  "data=" + data,
 				success : function(data) {
-                     console.log(data);
 				if(data == 1190)
 				{
-					setTimeout(location.reload(), 1000);
+                    if(status == 0)
+                    {
+
+                        $("#td_" + id).html("<a style='color:#f44336;'>"+admin_cancel+"<i class='material-icons success'>remove_shopping_cart</i></a>");
+                    }else if(status == 2)
+                     {
+                        $("#td_" + id).html("<a style='color:#1fcc26;'>"+finished+"<i class='material-icons success'>check_circle</i></a>");
+                     }
+//					setTimeout(location.reload(), 1000);
 
 				}else if(data == 111)
 				{

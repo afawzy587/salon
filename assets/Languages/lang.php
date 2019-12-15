@@ -55,6 +55,10 @@ $lang['UP_ERR_UNKNOWN'] 		   = "خطأ غير معروف";
 
 $lang['SEARCH_WORD']               = "يجب كتابة كلمة تزيد عن ٣ أحرف";
 $lang['SEARCH_MUST']               = "يجب كتابة كلمات البحث أولا";
+$lang['SEARCH_RESULT']             = "نتائج البحث";
+$lang['DETAILS']                   = "التفاصيل";
+$lang['IN']                        = "فى";
+$lang['NO_SEACH_RESULT']           = "لا توجد نتائج";
 $lang['LOGS']                      = "سجلات الدخول على الموقع";
 $lang['lang_other']                = "English";
 $lang['lang_other_DEFAULT']        = "en";

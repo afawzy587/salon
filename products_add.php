@@ -217,7 +217,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['price'];?></label>
-                              <input type="number" class="form-control" min='1' name ="price"  value="<?php echo $_product['price'] ?>">
+                              <input type="number" class="form-control" min='1' step="any" name ="price"  value="<?php echo $_product['price'] ?>">
                             </div>
                           </div>
                         </div>
@@ -225,7 +225,7 @@
                           <div class="col-md-4">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['discount'];?></label>
-                              <input type="number" class="form-control"  step="any" name ="discount"  value="<?php echo $_product['discount'] ?>">
+                              <input type="number" class="form-control"  step="any" step="any" name ="discount"  value="<?php echo $_product['discount'] ?>">
                             </div>
                           </div>
                           <div class="col-md-4">

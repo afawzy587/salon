@@ -306,7 +306,7 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" name ="price[]" step="any" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                  </tr>';
@@ -341,7 +341,7 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" name ="price[]" step="any" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                  </tr>';

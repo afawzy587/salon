@@ -50,7 +50,7 @@
                       <div class="card card-profile">
                         <div class="card-avatar">
                           <a href="<?php echo $path.$user['image'];?>" target="_blank">
-                            <img class="img" src="<?php echo $path.$user['image'];?>" />
+                            <img class="img" src="<?php if($user['image']){echo $path.$user['image'];}else{echo $path.$avater;}?>" />
                           </a>
                         </div>
                         <div class="card-body">
@@ -110,6 +110,12 @@
                   <?php if($group['users_delete'] == 1){
                     echo '<a class="hidden-print btn btn-danger btn-sm" href="users.php?do=del&id='.$user['user_serial'].'">'.$lang['delete'].'</a>';
                   } ?>
+                  <?php
+                    echo "<a class='btn btn-success  btn-sm' title='".$lang['orders']."' href='orders.php?user=".$user['user_serial']."' ><i class=\"material-icons\">shopping_cart</i>".$lang['orders']."</a>";
+                    ?>
+                    <?php
+                    echo "<a class='btn btn-info btn-sm' title='".$lang['service_orders']."' href='service_order.php?user=".$user['user_serial']."' ><i class=\"material-icons\">settings_input_composite</i> ".$lang['service_orders']."</a>";
+                    ?>
                 
                 
              </div>

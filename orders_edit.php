@@ -262,19 +262,19 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" step="any" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
                                                           <label class="bmd-label-floating">'. $lang['quantity'].'</label>
-                                                          <input type="number" class="form-control" min="1" id="quantity_1" name ="quantity[]"  onchange="cal()" onchange="cal()"  value="">
+                                                          <input type="number" class="form-control" min="1" id="quantity_1" step="any" name ="quantity[]"  onchange="cal()" onchange="cal()"  value="">
                                                         </div>
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
                                                           <label class="bmd-label-floating">'.$lang['total'].'</label>
-                                                          <input type="number" class="total form-control" min="1" id="total_1" name ="total[]"  value="">
+                                                          <input type="number" class="total form-control" min="1" id="total_1" step="any" name ="total[]"  value="">
                                                         </div>
                                                      </td>
                                                  </tr>';
@@ -298,19 +298,19 @@
                                                              </td>
                                                              <td>
                                                                  <div class="form-group">
-                                                                  <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$k.'" name ="price[]"  value="'.$_p['price'].'" readonly>
+                                                                  <input type="number" class="form-control price" step="any" min="1" placeholder='.$lang['price'].' id="price_'.$k.'" name ="price[]"  value="'.$_p['price'].'" readonly>
                                                                 </div>
                                                              </td>
                                                              <td>
                                                                  <div class="form-group">
                                                                   <label class="bmd-label-floating">'.$lang['quantity'].'</label>
-                                                                  <input type="number" class="form-control" min="1" id="quantity_'.$k.'" name ="quantity[]" onchange="cal_'.$k.'()"   value="'.$_p['quantity'].'">
+                                                                  <input type="number" class="form-control" min="1" id="quantity_'.$k.'" step="any" name ="quantity[]" onchange="cal_'.$k.'()"   value="'.$_p['quantity'].'">
                                                                 </div>
                                                              </td>
                                                              <td>
                                                                  <div class="form-group">
                                                                   <label class="bmd-label-floating">'.$lang['total'].'</label>
-                                                                  <input type="number" class="total form-control" min="1" id="total_'.$k.'" name ="total[]"  value="'.$_p['product_total'].'">
+                                                                  <input type="number" class="total form-control" min="1" id="total_'.$k.'" step="any" name ="total[]"  value="'.$_p['product_total'].'">
                                                                 </div>
                                                              </td>
                                                              <td id="item_'.$_p['id'].'">
@@ -347,19 +347,19 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" name ="price[]" step="any" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
                                                           <label class="bmd-label-floating">'. $lang['quantity'].'</label>
-                                                          <input type="number" class="form-control" min="1" id="quantity_1" name ="quantity[]"  onchange="cal()" onchange="cal()"  value="">
+                                                          <input type="number" class="form-control" min="1" id="quantity_1" name ="quantity[]" step="any"  onchange="cal()" onchange="cal()"  value="">
                                                         </div>
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
                                                           <label class="bmd-label-floating">'.$lang['total'].'</label>
-                                                          <input type="number" class="total form-control" min="1" id="total_1" name ="total[]"  value="">
+                                                          <input type="number" class="total form-control" min="1" id="total_1" step="any" name ="total[]"  value="">
                                                         </div>
                                                      </td>
                                                  </tr>';

@@ -37,19 +37,19 @@
                          </td>
                          <td>
                              <div class="form-group">
-                              <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="" readonly>
+                              <input type="number" class="form-control price" min="1" step="any" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="" readonly>
                             </div>
                          </td>
                          <td>
                              <div class="form-group">
                               <label class="bmd-label-floating">'.$lang['quantity'].'</label>
-                              <input type="number" class="form-control" min="1" id="quantity_'.$time.'" name ="quantity[]" onchange="cal_'.$time.'()"  value="">
+                              <input type="number" class="form-control" min="1" id="quantity_'.$time.'" step="any" name ="quantity[]" onchange="cal_'.$time.'()"  value="">
                             </div>
                          </td>
                          <td>
                              <div class="form-group">
                               <label class="bmd-label-floating">'.$lang['total'].'</label>
-                              <input type="number" class="total form-control" min="1" id="total_'.$time.'" name ="total[]"  value="">
+                              <input type="number" class="total form-control" min="1" id="total_'.$time.'" step="any" name ="total[]"  value="">
                             </div>
                          </td>
                          <td id="item_'.$time.'">
@@ -143,7 +143,7 @@
                          </td>
                          <td>
                              <div class="form-group">
-                              <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="" readonly>
+                              <input type="number" class="form-control price" min="1" step="any" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="" readonly>
                             </div>
                          </td>
 

@@ -146,18 +146,11 @@
                                     }else{
                                         foreach( $groups as $k => $u)
                                         {
-                                            echo"<tr id=tr_".$u['group_serial'].">
+                                            echo"<tr>
                                                     <td>".$u['group_serial']."</td>
-                                                    <td><a href='groups_view.php?id=".$u['group_serial']."'>".$u['group_name']."</a></td>
-                                                    <td>
-                                                        <span id='user_groups|group_serial|group_status|".$u['group_serial']."|".$u['group_status']."'>";
-                                                        if($u['group_status'] == 0){
-                                                            echo '<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$lang['activtion'].'">'.$lang['deactive'].'</a>';
-                                                        }else{
-                                                            echo '<a class="btn btn-success btn-sm status_active" style="color:white;border-radius:12px;" id="user_groups|group_serial|group_status|'.$u['group_serial'].'|'.$u['group_status'].'"  title="'.$lang['deactivtion'].'">'.$lang['active'].'</a>';
-                                                        }
-                                                        echo"</span>
-                                                    </td>
+                                                    <td><a href='groups_view.php?id=".$u['group_serial']."'>".$u['group_name']."</a></td>";
+                                                    status("user_groups","group_serial","group_status",$u['group_serial'],$u['group_status']);
+                                                    echo"
                                                     <td id='item_".$u['group_serial']."'class='td-actions text-right'>";
                                                     if($group['groups_edit'] == 1)
                                                     {

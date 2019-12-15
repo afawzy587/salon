@@ -10,9 +10,9 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+            <form class="navbar-form" method="get" action="./search.php">
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" name="query" value="<?php echo $search ;?>"  class="form-control" placeholder="Search...">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
                   <i class="material-icons">search</i>
                   <div class="ripple-container"></div>
@@ -40,4 +40,10 @@
           </div>
         </div>
       </nav>
+<!--    USE IN JAVASCRIPT -->
+    <input type="hidden" value="<?php echo $lang['activtion']?>" id="activtion">
+    <input type="hidden" value="<?php echo $lang['deactivtion']?>" id="deactivtion">
+    <input type="hidden" value="<?php echo $lang['deactive']?>" id="deactive">
+    <input type="hidden" value="<?php echo $lang['active']?>" id="active">
+<!--    USE IN JAVASCRIPT -->
       <!-- End Navbar -->

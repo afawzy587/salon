@@ -164,6 +164,13 @@
                   <?php if($group['branches_delete'] == 1){
                     echo '<a class="hidden-print btn btn-danger btn-sm" href="branches.php?do=del&id='.$branch['branch_serial'].'">'.$lang['delete'].'</a>';
                   } ?>
+                  <?php
+                    echo "<a class='btn btn-primary   btn-sm' title='".$lang['branche_services']."' href='services.php?branch=".$branch['branch_serial']."' ><i class=\"material-icons\">style</i>".$lang['branche_services']."</a>
+                          <a class='btn btn-success  btn-sm' title='".$lang['branche_add_service']."' href='branche_services.php?branch=".$branch['branch_serial']."' ><i class=\"material-icons\">style</i></a>
+                          <a class='btn btn-info   btn-sm' title='".$lang['branch_staff']."' href='staffs.php?branch=".$branch['branch_serial']."' ><i class=\"material-icons\">people</i>".$lang['branch_staff']."</a>
+                          <a class='btn btn-success  btn-sm' title='".$lang['branche_add_staff']."' href='staffs_add.php?branch=".$branch['branch_serial']."' ><i class=\"material-icons\">people</i></a>
+                    ";
+                    ?>
                 
                 
              </div>

@@ -254,7 +254,7 @@
 
     function status($table,$where,$status,$id,$svalue)
     {
-        $message ="<td>
+        $message ="<td id=td_".$id.">
                 <span id='".$table."|".$where."|".$status."|".$id."|".$svalue."'>";
                 if($svalue == 0){
                     $message .='<a class="btn btn-danger btn-sm status_active" style="color:white;border-radius:12px;"   title="'.$GLOBALS['lang']['activtion'].'">'.$GLOBALS['lang']['deactive'].'</a></span></td>';
@@ -264,6 +264,11 @@
                 }
 
         echo $message;
+    }
+
+    function call_phone($mobile)
+    {
+        echo "<a dir='ltr' href='tel:".$mobile."'>".$mobile."</a>";
     }
 
 

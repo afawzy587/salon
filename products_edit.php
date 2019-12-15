@@ -217,7 +217,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label class="bmd-label-floating"><?php echo $lang['price'];?></label>
-                              <input type="number" class="form-control" min='1' name ="price"  value="<?php if($_product){echo $_product['price'];}else{echo $u['price'];}?>">
+                              <input type="number" class="form-control" min='1' step="any" name ="price"  value="<?php if($_product){echo $_product['price'];}else{echo $u['price'];}?>">
                             </div>
                           </div>
                         </div>

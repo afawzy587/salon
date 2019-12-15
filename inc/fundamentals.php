@@ -88,6 +88,10 @@
         }
     }
 
+
+    ///*********Image ***///////
+
+    $avater = "/defaults/avater.jpg";
     
 
 

@@ -272,7 +272,7 @@
                                                              </td>
                                                              <td>
                                                                  <div class="form-group">
-                                                                  <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_order['price'][$k].'" readonly>
+                                                                  <input type="number" class="form-control price" step="any" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_order['price'][$k].'" readonly>
                                                                 </div>
                                                              </td>
                                                              <td id="item_'.$k.'">
@@ -312,7 +312,7 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" step="any" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                  </tr>';
@@ -358,7 +358,7 @@
                                                          </td>
                                                          <td>
                                                              <div class="form-group">
-                                                              <input type="number" class="form-control price" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_s['cost'].'" readonly>
+                                                              <input type="number" class="form-control price" step="any" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_s['cost'].'" readonly>
                                                             </div>
                                                          </td>
                                                          <td id="item_'.$k.'">
@@ -398,7 +398,7 @@
                                                      </td>
                                                      <td>
                                                          <div class="form-group">
-                                                          <input type="number" class="form-control" min="1" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
+                                                          <input type="number" class="form-control" min="1" step="any" name ="price[]" placeholder="'.$lang['price'].'" id="price_1" value="" readonly>
                                                         </div>
                                                      </td>
                                                  </tr>';
