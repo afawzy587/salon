@@ -203,8 +203,10 @@
                                                         echo '<a style="color:#1fcc26;">'.$lang['finished'].'<i class="material-icons success">check_circle</i></a>';
                                                     }
                                                     echo"
-                                                        </td>
-                                                          <td id='item_".$u['order_serial']."'class='td-actions text-right'>";
+                                                        </td>";
+                                                    if($u['order_status'] == 1)
+                                                    {
+                                                        echo"<td id='item_".$u['order_serial']."'class='td-actions text-right'>";
                                                         if($group['orders_edit'] == 1)
                                                         {
                                                             echo"<button  rel='tooltip' title='".$lang['edit']."'class='btn btn-primary btn-link btn-sm edit'>
@@ -217,8 +219,10 @@
                                                                     <i class='material-icons'>close</i>
                                                                 </button>";
                                                         }
-                                                       echo "</td>
-                                                </tr>";
+                                                       echo "</td>";
+                                                    }
+
+                                                echo"</tr>";
                                         }
                                     }
                               ?>

@@ -15,7 +15,7 @@ class API
 			"url"			     	    => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/",
 			"img_url"			        => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/uploads/",
 			"pagination"				=> 20,
-			"salt"					    => "wZy",
+			"salt"					    => "$1$\wZY",
 			"unknown"					=> "unknown",
 			"img-default-avater"        => "defaults/avater.jpg",
 			"product-default-image"     => "defaults/product.png",
@@ -29,7 +29,6 @@ class API
 		$this->settings = $settings;
 		return ($settings[$attribute]);
 	}
-	
 	private function _serialize($x)
 	{
 		$array = unserialize($x); 
@@ -44,7 +43,6 @@ class API
 			return ($array);
 		}
 	}
-	
 	private function format_distance ($distance)
     {
         $distance = $distance * 1000;
@@ -59,7 +57,6 @@ class API
         return ($fullDistance);
         return ($distance);
     }
-	
 	private function crypto_rand_secure($min, $max)
 	{
 		$range = $max - $min;
@@ -74,7 +71,6 @@ class API
 		} while ($rnd > $range);
 		return $min + $rnd;
 	}
-	
 	private function is_timestamp($timestamp)
 	{
 		// trim the last three zeros if 13.
@@ -86,7 +82,6 @@ class API
 			return false;
 		}
 	}
-	
 	private function generateKey($length = 15)
 	{
 		$token 		= "";
@@ -132,7 +127,6 @@ class API
 		}
 		return $fullTime;
 	}
-
 	private function isValidDate($date, $format= 'Y-m-d')
 	{
 		if ($date == date($format, strtotime($date)) )
@@ -300,6 +294,132 @@ class API
 		}
 		return $userData;
 	}
+    private function testToken()
+	{
+        $staticToken = sanitize($_POST['token']);
+        $udid = sanitize($_POST['udid']);
+        if($staticToken == "" )
+		{
+			$this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+		}else
+		{
+			// `type` = 'patient' AND
+            $tokenQuery = $GLOBALS['db']->query(" SELECT * FROM `tokens` WHERE `token` = '".$staticToken."' AND `udid` = '".$udid."' LIMIT 1");
+            $tokenValidity = $GLOBALS['db']->resultcount();
+            if( $tokenValidity == 1 )
+			{
+                $tokenData = $GLOBALS['db']->fetchitem($tokenQuery);
+                $tokenUserId = $tokenData['user_id'];
+                $tokenType = $tokenData['type'];
+                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+                $usersCount = $GLOBALS['db']->resultcount();
+                if($usersCount == 1)
+                {
+                    $userCredintials = $GLOBALS['db']->fetchitem($userQuery);
+                    $status = $userCredintials['user_status'];
+                    if($status == 0)
+                    {
+                        $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],406);
+                    }else
+                    {
+                        $verified = $userCredintials['verified'];
+                        if($verified == 0)
+                        {
+                            $this->terminate('error',$GLOBALS['lang']['ACCOUNT_NOT_VERIFIED'],406);
+                        }else
+                        {
+                            return ($tokenUserId);
+                        }
+                    }
+                }else
+                {
+                    $this->terminate('error',$GLOBALS['lang']['ACCOUNT_DELETED'],405);
+                }
+            }else
+            {
+                $this->terminate('error',$GLOBALS['lang']['INVALID_TOKEN'],402);
+            }
+        }
+	}
+	public function authenticat()
+	{
+		$staticToken = sanitize($_POST['token']);
+        $udid = sanitize($_POST['udid']);
+        if($staticToken == "")
+		{
+			$this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+		}else
+		{
+			$tokenQuery = $GLOBALS['db']->query(" SELECT * FROM `tokens` WHERE `token` = '".$staticToken."' AND `udid` = '".$udid."' LIMIT 1");
+			$validToken = $GLOBALS['db']->resultcount();
+			if( $validToken == 1 )
+			{
+				$tokenData = $GLOBALS['db']->fetchitem($tokenQuery);
+				return $tokenData['type'];
+			}else
+			{
+				$this->terminate('error',$GLOBALS['lang']['INVALID_TOKEN'],402);
+			}
+		}
+	}
+    public function terminate($title='success',$data=null,$status=200)
+    {
+        if(is_array($data)){
+            $message  = $data;
+            $_title  = "success";
+
+        }else{
+//            $message  = ['massage'=>$data];
+            $message  = null;
+            $_title  = $data;
+        }
+        $response=[
+            "title"  => $_title,
+            "data"   => $message,
+            "status" => $status,                                                           // "status" => in_array($status,$this->statuscode())?true :false
+        ];
+        die(json_encode($response));
+    }
+    public function statuscode()
+    {
+        return array(200,201,202);
+    }
+    public function send_sms($phone,$message)
+    {
+        $phone      = str_replace("+20","0",$phone);
+        $message    = str_replace(" ","+",$message);
+        $DelayUntil =date('Y-m-d H-m');
+        try
+        {
+            $ch = curl_init();
+            // Check if initialization had gone wrong*
+            if ($ch === false) {
+                throw new Exception('failed to initialize');
+            }
+//            $url =https://smsmisr.com/api/webapi/?username=sMBu5ifW&password=fjXSOxum61&language=3&sender=creative&Mobile=2
+            curl_setopt($ch, CURLOPT_URL,$url.$phone.",&message=".$message);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: 0'));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array()));
+            //    curl_setopt(/* ... */);
+            $content = curl_exec($ch);
+            //		var_dump($content) ;
+            // Check the return value of curl_exec(), too
+            if ($content === false) {
+                return 2;
+            }else{
+                return 1;
+            }
+            /* Process $content here */
+            // Close curl handle
+            curl_close($ch);
+        }
+        catch(Exception $e)
+        {
+            trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
+        }
+    }
 
 
 /* End : Collection Functions */
@@ -338,6 +458,99 @@ class API
 
                         if($_Type == 'normal')
                         {
+                            if($_FILES)
+                            {
+                                if(!empty($_FILES['image']['error']))
+                                {
+                                    switch($_FILES['image']['error'])
+                                    {
+                                        case '1':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                            break;
+                                        case '2':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
+                                            break;
+                                        case '3':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
+                                            break;
+                                        case '4':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
+                                            break;
+                                        case '6':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
+                                            break;
+                                        case '7':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
+                                            break;
+                                        case '8':
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
+                                            break;
+                                        case '999':
+                                        default:
+                                            $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
+                                    }
+                                }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
+                                {
+                                    $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
+                                }else
+                                {
+                                    $disallow_mime = array
+                                    (
+                                        "text/html",
+                                        "text/plain",
+                                        "magnus-internal/shellcgi",
+                                        "application/x-php",
+                                        "text/php",
+                                        "application/x-httpd-php" ,
+                                        "application/php",
+                                        "magnus-internal/shellcgi",
+                                        "text/x-perl",
+                                        "application/x-perl",
+                                        "application/x-exe",
+                                        "application/exe",
+                                        "application/x-java" ,
+                                        "application/java-byte-code",
+                                        "application/x-java-class",
+                                        "application/x-java-vm",
+                                        "application/x-java-bean",
+                                        "application/x-jinit-bean",
+                                        "application/x-jinit-applet",
+                                        "magnus-internal/shellcgi",
+                                        "image/svg",
+                                        "image/svg-xml",
+                                        "image/svg+xml",
+                                        "text/xml-svg",
+                                        "image/vnd.adobe.svg+xml",
+                                        "image/svg-xml",
+                                        "text/xml",
+                                    );
+                                    include_once("upload.class.php");
+                                    $allow_ext = array("jpg","jpeg","gif","png");
+                                    $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
+                                    $files[name] 	= addslashes($_FILES["image"]["name"]);
+                                    $files[type] 	= $_FILES["image"]['type'];
+                                    $files[size] 	= $_FILES["image"]['size']/1024;
+                                    $files[tmp] 	= $_FILES["image"]['tmp_name'];
+                                    $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
+
+
+                                    $upfile	= $upload->Upload_File($files);
+
+                                    if($upfile)
+                                    {
+                                        $imgUrl =  $upfile[newname];
+
+                                    }else
+                                    {
+                                       $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],210);
+                                    }
+
+
+                                }
+                            }else
+                            {
+                                $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
+                            }
                             if(sanitize($_POST['phone']) == "" || strlen($phone) >= 8)
                             {
                                 $this->terminate('error',$GLOBALS['lang']['INSERT_PHONE'],400);
@@ -362,67 +575,7 @@ class API
                                                 $this->terminate('error',$GLOBALS['lang']['PHO_EM_USED'],400);
                                             }else
                                             {
-                                                if($_FILES)
-                                                {
-                                                    if(!empty($_FILES['image']['error']))
-                                                    {
-                                                        switch($_FILES['image']['error'])
-                                                        {
-                                                            case '1':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                                                break;
-                                                            case '2':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SIZE_BIG'];
-                                                                break;
-                                                            case '3':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_FULL_UP'];
-                                                                break;
-                                                            case '4':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_SLCT_FILE'];
-                                                                break;
-                                                            case '6':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_TMP_FLDR'];
-                                                                break;
-                                                            case '7':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_NOT_UPLODED'];
-                                                                break;
-                                                            case '8':
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_UPLODED_STPD'];
-                                                                break;
-                                                            case '999':
-                                                            default:
-                                                                $errors[image] = $GLOBALS['lang']['UP_ERR_UNKNOWN'];
-                                                        }
-                                                    }elseif(empty($_FILES['image']['tmp_name']) || $_FILES['image']['tmp_name'] == 'none')
-                                                    {
-                                                        $this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
-                                                    }else
-                                                    {
 
-                                                        include_once("upload.class.php");
-                                                        $allow_ext = array("jpg","jpeg","gif","png");
-                                                        $upload    = new Upload($allow_ext,false,0,0,40000,"../uploads/",".","",false);
-                                                        $files[name] 	= addslashes($_FILES["image"]["name"]);
-                                                        $files[type] 	= $_FILES["image"]['type'];
-                                                        $files[size] 	= $_FILES["image"]['size']/1024;
-                                                        $files[tmp] 	= $_FILES["image"]['tmp_name'];
-                                                        $files[ext]		= $upload->GetExt($_FILES["image"]["name"]);
-
-
-                                                        $upfile	= $upload->Upload_File($files);
-
-                                                        if($upfile)
-                                                        {
-                                                            $imgUrl =  $upfile[newname];
-
-                                                        }else
-                                                        {
-                                                           $this->terminate('error',$GLOBALS['lang']['UP_ERR_NOT_UPLODED'],400);
-                                                        }
-
-                                                        @unlink($_FILES['image']);
-                                                    }
-                                                }
 
                                                 $verifiedcode 	= $this->generateKey(5);
                                                 include_once("send_email.php");
@@ -701,8 +854,8 @@ class API
     }
     public function checkCredintials() ///log 2
 	{
-		 $_empho 	= sanitize(strtolower($_POST['empho']));
-		 $_pass 		= sanitize($_POST['password']);
+        $_empho 	= sanitize(strtolower($_POST['empho']));
+        $_pass 		= sanitize($_POST['password']);
 		$_udid 		= sanitize($_POST['udid']);
         if($_empho != "" || $_pass !="")
         {
@@ -781,7 +934,6 @@ class API
                         $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
                     }
                 }else{
-//                    $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
                     $this->AddNewuserRegister('facebook');
                }
 
@@ -824,7 +976,6 @@ class API
                             $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],400);
                         }
                     }else{
-//                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATA'],400);
                         $this->AddNewuserRegister('google');
                    }
 
@@ -864,19 +1015,19 @@ class API
         $tokenUserId  = $this->testToken();
         if($tokenUserId != 0)
         {
-			$_Password = sanitize($_POST['password']);
-			if($_Password != "")
-			{
+//			$_Password = sanitize($_POST['password']);
+//			if($_Password != "")
+//			{
 				$userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
 				$usersCount = $GLOBALS['db']->resultcount();
 				if($usersCount == 1)
 				{
 					$userCredintials = $GLOBALS['db']->fetchitem($userQuery);
-					if( $userCredintials['password']  != crypt($_Password,$this->getDefaults("salt")))
-					{
-						$this->terminate('error',$GLOBALS['lang']['INVALID_PASSWORD'],400);
-					}else
-					{	
+//					if( $userCredintials['password']  != crypt($_Password,$this->getDefaults("salt")))
+//					{
+//						$this->terminate('error',$GLOBALS['lang']['INVALID_PASSWORD'],400);
+//					}else
+//					{
 						if($_FILES)
 						{
 							if(!empty($_FILES['image']['error']))
@@ -972,7 +1123,7 @@ class API
 							if($userCredintials['user_photo'] != "")
 							{
 								@unlink("../uploads/".$userCredintials['user_photo']);
-								$userCredintials['image'] = $imgUrl;
+								$userCredintials['user_photo'] = $imgUrl;
 							}
 
 							$GLOBALS['db']->query("UPDATE `users` SET `user_photo`='".$imgUrl."' WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
@@ -992,11 +1143,11 @@ class API
 						{
 							$this->terminate('error',$GLOBALS['lang']['UP_ERR_SLCT_FILE'],400);
 						}
-					}
+//					}
 				}
-			}else{
-				$this->terminate('error',$GLOBALS['lang']['INCORRECT_PASS'],400);
-			}
+//			}else{
+//				$this->terminate('error',$GLOBALS['lang']['INCORRECT_PASS'],400);
+//			}
         }
 	}
     public function user_getCredintials() ///log 5
@@ -1057,20 +1208,20 @@ class API
                                 {
                                     $this->terminate('error', $GLOBALS['lang']['INSERT_ADDRESS'],400);
                                 }else{
-                                    if(sanitize($_POST['password']) == "" || strlen($phone) >= 8 )
-                                    {
-                                        $this->terminate('error',$GLOBALS['lang']['INSERT_PASSWORD'],400);
-                                    }else{
+//                                    if(sanitize($_POST['password']) == "" || strlen($phone) >= 8 )
+//                                    {
+//                                        $this->terminate('error',$GLOBALS['lang']['INSERT_PASSWORD'],400);
+//                                    }else{
                                         $_mail 			= 		sanitize(strtolower($_POST['email']));
                                         $_phone		    = 		sanitize($_POST['phone']);
                                         $_name 			= 		sanitize($_POST['name']);
                                         $_address 	    = 		sanitize($_POST['address']);
                                         $_pass 	        = 		sanitize($_POST['password']);
-                                        if( $userCredintials['password']  != crypt($_pass,$this->getDefaults("salt")))
-                                        {
-                                            $this->terminate('error', $GLOBALS['lang']['INCORRECT_PASS'] ,400);
-                                        }else
-                                        {
+//                                        if( $userCredintials['password']  != crypt($_pass,$this->getDefaults("salt")))
+//                                        {
+//                                            $this->terminate('error', $GLOBALS['lang']['INCORRECT_PASS'] ,400);
+//                                        }else
+//                                        {
                                             $GLOBALS['db']->query(" SELECT * FROM `users` WHERE (`email` = '".$_mail."' OR `phone` = '".$_phone."' )AND  `user_serial` != '".$tokenUserId."' ");
                                             $prevReg = $GLOBALS['db']->resultcount();
                                             if($prevReg > 0 )
@@ -1137,11 +1288,11 @@ class API
                                                         ),"client",$userCredintials['user_serial'],1
                                                     );
                                                     $this->terminate('success',$_userCredintials,200);
-                                                }
+//                                                }
 
                                             }
                                         }
-                                     }
+//                                     }
 
                                 }
                             }
@@ -1253,7 +1404,7 @@ class API
                         }
                 }else
                 {
-                    $this->terminate('error', $GLOBALS['lang']['INVALID_LINK'],400);
+                    $this->terminate('error', $GLOBALS['lang']['ACCOUNT_DELETED'],400);
                 }
             }
             
@@ -1406,11 +1557,17 @@ class API
             $branchCredintials = $GLOBALS['db']->fetchitem();
             if($branchCount != 0)
             {
+                if( intval($_GET['p']) > 0)
+                {
+                    $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
+                    $queryLimit 		= " LIMIT ".($start * 10) ." , 10";
+                }
+
                 $branchQuery = $GLOBALS['db']->query("
-                SELECT DISTINCT s.*  
+                SELECT DISTINCT s.* ,bs.`branche_serivce_serial`
                 FROM `branche_serivces` bs INNER JOIN `salon_branches` b ON bs.`branch_id` = b.`branch_serial`
                 INNER JOIN `services` s ON bs.`service_id` = s.`service_serial`
-                WHERE s.`service_status` = '1' AND  bs.`branch_id`= '".$id."'");
+                WHERE s.`service_status` = '1' AND  bs.`branch_id`= '".$id."'".$queryLimit);
                 $servicesCount = $GLOBALS['db']->resultcount();
                 $_services =[];
                 if($servicesCount != 0)
@@ -1418,11 +1575,11 @@ class API
                     $services = $GLOBALS['db']->fetchlist();
                     foreach($services as $sId => $s)
                     {
-                        $_services[$sId]['service_serial']        =       intval($s['service_serial']); 
+                        $_services[$sId]['service_serial']        =       intval($s['branche_serivce_serial']);
                         $_services[$sId]['service_name']          =       $s['service_name']; 
                         $_services[$sId]['price']                 =       floatval($s['price']); 
                         $_services[$sId]['discount']              =       floatval($s['discount']); 
-                        $_services[$sId]['discount_percentage']   =       ($s["discount"] == 0) ? 0 : floatval((($s['price'] - $s['discount'])/$s['price'])*100);
+                        $_services[$sId]['discount_percentage']   =       round((($s["discount"] == 0) ? 0 : floatval((($s['price'] - $s['discount'])/$s['price'])*100)));
                         $_services[$sId]['duration']              =       intval($s['duration']); 
                         $_services[$sId]['logo']                  =       ($s["service_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("service-default-image") : $this->getDefaults("img_url").$s["service_photo"];
                     } 
@@ -1494,7 +1651,7 @@ class API
                         $_product[$pId]['description']           =       $p['product_description'];
                         $_product[$pId]['price']                 =       floatval($p['product_price']);
                         $_product[$pId]['discount']              =       floatval($p['product_discount']);
-                        $_product[$pId]['discount_percentage']   =       ($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
+                        $_product[$pId]['discount_percentage']   =       round((($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100)));
                         $_product[$pId]['discount_from']         =       $p['product_from'];
                         $_product[$pId]['discount_to']           =       $p['product_to'];
                         $_product[$pId]['image']                 =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];
@@ -1565,11 +1722,16 @@ class API
             if($branchCount != 0)
             {
                 $staff_id = intval($_GET['staff_id']);
+                if( intval($_GET['p']) > 0)
+                {
+                    $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
+                    $queryLimit 		= " LIMIT ".($start * 10) ." , 10";
+                }
                 if($staff_id !=0)
                 {
                     $addstaff = "AND `staff_serial` = '".$staff_id."' LIMIT 1";
                 }else{
-                    $addstaff = "";
+                    $addstaff = $queryLimit;
                 }
 
 
@@ -2247,132 +2409,51 @@ class API
         }
 
     }
-/* end client function */        
-/* ----------------------------------------------------------------------------------------*/	
-	private function testToken()
-	{
-        $staticToken = sanitize($_POST['token']);
-        $udid = sanitize($_POST['udid']);
-        if($staticToken == "" )
-		{
-			$this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
-		}else
-		{
-			// `type` = 'patient' AND
-            $tokenQuery = $GLOBALS['db']->query(" SELECT * FROM `tokens` WHERE `token` = '".$staticToken."' AND `udid` = '".$udid."' LIMIT 1");
-            $tokenValidity = $GLOBALS['db']->resultcount();
-            if( $tokenValidity == 1 )
-			{
-                $tokenData = $GLOBALS['db']->fetchitem($tokenQuery);
-                $tokenUserId = $tokenData['user_id'];
-                $tokenType = $tokenData['type'];
-                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
-                $usersCount = $GLOBALS['db']->resultcount();
-                if($usersCount == 1)
-                {
-                    $userCredintials = $GLOBALS['db']->fetchitem($userQuery);
-                    $status = $userCredintials['user_status'];
-                    if($status == 0)
-                    {
-                        $this->terminate('error',$GLOBALS['lang']['ACCOUT_SUSPENDED'],406);
-                    }else
-                    {
-                        $verified = $userCredintials['verified'];
-                        if($verified == 0)
-                        {
-                            $this->terminate('error',$GLOBALS['lang']['ACCOUNT_NOT_VERIFIED'],406);
-                        }else
-                        {
-                            return ($tokenUserId);
-                        }
-                    }
-                }else
-                {
-                    $this->terminate('error',$GLOBALS['lang']['ACCOUNT_DELETED'],405);
-                }
-            }else
+    public function client_best_saller()
+    {
+
+        if( intval($_GET['p']) > 0)
+        {
+            $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
+            $queryLimit 		= " LIMIT ".($start * 20) ." , 20";
+        }
+
+
+
+        $bestQuery = $GLOBALS['db']->query("
+        SELECT  sum(c.`quantity`) AS quantity ,c.`product_id` , p.* , g.`category_name`FROM `order_cart` c
+        INNER JOIN `orders` o ON o.`order_serial` = c.`order_id` INNER JOIN `products` p ON p.`product_serial` = c.`product_id`
+        INNER JOIN `product_categories` g ON g.`category_serial` = p.`category_id` WHERE o.`order_status` = '2'  GROUP BY `product_id` ORDER BY quantity DESC".$queryLimit);
+        $bestCount = $GLOBALS['db']->resultcount();
+        $_bestCredintials =[];
+        if($bestCount != 0)
+        {
+            $bestCredintials = $GLOBALS['db']->fetchlist();
+
+            foreach($bestCredintials as $sId => $s)
             {
-                $this->terminate('error',$GLOBALS['lang']['INVALID_TOKEN'],402);
+                 $_bestCredintials[$sId]['product_serial']               =       intval($s['product_id']);
+                 $_bestCredintials[$sId]['product_name']                 =       $s['product_name'];
+                 $_bestCredintials[$sId]['caegory']                      =       $s['category_name'];
+                 $_bestCredintials[$sId]['description']                  =       $s['product_description'];
+                 $_bestCredintials[$sId]['price']                        =       floatval($s['product_price']);
+                 $_bestCredintials[$sId]['discount']                     =       floatval($s['product_discount']);
+                 $_bestCredintials[$sId]['discount_percentage']          =       ($p["product_discount"] == 0) ? 0 : floatval((($s['product_price'] - $s['product_discount'])/$s['product_price'])*100);
+                 $_bestCredintials[$sId]['discount_from']                =       $s['product_from'];
+                 $_bestCredintials[$sId]['discount_to']                  =       $s['product_to'];
+                 $_bestCredintials[$sId]['image']                        =       ($s["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$s["product_photo"];
             }
-        }
-	}
-	public function authenticat()
-	{
-		$staticToken = sanitize($_POST['token']);
-        $udid = sanitize($_POST['udid']);
-        if($staticToken == "")
-		{
-			$this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
-		}else
-		{
-			$tokenQuery = $GLOBALS['db']->query(" SELECT * FROM `tokens` WHERE `token` = '".$staticToken."' AND `udid` = '".$udid."' LIMIT 1");
-			$validToken = $GLOBALS['db']->resultcount();
-			if( $validToken == 1 )
-			{
-				$tokenData = $GLOBALS['db']->fetchitem($tokenQuery);
-				return $tokenData['type'];
-			}else
-			{
-				$this->terminate('error',$GLOBALS['lang']['INVALID_TOKEN'],402);
-			}
-		}
-	}
-    public function terminate($title='success',$data=null,$status=200)
-    {
-        if(is_array($data)){
-            $message  = $data;
-            
-        }else{
-//            $message  = ['massage'=>$data];
-            $message  = null;
-        }
-        $response=[
-            "title"  => $title == 'success'?"success":$data,
-            "data"   => $message,
-            "status" => $status,                                                           // "status" => in_array($status,$this->statuscode())?true :false
-        ];
-        die(json_encode($response));
-    }
-    public function statuscode()
-    {
-        return array(200,201,202);
-    }
-    public function send_sms($phone,$message)
-    {
-        $phone      = str_replace("+20","0",$phone);
-        $message    = str_replace(" ","+",$message);
-        $DelayUntil =date('Y-m-d H-m');
-        try
+
+            $this->terminate('success',$_bestCredintials,200);
+
+        }else
         {
-            $ch = curl_init();
-            // Check if initialization had gone wrong*
-            if ($ch === false) {
-                throw new Exception('failed to initialize');
-            }
-//            $url =https://smsmisr.com/api/webapi/?username=sMBu5ifW&password=fjXSOxum61&language=3&sender=creative&Mobile=2
-            curl_setopt($ch, CURLOPT_URL,$url.$phone.",&message=".$message);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Length: 0'));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array()));
-            //    curl_setopt(/* ... */);
-            $content = curl_exec($ch);
-            //		var_dump($content) ;
-            // Check the return value of curl_exec(), too
-            if ($content === false) {
-                return 2;
-            }else{
-                return 1;
-            }
-            /* Process $content here */
-            // Close curl handle
-            curl_close($ch);
+            $this->terminate('success',$_bestCredintials,100);
         }
-        catch(Exception $e)
-        {
-            trigger_error(sprintf('Curl failed with error #%d: %s',$e->getCode(), $e->getMessage()),E_USER_ERROR);
-        }
-    }    
+    }
+/* end client function */
+/* ----------------------------------------------------------------------------------------*/
+
 }
 
 

@@ -27,53 +27,53 @@
                 $_user['address']    =       sanitize($_POST["address"]);
                 $_user['password']   =       sanitize($_POST["password"]);
 
-                if ($_user[name] =="" )
+                if ($_user['name'] =="" )
                 {
-                    $errors[name] = $lang['no_user_name'];
+                    $errors['name'] = $lang['no_user_name'];
                 }
 
-                if ($_user[email] =="" )
+                if ($_user['email'] =="" )
                 {
-                    $errors[email] = $lang['NOEMAIL'];
+                    $errors['email'] = $lang['NOEMAIL'];
                 }
                 else
                 {
-                    if(checkMail($_user[email]) == false){
-                        $errors[email] = $lang['NOT_VALID_EMAIL'];
+                    if(checkMail($_user['email']) == false){
+                        $errors['email'] = $lang['NOT_VALID_EMAIL'];
                     }else{
                         $check = $Users->isUsersExists($_user['email']);
                         if(is_array($check))
                         {
                             if($_user['id'] != $check['id'])
                             {
-                                $errors[email] = $lang['EMAILISENTERBEFORE'];
+                                $errors['email'] = $lang['EMAILISENTERBEFORE'];
                             }
                         }
                     }
                 }
 
-                if ($_user[phone] =="" )
+                if ($_user['phone'] =="" )
                 {
-                    $errors[phone] = $lang['NOPHONE'] ;
+                    $errors['phone'] = $lang['NOPHONE'] ;
                 }else
                 {
-                    if(checkPhone($_user[phone]) == false)
+                    if(checkPhone($_user['phone']) == false)
                     {
-                        $errors[phone] = $lang['NOT_VALID_PHONE'];
+                        $errors['phone'] = $lang['NOT_VALID_PHONE'];
                     }else{
                         $check = $Users->isUsersExists($_user['phone']);
                         if(is_array($check))
                         {
                             if($_user['id'] != $check['id'])
                             {
-                                $errors[phone] = $lang['add_this_user_before'];
+                                $errors['phone'] = $lang['add_this_user_before'];
                             }
                         }
                     }
                 }
-                if ($_user[address] =="" )
+                if ($_user['address'] =="" )
                 {
-                    $errors[address] = $lang['NO_ADDRESS'];
+                    $errors['address'] = $lang['NO_ADDRESS'];
                 }
 
             if($_FILES && ( $_FILES['image']['name'] != "") && ( $_FILES['image']['tmp_name'] != "" ) )
@@ -137,8 +137,7 @@
             }
 
             if(empty($errors)){
-              print_r($login->setUserInformation($_user));
-                $update = $login->setUserInformation($_user);
+                $update = $login->setInformation($_user);
                 $logs->addLog(112,
                             array(
                                 "type" 		        => 	"admin",

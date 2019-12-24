@@ -273,6 +273,30 @@
 
 
 
+  function updatebestseller($id)
+  {
+        $productquery   = $GLOBALS['db']->query("SELECT  `product_id`, `quantity` FROM `order_cart` WHERE `order_id` = '".$id."'");
+        $productTotal   = $GLOBALS['db']->resultcount();
+        $products       = $GLOBALS['db']->fetchlist();
+        foreach($products as $pid => $p)
+        {
+            $sellerquery      = $GLOBALS['db']->query("SELECT  * FROM `best_sellers` WHERE `product_id` = '".$p['product_id']."' LIMIT 1");
+            $sellerTotal     = $GLOBALS['db']->resultcount();
+            if($sellerTotal == 1)
+            {
+                $seller      = $GLOBALS['db']->fetchitem($sellerquery);
+                $quntity     = $p['quantity'] + $seller['quantity'] ;
+                $GLOBALS['db']->query("UPDATE LOW_PRIORITY `best_sellers` SET `quantity`='".$quntity."' WHERE `best_seller_serial` = '".$seller['best_seller_serial']."' AND `product_id` = '".$p['product_id']."'  LIMIT 1");
+            }else{
+                $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `best_sellers`
+                (`best_seller_serial`, `product_id`, `quantity`) VALUES
+                (NULL,'".$p['product_id']."','".$p['quantity']."')");
+            }
+        }
+  }
+
+
+
 
 
 

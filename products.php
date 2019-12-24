@@ -73,7 +73,7 @@
                     }elseif($_GET['message']== "add"){
                         $message = $lang['add_products_success'];
                     }elseif($_GET['message']== "delete"){
-                        $message = $lang['delete_product_success'];
+                        $message = $lang['delete_products_success'];
                     }
                 }
                

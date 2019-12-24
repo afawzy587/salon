@@ -1,0 +1,1 @@
+SELECT  sum(c.`quantity`) AS quantity ,c.`product_id` , p.* , g.`category_name`FROM `order_cart` c INNER JOIN `orders` o ON o.`order_serial` = c.`order_id` INNER JOIN `products` p ON p.`product_serial` = c.`product_id` INNER JOIN `product_categories` g ON g.`category_serial` = p.`category_id` WHERE o.`order_status` = '2'  GROUP BY `product_id` ORDER BY quantity DESC

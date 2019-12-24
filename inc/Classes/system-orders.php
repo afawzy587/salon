@@ -163,7 +163,7 @@ class systemorders
 
             }
         }
-        return 1;
+        return $pid;
 	}
 
 	function deleteorders($order_serial)

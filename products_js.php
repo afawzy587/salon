@@ -91,6 +91,18 @@
                 }
             }
             break;
+            case"delete_order_service":
+            if($_POST)
+            {
+                $ID     = $_POST['id'];
+                $delete = $products->delete_order_service($ID);
+                if($delete == 1)
+                {
+                    echo 116;
+                    exit;
+                }
+            }
+            break;
            case"service_price":
                 if($_POST)
                 {
@@ -176,12 +188,12 @@
                 if($_POST)
                 {
                     $data      = sanitize($_POST['data']);
-                    $_data    =    explode("|",$data);
+                    $_data     =    explode("|",$data);
                     $active    = $products->activestatus($data);
                     $logs->addLog(112,
                                 array(
                                     "type" 		=> 	"admin",
-                                    "module" 	=> 	$table,
+                                    "module" 	=> 	$_data[0],
                                     "mode" 		=> 	"status",
                                     "status_id" 	=> 	$_data[3],
                                     "id" 		=>	$login->getUserId(),
@@ -199,11 +211,20 @@
                 {
                     $data      = sanitize($_POST['data']);
                     $_data     =    explode("|",$data);
+                    $table     =      $_data[0];
+                    $where     =      $_data[1];
+                    $s_col     =      $_data[2];
+                    $id        =      $_data[3];
+                    $status    =      $_data[4];
                     $active    = $products->changestatus_order($data);
+                    if(($table == "orders") && ($status == 2))
+                    {
+                        updatebestseller($id);
+                    }
                     $logs->addLog(113,
                                 array(
                                     "type" 		    => 	"admin",
-                                    "module" 	    => 	$table,
+                                    "module" 	    => 	$_data[0],
                                     "mode" 		    => 	"status",
                                     "status_id" 	=> 	$_data[3],
                                     "id" 		    =>	$login->getUserId(),

@@ -99,7 +99,7 @@
                   <div class="card">
                     <div class="card-header card-header-primary">
                       <h4 class="card-title"><?php echo $lang['add_salon'];?></h4>
-                      <p class="card-category"> <?php if($branch_id){ echo $lang['branch'].  ' : ' ."<br>"; getbranchname($branch_id);}?></p>
+                      <p class="card-category"> <?php if($branch_id){ echo $lang['branch'].  ' : ' . getbranchname($branch_id);}?></p>
                     </div>
                     <div class="card-body">
                       <form role='form' action="./branche_services.php<?php echo '?branch='.$branch_id?>" method="post" enctype="multipart/form-data">

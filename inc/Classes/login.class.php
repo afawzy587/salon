@@ -9,7 +9,7 @@ class loginClass
  var $id;
  var $prefix 		= "Salon";
  var $tableName 	= "users";
- var $salt 			= "wZy";
+ var $salt 			= "$1$\wZY";
  var $hours 		= 10;
 
  function doLogin($email,$pass,$remember)
@@ -132,23 +132,23 @@ function doRegister($user)
  }
 
 
- function setUserInformation($userInformation)
+ function setInformation($userInformation)
  {
  	if($this->isLogged() == true)
  	{
  		global $db;
-        $userInformation[id] = $this->getUserId();
-	 	if($userInformation[password] != "")
+        $userInformation['id'] = $this->getUserId();
+	 	if($userInformation['password'] != "")
 	 	{
-	 		$queryGlue = "`password`='".crypt($userInformation[password],$salt)."',";
-	 		$this->setPassword($userData['password']);
+	 		$queryGlue = "`password`='".crypt($userInformation['password'],$this->salt)."',";
+	 		$this->setPassword($userInformation['password']);
 	 	}else
 	 	{
 	 		$queryGlue = "";
 	 	}
-        if($userInformation[image] != "")
+        if($userInformation['image'] != "")
 		{
-			$queryimage = "`user_photo`='".$userInformation[image]."',";
+			$queryimage = "`user_photo`='".$userInformation['image']."',";
 		}else
 		{
 			$queryimage = "";
@@ -157,11 +157,11 @@ function doRegister($user)
 		$this->setEmail($userInformation['email']);
 
 	 	$db->query("UPDATE LOW_PRIORITY `".$this->tableName."` SET
-	 	`user_name`       =  '".$userInformation[name]."',".$queryimage."
-	 	`email`           =  '".$userInformation[email]."',".$queryGlue."
-	 	`user_address`    =  '".$userInformation[address]."',
-	 	`phone`           =  '".$userInformation[phone]."'
-	 	WHERE `user_serial`='".$userInformation[id]."' LIMIT 1 ");
+	 	`user_name`       =  '".$userInformation['name']."',".$queryimage."
+	 	`email`           =  '".$userInformation['email']."',".$queryGlue."
+	 	`user_address`    =  '".$userInformation['address']."',
+	 	`phone`           =  '".$userInformation['phone']."'
+	 	WHERE `user_serial`='".$userInformation['id']."' LIMIT 1 ");
 
 	 	return 1;
  	}else{$this->doDestroy();return false;}

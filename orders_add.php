@@ -80,6 +80,10 @@
                 }
                 if(empty($errors)){
                     $add = $orders->addNeworders($_order);
+                    if($_order['status'] == 2)
+                    {
+                        updatebestseller($add);
+                    }
                     $logs->addLog(75,
                                 array(
                                     "type" 		        => 	"admin",
@@ -88,7 +92,7 @@
                                     "id" 	        	=>	$login->getUserId(),
                                 ),"admin",$login->getUserId(),1
                             );
-                    if($add == 1){
+                    if($add){
                         header("Location:./orders.php?message=add");
                     }
                 }

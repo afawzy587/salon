@@ -56,6 +56,7 @@
                     $_order['branch_id']         =       intval($_POST["branch_id"]);
                     $_order['service_id']        =       $_POST["service"];
                     $_order['price']             =       $_POST["price"];
+                    $_order['item']              =       $_POST["item"];
                     $_order['status']            =       intval($_POST["status"]);
 
 
@@ -134,6 +135,9 @@
         <div class="main-panel">
           <?php include './assets/layout/navbar.php';?>
           <div class="content">
+                <input type="hidden" value="<?php echo $lang['service']?>" id="lang_name">
+                <input type="hidden" value="<?php echo $lang['delete_alarm_massage_in_men']?>" id="lang_del">
+                <input type="hidden" value="<?php echo $lang['status_alarm_massage_in_men']?>" id="lang_status">
               <div class="container-fluid">
               <div class="row">
               	<div class="col-lg-12">
@@ -274,13 +278,7 @@
                                                                  <div class="form-group">
                                                                   <input type="number" class="form-control price" step="any" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_order['price'][$k].'" readonly>
                                                                 </div>
-                                                             </td>
-                                                             <td id="item_'.$k.'">
-                                                                <a  rel=\'tooltip\' title="'.$lang['delete'].'"class=\'btn btn-danger btn-link btn-sm delete_service\'>
-                                                                    <i class=\'material-icons\'>close</i>
-                                                                </a>
-                                                             </td>
-                                                             </tr>';
+                                                             </td></tr>';
                                                     }
                                                 }else{
                                                     echo'<tr >
@@ -322,7 +320,7 @@
                                             {
                                                foreach($u['sevices'] as $k => $_s)
                                                {
-                                                   echo '<tr id="tr_'.$k.'">
+                                                   echo '<tr id="tr_'.$_s['id'].'">
                                                             <td >
                                                              <div class="form-group" id="'.$k.'">
                                                               <select class="service browser-default custom-select "  name="service[]" >
@@ -361,7 +359,8 @@
                                                               <input type="number" class="form-control price" step="any" min="1" placeholder='.$lang['price'].' id="price_'.$time.'" name ="price[]"  value="'.$_s['cost'].'" readonly>
                                                             </div>
                                                          </td>
-                                                         <td id="item_'.$k.'">
+                                                         <td id="item_'.$_s['id'].'">
+                                                            <input type="text" name="item[]" value="'.$_s['id'].'" hidden>
                                                             <a  rel=\'tooltip\' title="'.$lang['delete'].'"class=\'btn btn-danger btn-link btn-sm delete_order_service\'>
                                                                 <i class=\'material-icons\'>close</i>
                                                             </a>

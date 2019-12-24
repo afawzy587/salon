@@ -75,6 +75,8 @@
             $api->client_get_gallery();
         }elseif($_GET['mode'] == 'best_saller'){
             $api->client_get_best_saller();
+        }elseif($_GET['mode'] == 'best_seller'){
+            $api->client_best_saller();
         }elseif($_GET['mode'] == 'branch_staff'){
             $api->client_get_branch_staff();
         }elseif($_GET['mode'] == 'active'){

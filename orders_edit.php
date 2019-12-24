@@ -47,6 +47,7 @@
                     $_order['product_id']        =       $_POST["product"];
                     $_order['price']             =       $_POST["price"];
                     $_order['total']             =       $_POST["total"];
+                    $_order['item']              =       $_POST["item"];
                     $_order['status']            =       intval($_POST["status"]);
 
 
@@ -84,6 +85,10 @@
 
                     if(empty($errors)){
                         $edit = $orders->setordersInformation($_order);
+                        if($_order['status'] == 2)
+                        {
+                            updatebestseller($_order['id']);
+                        }
                         $logs->addLog(76,
                                 array(
                                     "type" 		        => 	"admin",
@@ -230,7 +235,7 @@
                                                              <td>
                                                                  <div class="form-group">
                                                                   <label class="bmd-label-floating">'.$lang['total'].'</label>
-                                                                  <input type="number" class="total form-control" min="1" id="total_'.$k.'" name ="total[]"  value="'.$_order['product_total'][$k].'">
+                                                                  <input type="number" class="total form-control" min="1" id="total_'.$k.'" name ="total[]"  value="'.$_order['total'][$k].'">
                                                                 </div>
                                                              </td>
                                                              </tr>
@@ -314,6 +319,7 @@
                                                                 </div>
                                                              </td>
                                                              <td id="item_'.$_p['id'].'">
+                                                                <input type="text" name="item[]" value="'.$_p['id'].'" hidden>
                                                                 <a  rel=\'tooltip\' title="'.$lang['delete'].'"class=\'btn btn-danger btn-link btn-sm delete_order_product\'>
                                                                     <i class=\'material-icons\'>close</i>
                                                                 </a>

@@ -81,6 +81,7 @@ class systemgroups
                     "best_sellers_view"               =>          $sitegroup['best_sellers_view'],
                     "salons_edit"                     =>          $sitegroup['salons_edit'],
                     "rates_view"                      =>          $sitegroup['rates_view'],
+                    "logs_view"                       =>          $sitegroup['logs_view'],
                     "status"                          =>          $sitegroup['group_status']
 				);
 			}else{return null;}
@@ -91,7 +92,7 @@ class systemgroups
 	{
 		if($GLOBALS['login']->doCheck() == true)
 		{
-			$query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `name` = '".$name."' LIMIT 1 ");
+			$query = $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `group_name` = '".$name."' LIMIT 1 ");
 			$queryTotal = $GLOBALS['db']->resultcount();
 			if($queryTotal == 1)
 			{
@@ -151,6 +152,7 @@ class systemgroups
           `best_sellers_view`            =          '".$groups['best_sellers_view']."',
           `salons_edit`                  =          '".$groups['salons_edit']."',
           `rates_view`                   =          '".$groups['rates_view']."',
+          `logs_view`                    =          '".$groups['logs_view']."',
           `group_status`		         =	        '".$groups['status']."'
           WHERE `group_serial`    	     = 	        '".$groups['id']."' LIMIT 1 ");
 		return 1;
@@ -158,10 +160,9 @@ class systemgroups
 
 	function addNewgroups($groups)
 	{
-
 		$GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `".$this->tableName."`
-		( `group_serial` , `group_name` , `status`  )
-		VALUES ( NULL ,  '".$groups[name]."' ,  '".$groups[status]."')");
+		( `group_serial` , `group_name` , `group_status`  )
+		VALUES ( NULL ,  '".$groups['name']."' ,  '".$groups['status']."')");
 		return 1;
 	}
 

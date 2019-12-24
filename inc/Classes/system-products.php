@@ -138,6 +138,11 @@ class systemproducts
 		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `order_cart` WHERE `order_cart_serial` = '".$product_serial."' LIMIT 1 ");
 		return 1;
 	}
+    function delete_order_service($product_serial)
+	{
+		$GLOBALS['db']->query("DELETE LOW_PRIORITY FROM `service_cart` WHERE `cart_serial` = '".$product_serial."' LIMIT 1 ");
+		return 1;
+	}
 
    
 	
@@ -168,7 +173,6 @@ class systemproducts
         $s_col    =      $_data[2];
         $id       =      $_data[3];
         $status   =      $_data[4];
-
         $GLOBALS['db']->query("UPDATE LOW_PRIORITY `".$table."` SET`".$s_col."`   = '".$status."' WHERE `".$where."` ='".$id."' LIMIT 1");
         return 1;
 	}

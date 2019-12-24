@@ -146,7 +146,7 @@
                                     }else{
                                         foreach( $groups as $k => $u)
                                         {
-                                            echo"<tr>
+                                            echo"<tr id='tr_".$u['group_serial']."'>
                                                     <td>".$u['group_serial']."</td>
                                                     <td><a href='groups_view.php?id=".$u['group_serial']."'>".$u['group_name']."</a></td>";
                                                     status("user_groups","group_serial","group_status",$u['group_serial'],$u['group_status']);

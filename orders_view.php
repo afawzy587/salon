@@ -151,12 +151,16 @@
               </div>
               <div class="form-group" id="item_{$u.id}">
                 <a class="hidden-print btn btn-info btn-sm" href="javascript:window.print();" style="margin-rtl: 20px"><?php echo $lang['print'];?></a>
-                  <?php if($group['orders_edit'] == 1){
-                    echo '<a class="hidden-print btn btn-warning btn-sm" href="orders_edit.php?id='.$orders['order_serial'].'">'.$lang['edit'].'</a>';
-                  } ?>
-                  <?php if($group['orders_delete'] == 1){
-                    echo '<a class="hidden-print btn btn-danger btn-sm" href="orders.php?do=del&id='.$orders['order_serial'].'">'.$lang['delete'].'</a>';
-                  } ?>
+                  <?php if($orders['status'] == 1)
+                        {
+                         if($group['orders_edit'] == 1){
+                            echo '<a class="hidden-print btn btn-warning btn-sm" href="orders_edit.php?id='.$orders['order_serial'].'">'.$lang['edit'].'</a>';
+                          }
+                          if($group['orders_delete'] == 1){
+                            echo '<a class="hidden-print btn btn-danger btn-sm" href="orders.php?do=del&id='.$orders['order_serial'].'">'.$lang['delete'].'</a>';
+                          }
+                        }
+                  ?>
 
 
              </div>
