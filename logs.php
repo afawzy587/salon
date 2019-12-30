@@ -13,6 +13,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         switch($_GET['do'])
 		{
@@ -20,6 +21,7 @@
 			case"list":
                 if($group['logs_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                        include("./inc/Classes/pager.class.php");
                         $page;

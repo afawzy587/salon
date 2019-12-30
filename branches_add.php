@@ -23,9 +23,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['branches_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             $user   = $users->getsiteUsers();
             if($_POST)
@@ -155,6 +157,7 @@
 									),"admin",$login->getUserId(),1
 								);
                         header("Location:./branches.php?message=add");
+                        exit;
                     }
                 }
             }

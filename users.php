@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         switch($_GET['do'])
 		{
@@ -21,6 +22,7 @@
 			case"list":
                 if($group['users_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     include("./inc/Classes/pager.class.php");
                     $page;
@@ -73,6 +75,7 @@
             case"del":
                 if($group['users_delete'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $mId = intval($_GET['id']);
                     $logs->addLog(108,
@@ -88,6 +91,7 @@
                     if($delete == 1)
                     {
                         header("Location:./users.php?message=delete");
+                        exit;
                     }
                 }
                 break;

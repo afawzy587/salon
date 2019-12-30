@@ -17,9 +17,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['groups_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{
             if($_POST)
             {
@@ -50,6 +52,7 @@
                             );
                     if($add == 1){
                         header("Location:./groups.php?message=add");
+                        exit;
                     }
                 }
             }

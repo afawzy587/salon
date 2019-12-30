@@ -21,9 +21,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['users_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{
             $id    = intval($_GET['id']);
             if($id != 0)
@@ -100,11 +102,13 @@
                             );
                         if($edit == 1){
                             header("Location:./orders.php?message=update");
+                            exit;
                         }
                     }
                 }
             }else{
                  header("Location:./error.php");
+                exit;
             }
         }
 	}

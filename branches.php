@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         switch($_GET['do'])
 		{
@@ -21,6 +22,7 @@
 			case"list":
                 if($group['branches_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     
                     $salon_id = intval($_GET['salon']);    
@@ -75,6 +77,7 @@
             case"del":
                 if($group['branches_delete'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $branches->deletebranches($mId);
@@ -90,6 +93,7 @@
 									),"admin",$login->getUserId(),1
 								);
                         header("Location:./branches.php?message=delete");
+                        exit;
                         
                     }
                 }

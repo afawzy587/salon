@@ -8,6 +8,7 @@
     if($login->doCheck() == false)
     {
         header("Location:./login.php");
+        exit;
     }
     include './assets/layout/header.php';
 

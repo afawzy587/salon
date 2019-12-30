@@ -109,22 +109,7 @@
 	  }
 
 
-	function buildaddress($params, &$smarty)
-	{
-		
-		$attmob   		= $params['a'];
-		$attId   		= $params['e'];
-		$tableName   	= $params['b'];
-		$functionName   = $params['c'];
-		$attName   		= $params['d'];
-		
-		require_once('./inc/Classes/system-'.$tableName.'.php');
 
-		eval("\$class = new system".ucfirst($tableName)."();");
-
-		$returnedData = $class->$functionName($attId , $attmob );
-		return ($returnedData[$attName]);
-	}
 
 	function getusername($_Id)
 	{

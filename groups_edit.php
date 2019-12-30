@@ -14,9 +14,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['groups_edit'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{
               $id    = intval($_GET['id']);
               if($id != 0)
@@ -89,12 +91,14 @@
                         $update = $groups->setgroupsInformation($_group);
                         if($update == 1){
                             header("Location:./groups.php?message=update");
+                            exit;
                         }
 
                     }
                 }
               }else{
                 header("Location:./error.php");
+                  exit;
               }
 
         }

@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         switch($_GET['do'])
 		{
@@ -21,6 +22,7 @@
 			case"list":
                 if($group['services_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $branch_id = intval($_GET['branch']);
                     if($branch_id == 0)
@@ -107,6 +109,7 @@
             case"del":
                 if($group['services_delete'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $services->deleteservices($mId,$path);
@@ -122,6 +125,7 @@
                     if($delete == 1)
                     {
                         header("Location:./services.php?message=delete");
+                        exit;
                     }
                 }
                 break;

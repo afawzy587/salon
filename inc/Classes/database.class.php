@@ -88,8 +88,7 @@ class DB
     {
 
 		# if all required data not null
-    	if(!is_null($this->_dbhost) OR !is_null($this->_dblogin)
-    	   OR !is_null($this->_dbpass) OR !is_null($this->_dbname))
+    	if(!is_null($this->_dbhost) OR !is_null($this->_dblogin) OR !is_null($this->_dbpass) OR !is_null($this->_dbname))
     	{
 
 			# make  connection

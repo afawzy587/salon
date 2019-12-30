@@ -17,9 +17,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['gallery_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             if($_POST)
             {
@@ -121,6 +123,7 @@
                     $add = $gallery->addNewgallery($_gallery);
                     if($add == 1){
                         header("Location:./gallery.php?message=add");
+                        exit;
                     }
                 }
             }

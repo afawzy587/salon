@@ -21,9 +21,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['users_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{
             $products = $products->getsiteproducts();
             $user    = $users->getsiteusers();
@@ -94,6 +96,7 @@
                             );
                     if($add){
                         header("Location:./orders.php?message=add");
+                        exit;
                     }
                 }
             }

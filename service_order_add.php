@@ -28,9 +28,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['service_order_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{
             $services   = $services->getsiteservices();
             $user       = $users->getsiteusers();
@@ -115,6 +117,7 @@
 								);
                     if($add == 1){
                         header("Location:./service_order.php?message=add");
+                        exit;
                     }
                 }
             }

@@ -21,9 +21,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['products_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
              $category    = $categories->getsitecategories();
              $category_id = intval($_GET['category']);
@@ -164,6 +166,7 @@
                             );
                     if($add == 1){
                         header("Location:./products.php?message=add");
+                        exit;
                     }
                 }
             }

@@ -18,9 +18,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['users_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             $_group= $groups->getsiteGroups();
             if($_POST)
@@ -167,6 +169,7 @@
 								);
                     if($add == 1){
                         header("Location:./users.php?message=add");
+                        exit;
                     }
                 }
             }

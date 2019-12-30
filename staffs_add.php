@@ -24,9 +24,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['staffs_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             $branch    = $branches->getsitebranches();
             $branch_id = intval($_GET['branch']);
@@ -159,6 +161,7 @@
                         );
                     if($add == 1){
                         header("Location:./staffs.php?message=add");
+                        exit;
                     }
                 }
             }

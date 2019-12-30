@@ -23,9 +23,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['branches_edit'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             $id    = intval($_GET['id']);
             
@@ -163,11 +165,13 @@
                         if($update == 1){
 
                             header("Location:./branches.php?message=update");
+                            exit;
                         }
                     }
                 }
             }else{
                  header("Location:./error.php");
+                 exit;
             }
         }
 	}

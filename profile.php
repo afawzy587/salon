@@ -13,6 +13,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
             if($_GET['message']== "update")
             {
@@ -148,6 +149,7 @@
                         );
                 if($update == 1){
                     header("Location:./profile.php?message=update");
+                    exit;
                 }
 
             }

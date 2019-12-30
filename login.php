@@ -14,6 +14,7 @@
 				if($login->doCheck() == true)
 				{
 					header("Location:./index.php");
+                    exit;
 				}else
 				{
 
@@ -35,11 +36,13 @@
                             );
                         $message = $lang['LGN_IS_SUCESSFULLY'];
                         header("Location:./index.php");
+                        exit;
 
                     }elseif($logResult ==3)
                     {
                         $message = $lang['LGN_IS_DUPLICATED'];
                         header("Location:./index.php");
+                        exit;
                     }else
                     {
                         $message = $lang['LGN_WORNG_DATA'];

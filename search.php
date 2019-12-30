@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if (isset($_GET['query']) && $_GET['query'] != "" )
         {

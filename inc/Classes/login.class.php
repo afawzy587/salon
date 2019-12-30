@@ -10,17 +10,17 @@ class loginClass
  var $prefix 		= "Salon";
  var $tableName 	= "users";
  var $salt 			= "$1$\wZY";
- var $hours 		= 10;
+ var $hours 		= 24;
 
  function doLogin($email,$pass,$remember)
  {
  	if($email !=""  || $pass != "")
  	{
- 		if($this->isLogged() == false){
+ 		if($this->isLogged() == false)
+        {
 	 		global $db;
-			
 		 	$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `type` ='user' AND `email`='".$email."' AND `password`='".crypt($pass,$this->salt)."'");
-	 		 $queryTotal = $db->resultcount();
+	 		$queryTotal = $db->resultcount();
 		    if($queryTotal == 1)
 		    {
 				$userData = $db->fetchitem($query);
@@ -29,44 +29,42 @@ class loginClass
 				$this->setEmail($userData['email']);
 	 			$this->setPassword($userData['password']);
 	 			$this->setUserId($userData['user_serial']);
-				return 1;
-		    }else{return 2;}
-	 	}else{return 3;}
- 	}else{return 0;}
+				return 1; // login success
+		    }else{
+                return 2; // user not found
+            }
+	 	}else{
+            return 3; // login before
+        }
+ 	}else{
+        return 0;  // empty data
+    }
  }
-	
-function doRegister($user)
+ function doRegister($user)
  {
-		if($this->isLogged() == false)
-		{ 
-			$query 		= $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `email`='".$user['email']."' LIMIT 1 ");
-			$queryTotal = $GLOBALS['db']->resultcount();
-			if($queryTotal == 1)
-			{
-				return 4;
-			}
-			else
-			{	
-				$query = $GLOBALS['db']->query("INSERT INTO `".$this->tableName."`(`id`, `name`, `email`,`password`, `status`) VALUES
-				(NULL , '".$user['name']."', '".$user['email']."' , '".crypt($user['password'],$this->salt)."' , 1 )");
-				$userId 		= $GLOBALS['db']->fetchLastInsertId();
-				if($userId != 0)
-				{
-					return 1;
-
-				}else
-				{
-					return 2;
-				}
-			}
-		}else
-		{
-			return 3;
-		}
- }
-	
-
-
+    if($this->isLogged() == false)
+    {
+        $query 		= $GLOBALS['db']->query("SELECT * FROM `".$this->tableName."` WHERE `email`='".$user['email']."' LIMIT 1 ");
+        $queryTotal = $GLOBALS['db']->resultcount();
+        if($queryTotal == 1)
+        {
+            return 4; // email found before
+        }else{
+            $query = $GLOBALS['db']->query("INSERT INTO `".$this->tableName."`(`id`, `name`, `email`,`password`, `status`) VALUES
+            (NULL , '".$user['name']."', '".$user['email']."' , '".crypt($user['password'],$this->salt)."' , 1 )");
+            $userId 		= $GLOBALS['db']->fetchLastInsertId();
+            if($userId != 0)
+            {
+                return 1; // insert success
+            }else{
+                return 2; // faild to insert data
+            }
+        }
+    }else
+    {
+        return 3; // login before
+    }
+}
  function doLogout()
  {
  	if($this->isLogged() == true)
@@ -76,7 +74,6 @@ function doRegister($user)
  		return  true;
  	}else{return false;}
  }
-
  function doDestroy()
  {
  	// query and get data from db
@@ -85,8 +82,6 @@ function doRegister($user)
  	$this->doDestroyPassword();
  	$this->doDestroyUserId();
  }
-
-
  function doCheck()
  {
  	if($this->isLogged() == true)
@@ -95,18 +90,20 @@ function doRegister($user)
 	  	$email = $this->getEmail();
 	 	$pass  = $this->getPassword();
 	 	$id    = $this->getUserId();
-
 		$query = $db->query("SELECT * FROM `".$this->tableName."` WHERE `email`='$email' AND `password`='$pass' AND `user_serial`='$id' ");
  		$queryTotal = $db->resultcount();
 	    if($queryTotal == 1)
 	    {
 			return true;
-	    }else{$this->doDestroy();return false;}
- 	}else{$this->doDestroy();return false;}
+	    }else{
+            $this->doDestroy();
+            return false;
+        }
+ 	}else{
+        $this->doDestroy();
+        return false;
+    }
  }
-	
-	
-
  function getUserInformation()
  {
  	if($this->isLogged() == true)
@@ -130,8 +127,6 @@ function doRegister($user)
 	    }else{$this->doDestroy();return false;}
  	}else{$this->doDestroy();return false;}
  }
-
-
  function setInformation($userInformation)
  {
  	if($this->isLogged() == true)
@@ -141,6 +136,7 @@ function doRegister($user)
 	 	if($userInformation['password'] != "")
 	 	{
 	 		$queryGlue = "`password`='".crypt($userInformation['password'],$this->salt)."',";
+
 	 		$this->setPassword($userInformation['password']);
 	 	}else
 	 	{
@@ -166,21 +162,17 @@ function doRegister($user)
 	 	return 1;
  	}else{$this->doDestroy();return false;}
  }
-
-
  function isLogged()
  {
     $email = $this->getEmail();
  	if(isset($email) && $email !=""){return true;}else{return false;}
  }
-
  function getName()
  {
  	$this->name = $_COOKIE[$this->prefix."name"];
 
     if($this->name !=""){return ($this->name);}else{return false;}
  }
-
  function setName($name)
  {
 	if($name != "")
@@ -188,19 +180,15 @@ function doRegister($user)
 	    if(@setcookie($this->prefix."name",$name,time()+($this->hours*3600))){return ($this->hours);}else{return false;}
  	}else{return false;}
  }
-
  function doDestroyName()
  {
  	if(@setcookie($this->prefix."name",$name,time()-($this->hours*3600))){return true;}else{return false;}
  }
-
-
  function getEmail()
  {
  	$this->email = $_COOKIE[$this->prefix."email"];
     if($this->email !=""){return ($this->email);}else{return false;}
  }
-
  function setEmail($name)
  {
 	if($name != "")
@@ -208,18 +196,15 @@ function doRegister($user)
 	    if(@setcookie($this->prefix."email",$name,time()+($this->hours*3600))){return ($this->hours);}else{return false;}
  	}else{return false;}
  }
-
  function doDestroyEmail()
  {
  	if(@setcookie($this->prefix."email",$name,time()-($this->hours*3600))){return true;}else{return false;}
  }
-
  function getPassword()
  {
  	$this->password = $_COOKIE[$this->prefix."password"];
     if($this->password !=""){return ($this->password);}else{return false;}
  }
-
  function setPassword($pass)
  {
 	if($pass != "")
@@ -231,13 +216,11 @@ function doRegister($user)
  {
  	if(@setcookie($this->prefix."password",$pass,time()-($this->hours*3600))){return true;}else{return false;}
  }
-
  function getUserId()
  {
     $this->id = $_COOKIE[$this->prefix."id"];
     if($this->id !=""){return ($this->id);}else{return false;}
  }
-
  function setUserId($id)
  {
 	if($id != "" && is_numeric($id))
@@ -245,7 +228,6 @@ function doRegister($user)
 	    if(@setcookie($this->prefix."id",$id,time()+($this->hours*3600))){return true;}else{return false;}
  	}else{return false;}
  }
-
  function doDestroyUserId()
  {
  	if(@setcookie($this->prefix."id",$id,time()-($this->hours*3600))){return true;}else{return false;}

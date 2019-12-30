@@ -17,9 +17,11 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['categories_add'] == 0){
             header("Location:./permission.php");
+            exit;
         }else{ 
             if($_POST)
             {
@@ -50,6 +52,7 @@
                     $add = $categories->addNewcategories($_category);
                     if($add == 1){
                         header("Location:./categories.php?message=add");
+                        exit;
                     }
                 }
             }

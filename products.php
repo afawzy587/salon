@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         switch($_GET['do'])
 		{
@@ -21,6 +22,7 @@
 			case"list":
                 if($group['products_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                      $cat_id = intval($_GET['category']);
                     if($cat_id == 0)
@@ -99,6 +101,7 @@
             case"del":
                 if($group['products_delete'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $products->deleteproducts($mId,$path);
@@ -114,6 +117,7 @@
                     if($delete == 1)
                     {
                         header("Location:./products.php?message=delete");
+                        exit;
                     }
                 }
                 break;

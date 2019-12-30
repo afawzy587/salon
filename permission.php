@@ -10,6 +10,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}
     $logs->addLog(78,
                     array(

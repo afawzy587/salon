@@ -14,6 +14,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($_GET['id'] != 0 )
 		{
@@ -30,6 +31,7 @@
                         );
         }else{
             header("Location:./error.php");
+            exit;
         }
     }
 ?>

@@ -17,6 +17,7 @@
 	{
         $message = $lang['LGN_YOU_MUST_LOGIN'];
         header("Location:./login.php");
+        exit;
 	}else{
         if($group['services_add'] == 0){
             header("Location:./permission.php");
@@ -26,6 +27,7 @@
             if($branch_id ==0)
             {
                  header("Location:./error.php");
+                 exit;
             }else{
                 $service  = $services->getsitebranchserives($branch_id);
                 if($_POST)
@@ -59,6 +61,7 @@
 									),"admin",$login->getUserId(),1
 								);
                             header("Location:./branches.php?message=add");
+                            exit;
                         }
                     }
                 }

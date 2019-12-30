@@ -21,6 +21,7 @@
 			case"list":
                 if($group['groups_view'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                        include("./inc/Classes/pager.class.php");
                         $page;
@@ -74,6 +75,7 @@
             case"del":
                 if($group['groups_delete'] == 0){
                     header("Location:./permission.php");
+                    exit;
                 }else{
                     $mId = intval($_GET['id']);
                     $delete = $groups->deletegroups($mId,$path);
@@ -89,6 +91,7 @@
                     if($delete == 1)
                     {
                         header("Location:./groups.php?message=delete");
+                        exit;
                     }
                 }
                 break;
