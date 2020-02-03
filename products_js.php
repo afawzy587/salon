@@ -217,11 +217,23 @@
                     $id        =      $_data[3];
                     $status    =      $_data[4];
                     $active    = $products->changestatus_order($data);
+                    $user_id   = get_user_id($data);
                     if(($table == "orders") && ($status == 2))
                     {
                         updatebestseller($id);
+                        $message = $lang['ORDER_finished'];
+                    }elseif(($table == "orders") && ($status == 0)){
+                        $message = $lang['ORDER_CANCELED'];
+                    }elseif(($table == "service_order") && ($status == 2)){
+                        $message = $lang['ORDER_finished'];
+                    }elseif(($table == "service_order") && ($status == 0)){
+                        $message = $lang['ORDER_CANCELED'];
                     }
-                    $logs->addLog(113,
+
+                    if($active == 1)
+                    {
+                       send_notification($message,$user_id);
+                       $logs->addLog(113,
                                 array(
                                     "type" 		    => 	"admin",
                                     "module" 	    => 	$_data[0],
@@ -230,8 +242,6 @@
                                     "id" 		    =>	$login->getUserId(),
                                 ),"admin",$login->getUserId(),1
                             );
-                    if($active == 1)
-                    {
                         echo 1190;
                         exit;
                     }

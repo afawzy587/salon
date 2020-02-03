@@ -14,10 +14,9 @@ ob_start("ob_gzhandler");
             {
                 $error  = $lang['INVALID_LINK'];
             }else{
-                $salt  = "wZy";
-                $_data = str_replace($salt,"",$data);
+                $now   = date('Y-m-d H:i:s',strtotime('+2 hours'));
 
-                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `recovery_code` = '".$_data."' AND (`recovery_expired` > NOW()) LIMIT 1");
+                $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `recovery_code` = '".$data."' AND (`recovery_expired` > '".$now."') LIMIT 1");
                 $usersCount = $GLOBALS['db']->resultcount();
                 if($usersCount == 1)
                 {

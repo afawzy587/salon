@@ -1,21 +1,16 @@
 $(document).ready(function(){
-
-
     $("input.date").datetimepicker({
-		format:"Y-m-d H:i:s",
-		validateOnBlur: false,
-		step:15
-	});
-	$("input.onlytime").datetimepicker({
-		datepicker:false,
+        format:"Y-m-d H:i:s",
+        validateOnBlur: false,
+        step:15
+    });
+    $("input.onlytime").datetimepicker({
+        datepicker:false,
         format:'H:i:00',
-		step:15
-	});
-
-    $(document).ready(function(){
-    $('input.time').timepicker({});
-});
- $('.table').on('click','a.status_active',function(){
+        step:15
+    });
+    $(document).ready(function(){$('input.time').timepicker({});});
+    $('.table').on('click','a.status_active',function(){
 		data          = $(this).parent('span').attr('id');
         activtion     = $('#activtion').val();
         deactivtion   = $('#deactivtion').val();
@@ -38,12 +33,20 @@ $(document).ready(function(){
                     {
                         result[4] =  0;
                         result      = result.join("|");
-                        $("#tr_" + id).find("td").eq(2).html("<span id="+result+"><a class='btn btn-danger btn-sm status_active' style='color:white;border-radius:12px;'   title="+activtion+">"+deactive+"</a></span>");
+                        $("#td_" + id).html("<span id="+result+"><a class='btn btn-danger btn-sm status_active' style='color:white;border-radius:12px;'   title="+activtion+">"+deactive+"</a></span>");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '0.9'}, "slow");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '1'}, "slow");
                     }else if(status == 0)
                      {
                         result[4]   =  1;
                         result      = result.join("|");
-                        $("#tr_" + id).find("td").eq(2).html("<span id="+result+"><a class='btn btn-success btn-sm status_active' style='color:white;border-radius:12px;'   title="+deactivtion+">"+active+"</a></span>");
+                        $("#td_" + id).html("<span id="+result+"><a class='btn btn-success btn-sm status_active' style='color:white;border-radius:12px;'   title="+deactivtion+">"+active+"</a></span>");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '0.9'}, "slow");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '1'}, "slow");
                      }
 
 
@@ -58,11 +61,14 @@ $(document).ready(function(){
 			});
 		}
 		});
-
-
     $('a.status_order').click(function(e){
         e.preventDefault();
 		data   = $(this).parent('span').attr('id');
+        admin_cancel   = $('#admin_cancel').val();
+        finished       = $('#finished').val();
+        var result     = data.split('|');
+        var id         =    result[3] ;
+        var status     =    result[4] ;
 		if (confirm($('#lang_status').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
@@ -71,10 +77,26 @@ $(document).ready(function(){
 				url   :"products_js.php?do=status_order",
 				data  :  "data=" + data,
 				success : function(data) {
-                     console.log(data);
+                    alert(data);
 				if(data == 1190)
 				{
-					setTimeout(location.reload(), 1000);
+                    if(status == 0)
+                    {
+
+                        $("#td_" + id).html("<a style='color:#f44336;'>"+admin_cancel+"<i class='material-icons success'>remove_shopping_cart</i></a>");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '0.9'}, "slow");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '1'}, "slow");
+                    }else if(status == 2)
+                     {
+                        $("#td_" + id).html("<a style='color:#1fcc26;'>"+finished+"<i class='material-icons success'>check_circle</i></a>");
+                         $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '0.9'}, "slow");
+                        $("#td_" + id).animate({height: 'auto', opacity: '0.2'}, "slow");
+                        $("#td_" + id).animate({width: 'auto', opacity: '1'}, "slow");
+                     }
+//					setTimeout(location.reload(), 1000);
 
 				}else if(data == 111)
 				{
@@ -87,7 +109,6 @@ $(document).ready(function(){
 			});
 		}
 		});
-
 	$('button.delete').click(function(e){
         e.preventDefault();
 		page=$('#page').val();
@@ -111,8 +132,6 @@ $(document).ready(function(){
 			});
 		}
 	});
-
-
     $('button.delete_service').click(function(e){
         e.preventDefault();
 		page=$('#page').val();
@@ -136,30 +155,21 @@ $(document).ready(function(){
 			});
 		}
 	});
-
-
-
-
 	$('button.edit').click(function(e){
         e.preventDefault();
 		page=$('#page').val();
 		id = $(this).parent('td').attr('id').replace("item_","");
 		window.location = page+"_edit.php?id=" + id;
 	});
-
-
 	$('button.view').click(function(e){
         e.preventDefault();
 		page=$('#page').val();
 		id = $(this).parent('td').attr('id').replace("item_","");
 		window.location = page+".html?do=view&id=" + id;
 	});
-
-	function redirectNow()
-	{
+    function redirectNow(){
 		window.location= page+'.html';
 	}
-
 	$('a.delete').click(function(e){
         e.preventDefault();
 		page=$('#page').val();
@@ -184,7 +194,6 @@ $(document).ready(function(){
 			});
 		}
 	});
-
     $(document).on("click", ".browse", function() {
   var file = $(this).parents().find(".file");
   file.trigger("click");
@@ -201,9 +210,7 @@ $(document).ready(function(){
   // read the image file as a data URL.
   reader.readAsDataURL(this.files[0]);
 });
-
     $(".choose").select2( {} );
-
     $('a.addrequest').click(function(e){
 	e.preventDefault();
 		jQuery.ajax( {
@@ -218,7 +225,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-
     $('.request').on('change', 'select.product',function(){
 	var productID = $(this).val();
 	var id        = $(this).parent('div').attr('id');
@@ -233,10 +239,10 @@ $(document).ready(function(){
 			   });
 				  }
 	});
-
-    $('a.delete_order_product').click(function(e){
+    $('.request').on('click','a.delete_order_product',function(e){
         e.preventDefault();
 		id  = $(this).parent('td').attr('id').replace("item_","");
+        console.log (id);
 		if (confirm($('#lang_del').val()+" "+$('#lang_name').val()+" ؟ "))
 		{
 			jQuery.ajax( {
@@ -248,6 +254,7 @@ $(document).ready(function(){
                     if(data == 116)
                     {
                         $("#tr_" + id).fadeTo(400, 0, function () { $("#tr_" + id).slideUp(400);});
+                        setTimeout(location.reload(), 1000);
                         return false;
                     }
 
@@ -259,10 +266,7 @@ $(document).ready(function(){
 			});
 		}
 	});
-
-
-
-    $('a.delete_order_service').click(function(e){
+    $('.request').on('click','a.delete_order_service',function(e){
         e.preventDefault();
 		id  = $(this).parent('td').attr('id').replace("item_","");
 		if (confirm($('#lang_del').val()+" "+$('#lang_name').val()+" ؟ "))
@@ -276,6 +280,7 @@ $(document).ready(function(){
                     if(data == 116)
                     {
                         $("#tr_" + id).fadeTo(400, 0, function () { $("#tr_" + id).slideUp(400);});
+                        setTimeout(location.reload(), 1000);
                         return false;
                     }
 
@@ -287,18 +292,14 @@ $(document).ready(function(){
 			});
 		}
 	});
-
     $('.request').on('click', 'a.delete_product',function(e){
         e.preventDefault();
       $(this).closest('tr').remove();
 	});
-
     $('.request').on('click', 'a.delete_service',function(e){
         e.preventDefault();
       $(this).closest('tr').remove();
 	});
-
-
     $('.request').on('change', 'select.service',function(){
         $("input.date").datetimepicker({
 		format:"Y-m-d H:i:s",
@@ -318,7 +319,6 @@ $(document).ready(function(){
 			   });
 				  }
 	});
-
     $('select.branch').on('change',function(){
 	var branchID = $(this).val();
 	if(branchID){
@@ -332,9 +332,7 @@ $(document).ready(function(){
 			   });
 				  }
 	});
-
-
-     $('.services').on('click', 'a.addservice',function(e){
+    $('.services').on('click', 'a.addservice',function(e){
         e.preventDefault();
         var branchID = $('select.branch').val();
             jQuery.ajax( {
@@ -350,11 +348,9 @@ $(document).ready(function(){
                 }
             });
         });
-
     var clicked = false;
     $(".checkall").on("click", function() {
       $(".checkhour").prop("checked", !clicked);
       clicked = !clicked;
     });
-
 });

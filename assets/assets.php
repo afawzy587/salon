@@ -2,7 +2,6 @@
  
 
 	######### Main Security Basic Filter Function ;) #########
-
 	function sanitize( $str , $type = "str" )
 	{
 		$str = strip_tags ($str);
@@ -13,23 +12,17 @@
 		$str = str_replace("\n","<br />",$str);
 		return $str;
 	}
-
     ######### Swapping textarea Content #########
     function br2nl($str)
 	{
 	    $str = str_replace("<br />","\n",$str);
 	    return $str;
 	}
-
-
-
 	######### Valid Email Check #########
 	function checkMail($str)
 	{
 		return ( ! preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? false : true;
 	}
-
-
     ////////// Valid phone check ///////////////
     function checkPhone($phone)
     {
@@ -49,11 +42,63 @@
         
     }
 
+    ///############# Send notification ##################//
+    function send_notification($message, $user_id)
+    {
+        $query      =  $GLOBALS['db']->query("SELECT * FROM `pushs` WHERE `user_id` ='".$user_id."' and `out` = '0'");
+        $queryTotal =  $GLOBALS['db']->resultcount();
+        $siteuser   =  $GLOBALS['db']->fetchlist();
+        foreach ($siteuser as $k=>$p)
+        {
+            $push_id    =  $p['pushid'];
+            $key        =  "AAAADBwqIHs:APA91bE1pmbqVLfXKtEtGAbSf4W3G7wjr3oO5GI9Q8stBDOmSamMZCaiYBU1G2jENYLAcbkK4WhG9FGES7pADo4QpxaOxWIRQEBcRpnpSIXBlcNo4Dmwh9xm5KMzQoBN8-XoZkKVjB3P";
+            $fields = array
+            (
+
+                    'to'		      => $push_id,
+                    'data'            => array
+                    (
+                        "title"=> "Salon",
+                        "body" => $message, //$message
+                        "icon" => "logo"
+                    ),
+            );
+            $headers = array (
+                    'Authorization: key='.$key,
+                    'Content-Type: application/json'
+            );
+            $ch = curl_init();
+            curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+            curl_setopt( $ch,CURLOPT_POST, true );
+            curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+            curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+            curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+            curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+            $result = curl_exec($ch );
+            curl_close( $ch );
+        }
+
+    }
+
+    function get_user_id($data)
+    {
+        $_data     =      explode("|",$data);
+        $table     =      $_data[0];
+        $where     =      $_data[1];
+        $s_col     =      $_data[2];
+        $id        =      $_data[3];
+        $status    =      $_data[4];
+
+        $query = $GLOBALS['db']->query("SELECT * FROM `".$table."`  WHERE `".$where."` ='".$id."' LIMIT 1 ");
+        $queryTotal = $GLOBALS['db']->resultcount();
+        $siteuser   = $GLOBALS['db']->fetchitem($query);
+        return $siteuser['user_id'];
+    }
+
     function _date_format ($date)
 	{
 	    return  date('Y-m-d / g:i A', strtotime($date));
 	}
-
 
     function end_time ($start,$end)
 	{
@@ -107,9 +152,6 @@
 	     $num =	  str_replace("] , [","]<br>[",$num);
 		  return "$num";
 	  }
-
-
-
 
 	function getusername($_Id)
 	{
@@ -207,7 +249,7 @@
 		}
 	}
 
-     function getstaffname($_Id)
+    function getstaffname($_Id)
 	{
 
 		$staffq = $GLOBALS['db']->query(" SELECT * FROM `branche_staff` WHERE `staff_serial` = '".$_Id."' LIMIT 1");
@@ -256,10 +298,8 @@
         echo "<a dir='ltr' href='tel:".$mobile."'>".$mobile."</a>";
     }
 
-
-
-  function updatebestseller($id)
-  {
+    function updatebestseller($id)
+    {
         $productquery   = $GLOBALS['db']->query("SELECT  `product_id`, `quantity` FROM `order_cart` WHERE `order_id` = '".$id."'");
         $productTotal   = $GLOBALS['db']->resultcount();
         $products       = $GLOBALS['db']->fetchlist();
@@ -278,7 +318,7 @@
                 (NULL,'".$p['product_id']."','".$p['quantity']."')");
             }
         }
-  }
+    }
 
 
 

@@ -48,6 +48,8 @@
                 $api->client_set_service_order();
             }elseif($_POST['mode'] == "history"){
                 $api->client_get_history();
+            }elseif($_POST['mode'] == "notifications"){
+                $api->client_get_notifications();
             }elseif($_POST['mode'] == "product_order"){
                 $api->client_get_product_order();
             }elseif($_POST['mode'] == "service_order"){

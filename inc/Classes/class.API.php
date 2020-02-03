@@ -16,6 +16,7 @@ class API
 			"img_url"			        => "https://".$_SERVER['SERVER_NAME']."/fawzy/salon/uploads/",
 			"pagination"				=> 20,
 			"salt"					    => "$1$\wZY",
+			"now"					    => date('Y-m-d H:i:s',strtotime('+2 hours')),
 			"unknown"					=> "unknown",
 			"img-default-avater"        => "defaults/avater.jpg",
 			"product-default-image"     => "defaults/product.png",
@@ -252,7 +253,7 @@ class API
 	}
 	private function updateLoginTime($who)
 	{
-		$GLOBALS['db']->query("UPDATE LOW_PRIORITY `users` SET `last_login`= now() WHERE `user_serial` = '".$who."' LIMIT 1");
+		$GLOBALS['db']->query("UPDATE LOW_PRIORITY `users` SET `last_login`= '".$this->getDefaults("now")."' WHERE `user_serial` = '".$who."' LIMIT 1");
 	}
 	private function updateToken($in,$who,$udid)
 	{
@@ -598,7 +599,7 @@ class API
                                                              `user_name`, `email`, `user_address`, `password`, `phone`, `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
                                                         ) VALUES
                                                         (
-                                                            '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','0', '1'
+                                                            '".$_name."' ,'".$_mail."','".$_address."' ,'".crypt($_password,$this->getDefaults("salt"))."','".$_phone."','".$imgUrl."','client','1','".$this->getDefaults("now")."','".$verifiedcode."','0', '1'
                                                         )
                                                     ");
                                                     $pid = $GLOBALS['db']->fetchLastInsertId();
@@ -675,7 +676,7 @@ class API
                                                          `user_name`, `email`, `face_id`, `face_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
                                                     ) VALUES
                                                     (
-                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','1', '1'
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1','".$this->getDefaults("now")."','".$verifiedcode."','1', '1'
                                                     )
                                                 ");
 
@@ -781,7 +782,7 @@ class API
                                                          `user_name`, `email`, `google_id`, `google_token`,  `user_photo`, `type`, `group_id`, `last_login`, `verified_code`, `verified`, `user_status`
                                                     ) VALUES
                                                     (
-                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1',NOW(),'".$verifiedcode."','1', '1'
+                                                        '".$_name."' ,'".$_mail."','".$fb_id."' ,'".$fb_token."','".$imgUrl."','client','1','".$this->getDefaults("now")."','".$verifiedcode."','1', '1'
                                                     )
                                                 ");
 
@@ -996,7 +997,7 @@ class API
             {
 				$_udid 				= sanitize($_POST['udid']);
                 $userCredintials 	= $GLOBALS['db']->fetchitem($userQuery);
-				$GLOBALS['db']->query("UPDATE LOW_PRIORITY `pushs` SET `out` = '0'  WHERE `type` = 'client' AND `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
+				$GLOBALS['db']->query("UPDATE LOW_PRIORITY `pushs` SET `out` = '1'  WHERE `user_id` = '".$userCredintials['user_serial']."' AND `udid` = '".$_udid."' ");
             	
 				$this->addLog(3,
 					array(
@@ -1159,8 +1160,12 @@ class API
             $usersCount = $GLOBALS['db']->resultcount();
             if($usersCount == 1)
             {
-                $userCredintials = $GLOBALS['db']->fetchitem($userQuery);
+                $userCredintials    = $GLOBALS['db']->fetchitem($userQuery);
 				$_userCredintials 	= $this->buildMembershipCredintials($userCredintials,"");
+                $serivceQuery = $GLOBALS['db']->query("SELECT * FROM `service_order`  WHERE `user_id` = '".$tokenUserId."' AND `service_order_status` = '2'");
+                $serivceCount = $GLOBALS['db']->resultcount();
+                $_userCredintials['date_count']      = intval($serivceCount);
+                $_userCredintials['invition_count']  = 0;  // stell not finshed
 				$this->terminate('success',$_userCredintials,200);
 				$this->addLog(5,
 					array(
@@ -1373,7 +1378,7 @@ class API
                             include_once("send_email.php");
                             $send = new sendmail();
 
-                            $link  = $this->getDefaults("url").'/password/index.php?data='.$recovery_code.$this->getDefaults("salt");
+                            $link  = $this->getDefaults("url").'/password/index.php?data='.$recovery_code;
 
                             $_link ='link:<a href='.$link.'>'.$GLOBALS['lang']['CLICK_TO_ACTIVE'].'</a>';
 
@@ -1575,7 +1580,7 @@ class API
                     $services = $GLOBALS['db']->fetchlist();
                     foreach($services as $sId => $s)
                     {
-                        $_services[$sId]['service_serial']        =       intval($s['branche_serivce_serial']);
+                        $_services[$sId]['service_serial']        =       intval($s['service_serial']);
                         $_services[$sId]['service_name']          =       $s['service_name']; 
                         $_services[$sId]['price']                 =       floatval($s['price']); 
                         $_services[$sId]['discount']              =       floatval($s['discount']); 
@@ -1699,7 +1704,7 @@ class API
                 $_productCredintials[$pId]['description']           =       $p['product_description']; 
                 $_productCredintials[$pId]['price']                 =       floatval($p['product_price']); 
                 $_productCredintials[$pId]['discount']              =       floatval($p['product_discount']);
-                $_productCredintials[$pId]['discount_percentage']   =       ($p["product_discount"] == 0) ? 0 : floatval((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
+                $_productCredintials[$pId]['discount_percentage']   =       ($p["product_discount"] == 0) ? 0 : ceil((($p['product_price'] - $p['product_discount'])/$p['product_price'])*100);
                 $_productCredintials[$pId]['discount_from']         =       $p['product_from']; 
                 $_productCredintials[$pId]['discount_to']           =       $p['product_to']; 
                 $_productCredintials[$pId]['image']                 =       ($p["product_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("product-default-image") : $this->getDefaults("img_url").$p["product_photo"];	 
@@ -1721,19 +1726,29 @@ class API
             $branchCount = $GLOBALS['db']->resultcount();
             if($branchCount != 0)
             {
-                $staff_id = intval($_GET['staff_id']);
-                if( intval($_GET['p']) > 0)
+                $date     = sanitize($_GET['date']);
+//                if( intval($_GET['p']) > 0)
+//                {
+//                    $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
+//                    $queryLimit 		= " LIMIT ".($start * 10) ." , 10";
+//                }
+                if($date !="")
                 {
-                    $start 				= intval($_GET['p']) - 1 ;   //intval($_GET['p']) - 1
-                    $queryLimit 		= " LIMIT ".($start * 10) ." , 10";
-                }
-                if($staff_id !=0)
-                {
-                    $addstaff = "AND `staff_serial` = '".$staff_id."' LIMIT 1";
-                }else{
-                    $addstaff = $queryLimit;
-                }
+                    $nameOfDay  = strtolower(date('D', strtotime($date)));
+                    if($nameOfDay == "tue")
+                    {
+                        $nameOfDay = "tus";
+                    }elseif($nameOfDay == "thu"){
+                       $nameOfDay = "thurs";
+                    }
+                     $fild = "staff_".$nameOfDay;
+                     $from = "staff_".$nameOfDay."_from";
+                      $to   = "staff_".$nameOfDay."_to";
 
+                    $addstaff  = "AND `".$fild."` = '1' ";
+                }else{
+                    $this->terminate('error',$GLOBALS['lang']['INSERT_DATE_SELECT'],400);
+                }
 
                 $staffQuery = $GLOBALS['db']->query("SELECT *  FROM `branche_staff` WHERE `staff_status` = '1' AND `branch_id` = '".$id."'".$addstaff);
                 $staffCount = $GLOBALS['db']->resultcount();
@@ -1744,40 +1759,40 @@ class API
 
                     foreach($staff as $sId => $s)
                     {
-                        $worktime   = $GLOBALS['db']->query("SELECT `start_time` ,`duration` FROM `service_cart` WHERE  `staff_id` = '".$s['staff_serial']."'");
+                        $worktime   = $GLOBALS['db']->query("SELECT `start_time` ,`duration` FROM `service_cart` WHERE  `staff_id` = '".$s['staff_serial']."' AND Date(start_time) = '".$date."'");
                         $timeCount  = $GLOBALS['db']->resultcount();
                         $time       = $GLOBALS['db']->fetchlist();
                         $_time =[];
                         foreach($time as $tId => $t)
                         {
-                            $To = date("Y-m-d H:i:s", strtotime($t['start_time'])+($t['duration']*60));
-                            $_time[$tId]['start_time']                      =      $t['start_time'];
+                            $To = date("H:i", strtotime($t['start_time'])+($t['duration']*60));
+                            $_time[$tId]['start_time']                      =      date("H:i", strtotime($t['start_time']));
                             $_time[$tId]['end_time']                        =      $To;
                         }
                         $_staff[$sId]['staff_serial']                       =       intval($s['staff_serial']);
                         $_staff[$sId]['staff_name']                         =       $s['staff_name'];
                         $_staff[$sId]['image']                              =       ($s["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$s["staff_photo"];
-                        $_staff[$sId]['sat']                                =       intval($s['staff_sat']);
-                        $_staff[$sId]['sat_from']                           =       $s['staff_sat_from'];
-                        $_staff[$sId]['sat_to']                             =       $s['staff_sat_to'];
-                        $_staff[$sId]['sun']                                =       intval($s['staff_sun']);
-                        $_staff[$sId]['sun_from']                           =       $s['staff_sun_from'];
-                        $_staff[$sId]['sun_to']                             =       $s['staff_sun_to'];
-                        $_staff[$sId]['mon']                                =       intval($s['staff_mon']);
-                        $_staff[$sId]['mon_from']                           =       $s['staff_mon_from'];
-                        $_staff[$sId]['mon_to']                             =       $s['staff_mon_to'];
-                        $_staff[$sId]['tus']                                =       intval($s['staff_tus']);
-                        $_staff[$sId]['tus_from']                           =       $s['staff_tus_from'];
-                        $_staff[$sId]['tus_to']                             =       $s['staff_tus_to'];
-                        $_staff[$sId]['wed']                                =       intval($s['staff_wed']);
-                        $_staff[$sId]['wed_from']                           =       $s['staff_wed_from'];
-                        $_staff[$sId]['wed_to']                             =       $s['staff_wed_to'];
-                        $_staff[$sId]['thurs']                              =       intval($s['staff_thurs']);
-                        $_staff[$sId]['thurs_from']                         =       $s['staff_thurs_from'];
-                        $_staff[$sId]['thurs_to']                           =       $s['staff_thurs_to'];
-                        $_staff[$sId]['fri']                                =       intval($s['staff_fri']);
-                        $_staff[$sId]['fri_from']                           =       $s['staff_fri_from'];
-                        $_staff[$sId]['fri_to']                             =       $s['staff_fri_to'];
+//                        $_staff[$sId]['sat']                                =       intval($s['staff_sat']);
+                        $_staff[$sId]['from']                               =       date("H:i", strtotime($s[$from]));
+                        $_staff[$sId]['to']                                 =       date("H:i", strtotime($s[$to]));
+//                        $_staff[$sId]['sun']                                =       intval($s['staff_sun']);
+//                        $_staff[$sId]['sun_from']                           =       $s['staff_sun_from'];
+//                        $_staff[$sId]['sun_to']                             =       $s['staff_sun_to'];
+//                        $_staff[$sId]['mon']                                =       intval($s['staff_mon']);
+//                        $_staff[$sId]['mon_from']                           =       $s['staff_mon_from'];
+//                        $_staff[$sId]['mon_to']                             =       $s['staff_mon_to'];
+//                        $_staff[$sId]['tus']                                =       intval($s['staff_tus']);
+//                        $_staff[$sId]['tus_from']                           =       $s['staff_tus_from'];
+//                        $_staff[$sId]['tus_to']                             =       $s['staff_tus_to'];
+//                        $_staff[$sId]['wed']                                =       intval($s['staff_wed']);
+//                        $_staff[$sId]['wed_from']                           =       $s['staff_wed_from'];
+//                        $_staff[$sId]['wed_to']                             =       $s['staff_wed_to'];
+//                        $_staff[$sId]['thurs']                              =       intval($s['staff_thurs']);
+//                        $_staff[$sId]['thurs_from']                         =       $s['staff_thurs_from'];
+//                        $_staff[$sId]['thurs_to']                           =       $s['staff_thurs_to'];
+//                        $_staff[$sId]['fri']                                =       intval($s['staff_fri']);
+//                        $_staff[$sId]['fri_from']                           =       $s['staff_fri_from'];
+//                        $_staff[$sId]['fri_to']                             =       $s['staff_fri_to'];
                         $_staff[$sId]['unavalibale_time']                   =       $_time;
                     }
 
@@ -1823,7 +1838,7 @@ class API
             {
                 $_galleryCredintials[$gId]['gallery_serial']        =       intval($g['gallery_serial']); 
                 $_galleryCredintials[$gId]['gallery_type']          =       $g['gallery_type']; 
-                $_galleryCredintials[$gId]['link']                  =       ($g['gallery_type'] == 'image')?($g["gallery_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("gallery-default-image") : $this->getDefaults("img_url").$g["gallery_link"] : $g['gallery_link'];	 
+                $_galleryCredintials[$gId]['link']                  =       ($g['gallery_type'] == 'image')?($g["gallery_link"] == "") ? $this->getDefaults("img_url").$this->getDefaults("gallery-default-image") : $this->getDefaults("img_url").$g["gallery_link"] : $g['gallery_link'];
             }
             
             $this->terminate('success',$_galleryCredintials,200);
@@ -2009,7 +2024,7 @@ class API
                                                         {
                                                             $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `orders`
                                                             (`order_serial`, `user_id`, `order_type`, `order_date`, `order_status`)
-                                                            VALUES ( NULL ,  '".$tokenUserId."' ,'".$type."' , NOW() ,'1') ");
+                                                            VALUES ( NULL ,  '".$tokenUserId."' ,'".$type."' , '".$this->getDefaults("now")."' ,'1') ");
                                                             $pid = $GLOBALS['db']->fetchLastInsertId();
                                                         }
                                                         $cartquery = $GLOBALS['db']->query("SELECT * FROM `order_cart`  WHERE `order_id` = '".$pid."' AND `product_id` = '".$i."' LIMIT 1 ");
@@ -2085,112 +2100,141 @@ class API
                     $type              =   sanitize($_POST['type']);
                     $branch_id         =   intval($_POST['branch_id']);
                     $serivces          =   sanitize($_POST['serivces']);
-
-                    if($branch_id != 0)
+                    $date              =   sanitize($_POST['date']);
+                    if($date != "")
                     {
-                        $branchQuery = $GLOBALS['db']->query(" SELECT * FROM `salon_branches` WHERE `branch_serial` = '".$branch_id."' LIMIT 1");
-                        $branchCount = $GLOBALS['db']->resultcount();
-                        if($branchCount == 1)
+                        if($date > $this->getDefaults("now"))
                         {
-                            if($type != "")
+                            if($branch_id != 0)
                             {
-                                if(($type == 'home') || ($type == 'branch'))
+                                $branchQuery = $GLOBALS['db']->query(" SELECT * FROM `salon_branches` WHERE `branch_serial` = '".$branch_id."' LIMIT 1");
+                                $branchCount = $GLOBALS['db']->resultcount();
+                                if($branchCount == 1)
                                 {
-                                    if($serivces != "")
+                                    if($type != "")
                                     {
-                                        $serv         =   rtrim($serivces,",");
-                                        $_serivces    =   explode(",",$serv);
-                                        if(is_array($_serivces))
+                                        if(($type == 'home') || ($type == 'branch'))
                                         {
-                                            $items =[];
-                                            foreach($_serivces as $k => $s)
+                                            if($serivces != "")
                                             {
-                                                $items[$k]           =  explode("+",$s);
-                                                $items_serivce[$k]   =  intval($items[$k][0]);
-                                                $items_staff[$k]     =  intval($items[$k][1]);
-                                                $items_date[$k]      =  sanitize($items[$k][2]);
-                                            }
-                                            if(is_array($items_serivce))
-                                            {
-                                                foreach($items_serivce as $Is => $s)
+                                                $serv         =   rtrim($serivces,",");
+                                                $_serivces    =   explode(",",$serv);
+                                                if(is_array($_serivces))
                                                 {
-                                                    if($s == 0)
+                                                    $items =[];
+                                                    foreach($_serivces as $k => $s)
                                                     {
-                                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE'],400);
-                                                    }else{
-                                                        if($items_date[$Is] =="")
+                                                        $items[$k]           =  explode("-",$s);
+                                                        $items_serivce[$k]   =  intval($items[$k][0]);
+                                                        $items_staff[$k]     =  intval($items[$k][1]);
+        //                                                $items_date[$k]      =  sanitize($items[$k][2]);
+                                                    }
+                                                    if(is_array($items_serivce))
+                                                    {
+                                                        foreach($items_serivce as $Is => $s)
                                                         {
-                                                            $this->terminate('error',$GLOBALS['lang']['INSERT_DATE_START'].($Is+1),400);
-                                                        }else{
-                                                            if($items_staff[$Is] =="")
+                                                            if($s == 0)
                                                             {
-                                                                $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE_STAFF'].($Is+1),400);
+                                                                $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE'],400);
                                                             }else{
-                                                                $staffQuery = $GLOBALS['db']->query(" SELECT * FROM `branche_staff` WHERE `staff_serial` = '".$items_staff[$Is]."' AND `branch_id`= '".$branch_id."' LIMIT 1");
-                                                                $staffCount = $GLOBALS['db']->resultcount();
-                                                                if($staffCount == 1)
-                                                                {
-                                                                    $serviceQuery = $GLOBALS['db']->query(" SELECT s.* FROM `services` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE s.`service_serial` = '".$s."' AND b.`branch_id` = '".$branch_id."' LIMIT 1");
-                                                                    $serviceCount = $GLOBALS['db']->resultcount();
-                                                                    if($serviceCount == 1)
+    //                                                            if($items_date[$Is] =="")
+    //                                                            {
+    //                                                                $this->terminate('error',$GLOBALS['lang']['INSERT_DATE_START'].($Is+1),400);
+    //                                                            }else{
+                                                                    if($items_staff[$Is] =="")
                                                                     {
-                                                                        $siteservice    = $GLOBALS['db']->fetchitem($serviceQuery);
-                                                                        if($Is == 0)
-                                                                        {
-                                                                            $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_order`
-                                                                            (`service_order_serial`, `user_id`, `branch_id`, `service_order_type`, `date`, `service_order_status`)
-                                                                            VALUES ( NULL ,  '".$tokenUserId."' ,'".$branch_id."' ,'".$type."' , NOW() ,'1') ");
-                                                                            $pid = $GLOBALS['db']->fetchLastInsertId();
-                                                                        }
-                                                                        if($siteservice['discount'] > 0)
-                                                                        {
-                                                                            $cost = $siteservice['discount'];
-                                                                        }else{
-                                                                            $cost = $siteservice['price'];
-                                                                        }
-                                                                        $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_cart`
-                                                                        (`cart_serial`, `order_id`, `service_id`, `staff_id`, `start_time`, `duration`, `cost`)
-                                                                        VALUES ( NULL ,  '".$pid."' ,'".$s."' , '".$items_staff[$Is]."', '".$items_date[$Is]."','".$siteservice['duration']."','".$cost."') ");
+                                                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICE_STAFF'].($Is+1),400);
                                                                     }else{
-                                                                        $this->terminate('error',$GLOBALS['lang']['PRODUCT_DELETED'].($IP+1),400);
+                                                                        $staffQuery = $GLOBALS['db']->query(" SELECT * FROM `branche_staff` WHERE `staff_serial` = '".$items_staff[$Is]."' AND `branch_id`= '".$branch_id."' LIMIT 1");
+                                                                        $staffCount = $GLOBALS['db']->resultcount();
+                                                                        if($staffCount == 1)
+                                                                        {
+                                                                            $serviceQuery = $GLOBALS['db']->query(" SELECT s.* FROM `services` s INNER JOIN `branche_serivces` b ON s.`service_serial` = b.`service_id` WHERE s.`service_serial` = '".$s."' AND b.`branch_id` = '".$branch_id."' LIMIT 1");
+                                                                            $serviceCount = $GLOBALS['db']->resultcount();
+                                                                            if($serviceCount == 1)
+                                                                            {
+                                                                                $siteservice    = $GLOBALS['db']->fetchitem($serviceQuery);
+                                                                                if($Is == 0)
+                                                                                {
+
+                                                                                    $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_order`
+                                                                                    (`service_order_serial`, `user_id`, `branch_id`, `service_order_type`, `date`, `service_order_status`)
+                                                                                    VALUES ( NULL ,  '".$tokenUserId."' ,'".$branch_id."' ,'".$type."' , '".$this->getDefaults("now")."' ,'1') ");
+                                                                                    $pid = $GLOBALS['db']->fetchLastInsertId();
+                                                                                }
+                                                                                if($siteservice['discount'] > 0)
+                                                                                {
+                                                                                    $cost = $siteservice['discount'];
+                                                                                }else{
+                                                                                    $cost = $siteservice['price'];
+                                                                                }
+                                                                                if($Is == 0)
+                                                                                {
+                                                                                     $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_cart`
+                                                                                        (`cart_serial`, `order_id`, `service_id`, `staff_id`, `start_time`, `duration`, `cost`)
+                                                                                        VALUES ( NULL ,  '".$pid."' ,'".$s."' , '".$items_staff[$Is]."', '".$date."','".$siteservice['duration']."','".$cost."') ");
+
+                                                                                         $lastId = $GLOBALS['db']->fetchLastInsertId();
+                                                                                }else{
+
+                                                                                     $_serviceQuery   = $GLOBALS['db']->query(" SELECT  `start_time`, `duration`, `cost` FROM `service_cart` WHERE `cart_serial` = '".$lastId."'  LIMIT 1");
+                                                                                     $_siteservice    = $GLOBALS['db']->fetchitem($serviceQuery);
+                                                                                     $_date           = date("Y-m-d H:i:s", strtotime($_siteservice['start_time'])+($_siteservice['duration']*60));
+                                                                                     $GLOBALS['db']->query("INSERT LOW_PRIORITY INTO `service_cart`
+                                                                                        (`cart_serial`, `order_id`, `service_id`, `staff_id`, `start_time`, `duration`, `cost`)
+                                                                                        VALUES ( NULL ,  '".$pid."' ,'".$s."' , '".$items_staff[$Is]."', '".$_date."','".$siteservice['duration']."','".$cost."') ");
+                                                                                         $lastId = $GLOBALS['db']->fetchLastInsertId();
+                                                                                }
+
+
+                                                                            }else{
+                                                                                $this->terminate('error',$GLOBALS['lang']['PRODUCT_DELETED'].($IP+1),400);
+                                                                            }
+                                                                        }else{
+                                                                            $this->terminate('error',$GLOBALS['lang']['STAFF_NOT_IN_BRANCH'].($Is+1),400);
+                                                                        }
                                                                     }
-                                                                }else{
-                                                                    $this->terminate('error',$GLOBALS['lang']['STAFF_NOT_IN_BRANCH'].($Is+1),400);
-                                                                }
+    //                                                            }
                                                             }
                                                         }
+                                                        $this->terminate('success',$GLOBALS['lang']['ORDER_service_INSERTED'],100);
+                                                        $this->addLog(12,
+                                                            array(
+                                                                "type" 		=> 	"client",
+                                                                "module" 	=> 	"service_cart",
+                                                                "mode" 		=> 	"insert",
+                                                                "id" 		=>	$userCredintials['user_serial'],
+                                                            ),"client",$userCredintials['user_serial'],1
+                                                        );
+                                                    }else{
+                                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICES'],400);
                                                     }
                                                 }
-                                                $this->terminate('success',$GLOBALS['lang']['ORDER_service_INSERTED'],100);
-                                                $this->addLog(12,
-                                                    array(
-                                                        "type" 		=> 	"client",
-                                                        "module" 	=> 	"service_cart",
-                                                        "mode" 		=> 	"insert",
-                                                        "id" 		=>	$userCredintials['user_serial'],
-                                                    ),"client",$userCredintials['user_serial'],1
-                                                );
                                             }else{
                                                 $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICES'],400);
                                             }
+                                        }else{
+                                          $this->terminate('error',$GLOBALS['lang']['FALSE_ORDER_TYPE'],400);
                                         }
                                     }else{
-                                        $this->terminate('error',$GLOBALS['lang']['INSERT_SERVICES'],400);
+                                        $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_TYPE'],400);
                                     }
-                                }else{
-                                  $this->terminate('error',$GLOBALS['lang']['FALSE_ORDER_TYPE'],400);
-                                }
-                            }else{
-                                $this->terminate('error',$GLOBALS['lang']['INSERT_ORDER_TYPE'],400);
-                            }
 
+                                }else{
+                                    $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_DELETED'],400);
+                                }
+
+                            }else{
+                                $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_ID'],400);
+                            }
                         }else{
-                            $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_DELETED'],400);
-                        }
+                        $this->terminate('error',$GLOBALS['lang']['INVALID_DATE_SELECT'],400);
+                    }
 
                     }else{
-                        $this->terminate('error',$GLOBALS['lang']['INSERT_BRANCH_ID'],400);
+                        $this->terminate('error',$GLOBALS['lang']['INSERT_DATE_SELECT'],400);
                     }
+
                 }else{
                     $this->terminate('error',$GLOBALS['lang']['COMPLETE_PROFILE_DATA'],400);
                 }
@@ -2231,7 +2275,7 @@ class API
 //                        $_histories[$hId]['order_type']        =         $h['order_type'];
 //                        $_histories[$hId]['user']              =         $userCredintials['user_name'];
 //                        "M j,Y \a\\t h:i A"
-                        $_histories[$hId]['date']              =         $this->dateWithLang("l dS F Y ",$h['date']) ." ".$this->dateWithLang("h:i A",$h['date']);
+                        $_histories[$hId]['date']              =         $this->dateWithLang("l dS F Y ",strtotime($h['date'])) ." ".$this->dateWithLang("h:i A",strtotime($h['date']));
 //                        $_histories[$hId]['status']            =         $h['status'];
                         if($h['type']=='service_order')
                         {
@@ -2301,6 +2345,54 @@ class API
         }
 
     }
+    public function client_get_notifications() #/// log 14
+    {
+        $tokenUserId  = $this->testToken();
+        if($tokenUserId != 0)
+        {
+            $userQuery = $GLOBALS['db']->query(" SELECT * FROM `users` WHERE `user_serial` = '".$tokenUserId."' LIMIT 1");
+			$usersCount = $GLOBALS['db']->resultcount();
+			if($usersCount == 1)
+            {
+                $notificationsQuery  = $GLOBALS['db']->query(" SELECT * FROM `notifictions` WHERE `user_id` = '".$tokenUserId."'");
+			    $notificationsCount = $GLOBALS['db']->resultcount();
+                $_notifications =[];
+                if($notificationsCount > 0){
+                    $notifications = $GLOBALS['db']->fetchlist();
+                    foreach($notifications as $fId => $n)
+                    {
+                        $_notifications[$fId]['serial']               =       intval($n['serial']);
+                        $_notifications[$fId]['body']                 =       $n['body'];
+                    }
+                    $this->addLog(14,
+                        array(
+                            "type" 		=> 	"client",
+                            "module" 	=> 	"notification",
+                            "mode" 		=> 	"get",
+                            "id" 		=>	$tokenUserId,
+                        ),"client",$tokenUserId,1
+                    );
+                    $this->terminate('success',$_notifications,200);
+                }else{
+                    $this->addLog(14,
+                        array(
+                            "type" 		=> 	"client",
+                            "module" 	=> 	"notification",
+                            "mode" 		=> 	"get",
+                            "id" 		=>	$tokenUserId,
+                        ),"client",$tokenUserId,1
+                    );
+                    $this->terminate('success',$_notifications,100);
+                }
+
+            }else{
+                $this->terminate('error',$GLOBALS['lang']['token_id_not_valied'],402);
+            }
+        }else{
+            $this->terminate('error',$GLOBALS['lang']['INSERT_TOKEN'],400);
+        }
+
+    }
     public function client_get_service_order()
     {
         $tokenUserId  = $this->testToken();
@@ -2332,17 +2424,22 @@ class API
                     $_serivces      = [];
                     foreach($serivces as $sid => $s)
                     {
-                        $_serivces[$sid]['staff_name']            =  $s['staff_name'];
-                        $_serivces[$sid]['staff_photo']           =  ($s["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$s["staff_photo"];
+//                        $_serivces[$sid]['staff_name']            =  $s['staff_name'];
+//                        $_serivces[$sid]['staff_photo']           =  ($s["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$s["staff_photo"];
                         $_serivces[$sid]['service_name']          =  $s['service_name'];
                         $_serivces[$sid]['service_photo']         =  ($s["service_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("service-default-image") : $this->getDefaults("img_url").$s["service_photo"];
                         $_serivces[$sid]['cost']                  =  intval($s['cost']);
-                        $_serivces[$sid]['start']                 =  $this->dateWithLang("h:i A",strtotime($s["start_time"]));
-                        $_serivces[$sid]['end']                   =  $this->dateWithLang("h:i A",strtotime($s["start_time"])+($s["duration"] * 60));
-                        $p_total  += intval($s['cost']);
+//                        $_serivces[$sid]['start']                 =  $this->dateWithLang("h:i A",strtotime($s["start_time"]));
+//                        $_serivces[$sid]['end']                   =  $this->dateWithLang("h:i A",strtotime($s["start_time"])+($s["duration"] * 60));
+                        $_duration  += $s["duration"];
+                        $p_total    += intval($s['cost']);
                     }
-                    $_order ['total']     = $p_total;
-                    $_order ['products']  = $_serivces;
+                    $_order['start']                 =  $this->dateWithLang("h:i A",strtotime($serivces[0]["start_time"]));
+                    $_order['end']                   =  $this->dateWithLang("h:i A",strtotime($serivces[0]["start_time"])+($_duration * 60));
+                    $_order['staff_name']            =  $serivces[0]['staff_name'];
+                    $_order['staff_photo']           =  ($serivces[0]["staff_photo"] == "") ? $this->getDefaults("img_url").$this->getDefaults("avater-default-image") : $this->getDefaults("img_url").$serivces[0]["staff_photo"];
+                    $_order ['total']                =  $p_total;
+                    $_order ['products']             =  $_serivces;
                     $this->terminate('success',$_order,200);
 
                 }else{
